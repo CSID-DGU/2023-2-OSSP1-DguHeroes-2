@@ -1,0 +1,58 @@
+{
+  "user_list": [
+    {
+      "user_id": 0,
+      "email": "aaa.aaa@aaa",
+      "nickname": "고구마멈멍",
+      "introduce": " 풀스택 개발자를 목표로 공부하고 있습니다. 노래 추천 앱 프로젝트의 팀장을 맡고 있습니다.",
+      "development_stack_list": [
+        {
+          "stack_id" : 0, 
+          "development_stack": "WEB_FRONTEND",
+          "grade": 1
+        },
+        {
+          "stack_id" : 1, 
+          "development_stack": "APP_CLIENT",
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "user_id": 1,
+      "email": "bbb.bbb@bbb",
+      "nickname": "감자칩",
+      "introduce": " 풀스택 개발자를 목표로 공부하고 있습니다. 노래 추천 앱 프로젝트의 팀장을 맡고 있습니다.",
+      "development_stack_list": [
+        {
+          "stack_id" : 0, 
+          "development_stack": "WEB_FRONTEND",
+          "grade": 1
+        },
+        {
+          "stack_id" : 1, 
+          "development_stack": "APP_CLIENT",
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "user_id": 2,
+      "email": "ccc.ccc@ccc",
+      "nickname": "바나나킥",
+      "introduce": " 풀스택 개발자를 목표로 공부하고 있습니다. 노래 추천 앱 프로젝트의 팀장을 맡고 있습니다.",
+      "development_stack_list": [
+        {
+          "stack_id" : 0, 
+          "development_stack": "WEB_FRONTEND",
+          "grade": 1
+        },
+        {
+          "stack_id" : 1, 
+          "development_stack": "APP_CLIENT",
+          "grade": 3
+        }
+      ]
+    }
+  ]
+}

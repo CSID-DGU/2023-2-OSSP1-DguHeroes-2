@@ -1,0 +1,8 @@
+### 메인 인포
+GET http://localhost:8000/main/info
+Accept: application/json
+Content-Type: application/json
+
+
+
+

@@ -1,0 +1,280 @@
+{
+  "project_list": [
+    {
+      "key": 0,
+      "title": "교육 데이터 플랫폼",
+      "project_type": "WEB",
+      "popular_score": 15,
+      "require_member_list": [
+        {
+          "development_stack": "WEB_FRONTEND",
+          "recommendScore": 20,
+          "number": 1
+        },
+        {
+          "development_stack": "SERVER_BACKEND",
+          "recommendScore": 20,
+          "number": 1
+        }
+      ],
+      "visited_number": 20,
+      "like_number": 10,
+      "position": "LEADER",
+      "location": 0,
+      "valid": "VALID"
+    },
+    {
+      "key": 1,
+      "title": "MBTI 성향 분석 플랫폼",
+      "project_type": "WEB",
+      "popular_score": 20,
+      "require_member_list": [
+        {
+          "development_stack": "WEB_FRONTEND",
+          "recommendScore": 30,
+          "number": 2
+        },
+        {
+          "development_stack": "SERVER_BACKEND",
+          "recommendScore": 10,
+          "number": 1
+        }
+      ],
+      "visited_number": 8,
+      "like_number": 10,
+      "position": "MEMBER",
+      "location": 4,
+      "valid": "VALID"
+    },
+    {
+      "key": 2,
+      "title": "노래 추천 앱 개발",
+      "project_type": "APP",
+      "popular_score": 20,
+      "require_member_list": [
+        {
+          "development_stack": "WEB_FRONTEND",
+          "recommendScore": 30,
+          "number": 2
+        },
+        {
+          "development_stack": "SERVER_BACKEND",
+          "recommendScore": 10,
+          "number": 1
+        }
+      ],
+      "visited_number": 7,
+      "like_number": 10,
+      "position": "MEMBER",
+      "location": 8,
+      "valid": "VALID"
+    },
+    {
+      "key": 3,
+      "title": "얼굴형 인식 헤어스타일 추천 프로그램",
+      "project_type": "ETC",
+      "popular_score": 10,
+      "require_member_list": [
+        {
+          "development_stack": "ETC",
+          "recommendScore": 30,
+          "number": 2
+        },
+        {
+          "development_stack": "SERVER_BACKEND",
+          "recommendScore": 10,
+          "number": 4
+        }
+      ],
+      "visited_number": 12,
+      "like_number": 10,
+      "position": "NORMAL",
+      "location": 2,
+      "valid": "VALID"
+    },
+    {
+      "key": 4,
+      "title": "교육 데이터 플랫폼",
+      "project_type": "WEB",
+      "popular_score": 15,
+      "require_member_list": [
+        {
+          "development_stack": "WEB_FRONTEND",
+          "recommendScore": 20,
+          "number": 1
+        },
+        {
+          "development_stack": "SERVER_BACKEND",
+          "recommendScore": 20,
+          "number": 1
+        }
+      ],
+      "visited_number": 20,
+      "like_number": 10,
+      "position": "NORMAL",
+      "location": 1,
+      "valid": "VALID"
+    },
+    {
+      "key": 5,
+      "title": "MBTI 성향 분석 플랫폼",
+      "project_type": "WEB",
+      "popular_score": 20,
+      "require_member_list": [
+        {
+          "development_stack": "WEB_FRONTEND",
+          "recommendScore": 30,
+          "number": 2
+        },
+        {
+          "development_stack": "SERVER_BACKEND",
+          "recommendScore": 10,
+          "number": 1
+        }
+      ],
+      "visited_number": 8,
+      "like_number": 10,
+      "position": "NORMAL",
+      "location": 10,
+      "valid": "VALID"
+    },
+    {
+      "key": 6,
+      "title": "노래 추천 앱 개발",
+      "project_type": "APP",
+      "popular_score": 20,
+      "require_member_list": [
+        {
+          "development_stack": "WEB_FRONTEND",
+          "recommendScore": 30,
+          "number": 2
+        },
+        {
+          "development_stack": "SERVER_BACKEND",
+          "recommendScore": 10,
+          "number": 1
+        }
+      ],
+      "visited_number": 7,
+      "like_number": 10,
+      "position": "NORMAL",
+      "location": 7,
+      "valid": "VALID"
+    },
+    {
+      "key": 7,
+      "title": "얼굴형 인식 헤어스타일 추천 프로그램",
+      "project_type": "ETC",
+      "popular_score": 10,
+      "require_member_list": [
+        {
+          "development_stack": "ETC",
+          "recommendScore": 30,
+          "number": 2
+        },
+        {
+          "development_stack": "SERVER_BACKEND",
+          "recommendScore": 10,
+          "number": 4
+        }
+      ],
+      "visited_number": 12,
+      "like_number": 10,
+      "position": "MEMBER",
+      "location": 0,
+      "valid": "EXPIRED"
+    },
+    {
+      "key": 8,
+      "title": "교육 데이터 플랫폼",
+      "project_type": "WEB",
+      "popular_score": 15,
+      "require_member_list": [
+        {
+          "development_stack": "WEB_FRONTEND",
+          "recommendScore": 20,
+          "number": 1
+        },
+        {
+          "development_stack": "SERVER_BACKEND",
+          "recommendScore": 20,
+          "number": 1
+        }
+      ],
+      "visited_number": 20,
+      "like_number": 10,
+      "position": "NORMAL",
+      "location": 0,
+      "valid": "EXPIRED"
+    },
+    {
+      "key": 9,
+      "title": "MBTI 성향 분석 플랫폼",
+      "project_type": "WEB",
+      "popular_score": 20,
+      "require_member_list": [
+        {
+          "development_stack": "WEB_FRONTEND",
+          "recommendScore": 30,
+          "number": 2
+        },
+        {
+          "development_stack": "SERVER_BACKEND",
+          "recommendScore": 10,
+          "number": 1
+        }
+      ],
+      "visited_number": 8,
+      "like_number": 10,
+      "position": "NORMAL",
+      "location": 2,
+      "valid": "VALID"
+    },
+    {
+      "key": 10,
+      "title": "노래 추천 앱 개발",
+      "project_type": "APP",
+      "popular_score": 20,
+      "require_member_list": [
+        {
+          "development_stack": "WEB_FRONTEND",
+          "recommendScore": 30,
+          "number": 2
+        },
+        {
+          "development_stack": "SERVER_BACKEND",
+          "recommendScore": 10,
+          "number": 1
+        }
+      ],
+      "visited_number": 7,
+      "like_number": 10,
+      "position": "LEADER",
+      "location": 8,
+      "valid": "VALID"
+    },
+    {
+      "key": 11,
+      "title": "얼굴형 인식 헤어스타일 추천 프로그램",
+      "project_type": "ETC",
+      "popular_score": 10,
+      "require_member_list": [
+        {
+          "development_stack": "ETC",
+          "recommendScore": 30,
+          "number": 2
+        },
+        {
+          "development_stack": "SERVER_BACKEND",
+          "recommendScore": 10,
+          "number": 4
+        }
+      ],
+      "visited_number": 12,
+      "like_number": 10,
+      "position": "MEMBER",
+      "location": 11,
+      "valid": "VALID"
+    }
+  ]
+}
