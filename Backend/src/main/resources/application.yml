@@ -1,8 +1,8 @@
 
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-spring.datasource.url=jdbc:mysql://localhost:3306/swproject?userSSL=false&serverTimezone=Asia/Seoul
-spring.datasource.username=root
-spring.datasource.password=1234
+spring.datasource.url=jdbc:mysql://localhost:3306/teaming?userSSL=false&serverTimezone=Asia/Seoul
+spring.datasource.username=sumin
+spring.datasource.password=9030
 server.port=8000
 spring.jackson.serialization.FAIL_ON_EMPTY_BEANS=true
 spring.jpa.hibernate.ddl-auto=update
