@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -112,7 +113,7 @@ public class UserController {
     }
 
     @GetMapping("/user/join/questionnaire")
-    public<T> SingleResponse<Questionnaire> question(@RequestBody String developmentStack)throws JsonProcessingException{
+    public<T> SingleResponse<Questionnaire> question(@RequestBody String developmentStack) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(developmentStack);
         String value = jsonNode.get("developmentStack").asText();
