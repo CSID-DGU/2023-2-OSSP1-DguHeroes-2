@@ -71,6 +71,12 @@ public class ProjectService {
         return allProjects.subList(0, maxCount);
     }
 
+    // (기존 프로젝트의) 매칭 알고리즘 순서도
+    // 1. 모든 프로젝트를 순회하면서, 각 프로젝트에 대해 사용자의 개발 스택과 등급이 일치하는 프로젝트를 temp_list에 추출한다.
+    // 2. (case1) temp_list의 크기가 4이하인 경우 temp_list의 모든 요소를 recommended_project_list에 추가한다.
+    // (case2) temp_list의 크기가 4초과인 경우 무작위로 4개의 프로젝트를 선택하여 recommended_project_list에 추가한다.
+    // 3. 결과적으로 recommended_project_list를 반환
+
     public List<Project> getRecommendProject(HttpServletRequest request){
         List<Project> temp_list = new ArrayList<>();
         HttpSession session = request.getSession();
