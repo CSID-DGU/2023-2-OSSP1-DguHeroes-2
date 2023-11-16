@@ -23,9 +23,12 @@
 hs_err_pid*
 replay_pid*
 
-# custom
+# back
 .DS_Store
 .idea
 .vscode
 .yml
 .gradle
+
+# front
+node_modules/
