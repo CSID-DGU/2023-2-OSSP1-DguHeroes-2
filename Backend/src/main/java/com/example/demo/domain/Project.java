@@ -15,9 +15,9 @@ import java.util.List;
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Project_id;
-    private String project_title;
-    private String project_content;
+    private int id;
+    private String title;
+    private String content;
     private int like_count;
     private int visited_number;
     private Timestamp created_at;
@@ -28,8 +28,8 @@ public class Project {
 
     private Timestamp updated_at;
     private String project_type;
-    private String project_start_date;
-    private String project_end_date;
+    private String start_date;
+    private String end_date;
     private int location;
     private String is_available;
     @JsonManagedReference

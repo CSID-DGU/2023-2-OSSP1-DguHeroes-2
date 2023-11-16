@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class Apply {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long apply_id;
+    private Long id;
     @ManyToOne
     private Project project;
     @ManyToOne

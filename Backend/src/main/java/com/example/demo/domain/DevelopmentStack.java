@@ -11,11 +11,11 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@Table(name="developmentStack")
+@Table(name="development_stack")
 public class DevelopmentStack {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long stack_id;
+    private Long id;
     @ManyToOne
     @JsonBackReference
     private User user;
