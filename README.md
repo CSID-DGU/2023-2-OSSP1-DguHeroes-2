@@ -1,3 +1,7 @@
+# 2023-2-OSSP1-DguHeroes-2
+
+## 🎯 Commit Convention
+
 # 👩🏻‍💻 Teaming 
 
 ## 🍎 프로젝트 소개
@@ -42,3 +46,4 @@
 | Chore: | 빌드 테스크 업데이트, 패키지 매니저 환경설정, 프로덕션 코드 변경 없음 |
 
 ## 🔮 Reference
+

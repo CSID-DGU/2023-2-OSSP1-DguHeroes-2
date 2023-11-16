@@ -20,15 +20,14 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id;
+    private Long id;
     private String nickname;
-    private String id;
     private String password;
     private File profile;
     private String introduce;
     private String email;
-    private int scorePercent;
-    private int isAdmin;
+    private int score_percent;
+    private int is_admin;
     @JsonManagedReference
     @OneToMany(mappedBy = "user")
     private List<Invitation> invitations;
@@ -37,7 +36,7 @@ public class User {
     private List<ProjectLike> project_likes;
     @JsonManagedReference
     @OneToMany(mappedBy = "user")
-    private List<DevelopmentStack> developmentStacks;
+    private List<DevelopmentStack> development_stacks;
     @JsonManagedReference
     @OneToMany(mappedBy = "user")
     private List<Apply> applys;

@@ -12,10 +12,10 @@ import javax.persistence.*;
 public class Questionnaire {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer questionnaire_id;
-    private String questionnaire_content;
+    private Integer id;
+    private String content;
     private Integer version;
-    private Integer questionnaire_total;
+    private Integer total;
     private String development_stack;
 
 }

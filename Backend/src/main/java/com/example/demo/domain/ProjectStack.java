@@ -9,12 +9,12 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@Table(name="projectStack")
+@Table(name="project_stack")
 public class ProjectStack {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long projectStack_id;
+    private Long id;
 
     @JsonBackReference
     @ManyToOne

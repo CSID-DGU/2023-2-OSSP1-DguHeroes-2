@@ -8,7 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name="ProjectLike")
+@Table(name="project_like")
 @Getter
 @Setter
 public class ProjectLike {
@@ -16,7 +16,7 @@ public class ProjectLike {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private Long project_like_id;
+    private Long id;
 
     @JsonBackReference
     @ManyToOne
