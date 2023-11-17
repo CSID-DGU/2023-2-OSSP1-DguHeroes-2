@@ -51,7 +51,7 @@ public class ApplyRepositoryImpl implements ApplyRepository{
         query.setParameter("project_id", project_id);
         List<Apply> list = query.getResultList();
         for (Apply entity : list) {
-            return entity.getApply_id();
+            return entity.getId();
         }
         return null;
     }
