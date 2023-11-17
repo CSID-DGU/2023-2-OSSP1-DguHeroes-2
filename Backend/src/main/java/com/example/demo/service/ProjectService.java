@@ -43,12 +43,12 @@ public class ProjectService {
     }
 
     public void modify(Project project) {
-        Optional<Project> projectOptional = project_rp.findById(project.getProject_id());
+        Optional<Project> projectOptional = project_rp.findById(project.getId());
         if (projectOptional.isPresent()) {
             Project project1 = projectOptional.get();
             // update only present fields
-            if (project.getProject_content() != null) project1.setProject_content(project.getProject_content());
-            if (project.getProject_title() != null) project1.setProject_title(project.getProject_title());
+            if (project.getContent() != null) project1.setContent(project.getContent());
+            if (project.getTitle() != null) project1.setTitle(project.getTitle());
             if (project.getProject_type() != null) project1.setProject_type(project.getProject_type());
             project_rp.save(project1);
         }
@@ -82,7 +82,7 @@ public class ProjectService {
         HttpSession session = request.getSession();
         String id = (String)session.getAttribute("id");
         User user = userService.findUserById(id);
-        DevelopmentStack development_stack = userService.develop_rp.findDevelopmentStack(user.getUser_id());
+        DevelopmentStack development_stack = userService.develop_rp.findDevelopmentStack(user.getId());
         String stack = development_stack.getDevelopment_stack();
         int grade = development_stack.getGrade();
         List<Project> list = project_rp.findAllProjectList();

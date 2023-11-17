@@ -97,9 +97,9 @@ public class UserRepositoryImpl implements UserRepository{
     }
 
     public List<User> findUsersByStack(String stack){
-        String sql = "select * from User where user_id in (select user_id from developmentStack where developmentStack =: stack )";
+        String sql = "select user from User user where user.id in (select ds.user from DevelopmentStack ds where ds.development_stack =: stack )";
         TypedQuery<User> query = em.createQuery(sql, User.class);
-        query.setParameter("developmentStack", stack);
+        query.setParameter("stack", stack);
         List<User> list = query.getResultList();
         return list;
     }
@@ -108,7 +108,7 @@ public class UserRepositoryImpl implements UserRepository{
     public int findGradeByUserId(User user){
         String sql = "select grade from DevelopmentStack where user =: user_id";
         TypedQuery<Integer> query = em.createQuery(sql, Integer.class);
-        query.setParameter("user_id", user.getUser_id());
+        query.setParameter("user_id", user.getId());
         int grade = query.getSingleResult();
         return grade;
 
@@ -123,7 +123,7 @@ public class UserRepositoryImpl implements UserRepository{
     }
     @Override
     public User findUserById(String id){
-        String sql = "select user from User user where user_id =: user_id";
+        String sql = "select user from User user where id =: user_id";
         TypedQuery<User> query = em.createQuery(sql, User.class);
         query.setParameter("user_id", id);
         User user = query.getSingleResult();
@@ -132,7 +132,7 @@ public class UserRepositoryImpl implements UserRepository{
 
     @Override
     public int findIsAdminById(String id){
-        String sql = "select isAdmin from User where id =: user_id";
+        String sql = "select is_admin from User where id =: user_id";
         TypedQuery<Integer> query = em.createQuery(sql, Integer.class);
         query.setParameter("user_id", id);
         int isAdmin  = query.getSingleResult();
