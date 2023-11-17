@@ -33,7 +33,7 @@ public class InvitationRepositoryImpl implements InvitationRepository{
     }
     @Override
     public Invitation findById(Long invitation_id){
-        String sql = "select invitation from Invitation invitation where invitation_id = :invitation_id";
+        String sql = "select invitation from Invitation invitation where id = :invitation_id";
         TypedQuery<Invitation> query = em.createQuery(sql, Invitation.class);
         query.setParameter("invitation_id", invitation_id);
         List<Invitation> list = query.getResultList();
@@ -65,7 +65,7 @@ public class InvitationRepositoryImpl implements InvitationRepository{
         query.setParameter("user_id", user_id);
         List<Invitation> list = query.getResultList();
         for (Invitation entity : list) {
-            return entity.getInvitation_id();
+            return entity.getId();
         }
         return null;
     }

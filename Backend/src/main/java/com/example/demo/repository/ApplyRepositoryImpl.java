@@ -35,7 +35,7 @@ public class ApplyRepositoryImpl implements ApplyRepository{
 
     @Override
     public Apply findById(Long apply_id){
-        String sql = "select apply from Apply apply where apply_id = :apply_id";
+        String sql = "select apply from Apply apply where id = :apply_id";
         TypedQuery<Apply> query = em.createQuery(sql, Apply.class);
         query.setParameter("apply_id", apply_id);
         List<Apply> list = query.getResultList();
@@ -51,7 +51,7 @@ public class ApplyRepositoryImpl implements ApplyRepository{
         query.setParameter("project_id", project_id);
         List<Apply> list = query.getResultList();
         for (Apply entity : list) {
-            return entity.getApply_id();
+            return entity.getId();
         }
         return null;
     }
