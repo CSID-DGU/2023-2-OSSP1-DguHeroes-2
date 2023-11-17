@@ -29,6 +29,7 @@ replay_pid*
 .vscode
 .yml
 .gradle
+resources/
 
 # front
 node_modules/
