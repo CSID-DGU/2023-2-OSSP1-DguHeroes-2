@@ -41,9 +41,6 @@ public class ProjectController {
     }
 
 
-
-
-
     @PostMapping("/project/like")
     public String projectLike(HttpServletRequest request, int projectId){
         projectLikeService.projectLike(request, projectId);
