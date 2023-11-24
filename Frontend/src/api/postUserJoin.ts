@@ -8,8 +8,6 @@ export type PostUserJoinRequestType = {
 	nickname: string
 	introduce: string
 	email: string
-	developmentStack : DevelopmentStackType
-	scorePercent : number
 }
 
 export type PostUserJoinResponseType = {
