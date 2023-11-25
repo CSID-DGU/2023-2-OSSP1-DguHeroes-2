@@ -46,17 +46,17 @@ export const ProjectOptionContainer = styled.div`
 `
 
 export const ProjectOptionLeftContainer = styled.div`
-  width: 40%;
+  width: 50%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  //align-items: center;
   margin: 10px;
-  padding-right: 10px;
+  //padding-right: 10px;
   border-right: 1px #c9c9c9 solid;
 `
 
 export const ProjectOptionRightContainer = styled.div`
-  width: 60%;
+  width: 50%;
   display: flex;
   flex-direction: column;
   //align-items: center;
