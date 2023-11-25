@@ -37,6 +37,9 @@ import { DevelopmentStackType, ProjectRequireMemberListType, ProjectType } from 
 import { PostProjectCreateResponseType, postprojectCreate } from 'api/postProjectCreate'
 import { useNavigate } from 'react-router-dom'
 
+import { stacks } from 'types/stacks'; // 전체 기술 스택
+
+
 type UserProjectCreatePageProps = {
   className?: string
 }
@@ -50,9 +53,8 @@ interface StackType {
 }
 
 const stackName: StackType[] = [
-  {id: 0, label: '프론트엔드', key: 'WEB_FRONTEND'},
-  {id: 1, label: '백엔드', key: 'SERVER_BACKEND'},
-  {id: 2, label: '앱 클라이언트', key: 'APP_CLIENT'},
+  {id: 0, label: '프론트엔드', key: 'FRONTEND'},
+  {id: 1, label: '백엔드', key: 'BACKEND'},
   {id: 3, label: '기타', key: 'ETC'},
 ];
 
@@ -93,7 +95,6 @@ const content = (
   <ProjectMemberExplainContentWrapper>
     <ProjectMemberExplainTitle>원하는 팀원의 실력을 정해주세요.</ProjectMemberExplainTitle>
     <ProjectMemberExplainText>다음은 회원가입 시 푸는 퀴즈에 따라 분류된 등급입니다.</ProjectMemberExplainText>
-    <ProjectMemberExplainText>E는 가장 낮은 등급, A는 가장 높은 등급입니다.</ProjectMemberExplainText>
     <Slider marks={marks} defaultValue={100} disabled={true}/>
   </ProjectMemberExplainContentWrapper>
 );
@@ -109,23 +110,18 @@ export const UserProjectCreatePage: FC<UserProjectCreatePageProps> = ({ classNam
   const [projectType, setProjectType] = useState<ProjectType>();
   const [requireMemberList, setRequireMemberList] = useState<ProjectRequireMemberListType>([
     {
-      developmentStack: "WEB_FRONTEND",
-      recommendScore: undefined,
+      developmentStack: "FRONTEND",
+      positionStacks: [],
       number: undefined
     },
     {
-      developmentStack: "SERVER_BACKEND",
-      recommendScore: undefined,
-      number: undefined
-    },
-    {
-      developmentStack: "APP_CLIENT",
-      recommendScore: undefined,
+      developmentStack: "BACKEND",
+      positionStacks: [],
       number: undefined
     },
     {
       developmentStack: "ETC",
-      recommendScore: undefined,
+      positionStacks: [],
       number: undefined
     }]);
   const [leaderDevelopmentStack, setLeaderDevelopmentStack] = useState<DevelopmentStackType>()
@@ -137,7 +133,7 @@ export const UserProjectCreatePage: FC<UserProjectCreatePageProps> = ({ classNam
   const onClickProjectCreate = () => {
     if(title.length > 0 && projectType !== undefined && leaderDevelopmentStack !== undefined && location !== undefined && projectStartDate !== undefined && projectEndDate !== undefined && projectContent.length > 0) {
       
-    const filteredrequireMemberList = requireMemberList.filter((member) => member.number !== undefined && member.number > 0 && member.recommendScore !== undefined && member.recommendScore > 0)
+    const filteredrequireMemberList = requireMemberList.filter((member) => member.number !== undefined && member.number > 0 && member.positionStacks !== undefined && member.positionStacks.length > 0)
       if(filteredrequireMemberList.length === 0) {
         // eslint-disable-next-line no-undef
         alert("입력값을 모두 채워주세요.")
@@ -186,10 +182,6 @@ export const UserProjectCreatePage: FC<UserProjectCreatePageProps> = ({ classNam
     setRequireMemberList(requireMemberList.map((member) => member.developmentStack === key ? { ...member, number: parseInt(e.target.value) } : member ));
   }
 
-  const onChangeProjectMemberScore = (value: string, key: string) => {
-    setRequireMemberList(requireMemberList.map((member) => member.developmentStack === key ? { ...member, recommendScore: parseInt(value) } : member ));
-  }
-
   const onProjectDateChange = (dates: any, dateStrings: string[]) => {
     if (dates) {
       setProjectStartDate(dateStrings[0])
@@ -200,7 +192,12 @@ export const UserProjectCreatePage: FC<UserProjectCreatePageProps> = ({ classNam
     }
   };
 
-  
+  // 기술 스택 선택을 위한 것들
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const onHandlePositionStack = (selectedValues : string[]) => {
+    setSelectedItems(selectedValues);
+  };
+
 
 
   return (
@@ -226,26 +223,28 @@ export const UserProjectCreatePage: FC<UserProjectCreatePageProps> = ({ classNam
                     <ProjectMemberInputContainer key={stackItem.id}>
                       <Form.Item
                         name="memberStack"
-                        style={{ display: 'inline-block', width: 'calc(40% - 8px)', marginBottom: '5px'}}
+                        style={{ display: 'inline-block', width: 'calc(25% - 8px)', marginBottom: '5px'}}
                       >
                         <div>{stackItem.label}</div>
                       </Form.Item>
                       <Form.Item
                         name={`number_${stackItem.key}`}
-                        style={{ display: 'inline-block', width: 'calc(30% - 8px)', marginLeft: '5px', marginBottom: 0 }}
+                        style={{ display: 'inline-block', width: 'calc(20% - 8px)', marginLeft: '5px', marginBottom: 0 }}
                       >
                         <Input onChange={(e) => onChangeProjectMemberNumber(e, stackItem.key)} type='number' placeholder="인원" />
                       </Form.Item>
+
+                      {/* 기술 스택 입력 - 다중 선택 */}
                       <Form.Item
                         name={`grade_${stackItem.key}`}
-                        style={{ display: 'inline-block', width: 'calc(30% - 8px)', marginLeft: '5px', marginBottom: 0  }}
+                        style={{ display: 'inline-block', width: 'calc(45% - 8px)', marginLeft: '5px', marginBottom: 0  }}
                       >
-                        <Select placeholder="등급" onChange={(value) => onChangeProjectMemberScore(value, stackItem.key)}>
-                          <Option value='1'>A</Option>
-                          <Option value='2'>B</Option>
-                          <Option value='3'>C</Option>
-                          <Option value='4'>D</Option>
-                          <Option value='5'>E</Option>
+                        <Select mode="multiple" placeholder="기술스택" onChange = {onHandlePositionStack} value = {selectedItems}>
+                        {stacks.map((stack) => (
+                          <Option key={stack.value} value={stack.value}>
+                            {stack.label}
+                          </Option>
+                        ))}
                         </Select>
                       </Form.Item>
                   </ProjectMemberInputContainer>
@@ -265,9 +264,8 @@ export const UserProjectCreatePage: FC<UserProjectCreatePageProps> = ({ classNam
                   <InputTitleRequired>팀장 포지션</InputTitleRequired>
                   <Form.Item name="leader-position">
                     <Select placeholder="팀장 포지션" onChange={(value) => setLeaderDevelopmentStack(value)}>
-                      <Option value="WEB_FRONTEND">프론트</Option>
-                      <Option value="SERVER_BACKEND">백엔드</Option>
-                      <Option value="APP_CLIENT">앱 클라이언트</Option>
+                      <Option value="FRONTEND">프론트</Option>
+                      <Option value="BACKEND">백엔드</Option>
                       <Option value="ETC">기타</Option>
                     </Select>
                   </Form.Item>
@@ -286,11 +284,6 @@ export const UserProjectCreatePage: FC<UserProjectCreatePageProps> = ({ classNam
                     <Col span={10}>
                       <Radio value="WEB" style={{ lineHeight: '32px' }}>
                         WEB
-                      </Radio>
-                    </Col>
-                    <Col span={10}>
-                      <Radio value="SERVER" style={{ lineHeight: '32px' }}>
-                        SERVER
                       </Radio>
                     </Col>
                     <Col span={10}>

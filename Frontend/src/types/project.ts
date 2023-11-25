@@ -1,4 +1,4 @@
-export type DevelopmentStackType = 'WEB_FRONTEND' | 'SERVER_BACKEND' | 'APP_CLIENT' | 'ETC'
+export type DevelopmentStackType = 'FRONTEND' | 'BACKEND' | 'ETC'
 
 export type DevelopmentStackItemType = {
   stackId : number
@@ -10,13 +10,13 @@ export type DevelopmentStackListType = DevelopmentStackItemType[]
 
 export type ProjectRequireMemberType = {
   developmentStack: DevelopmentStackType
-  recommendScore: number | undefined
+  positionStacks: string[] | undefined
   number: number | undefined
 }
 
 export type ProjectRequireMemberListType = ProjectRequireMemberType[]
 
-export type ProjectType = 'WEB' | 'SERVER' | 'APP' | 'ETC'
+export type ProjectType = 'WEB' | 'SERVER' | 'ETC'
 
 export type ProjectPositionType = 'LEADER' | 'MEMBER' | 'NORMAL' 
 
