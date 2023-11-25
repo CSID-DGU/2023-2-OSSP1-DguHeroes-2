@@ -13,13 +13,10 @@ export const translateDevelopmentStack = (value: DevelopmentStackType) => {
 }
 
 export const getDevelopmentStackColor = (value: DevelopmentStackType) => {
-  if (value === 'WEB_FRONTEND') {
+  if (value === 'FRONTEND') {
     return 'volcano'
   }
-  if (value === 'APP_CLIENT') {
-    return 'gold'
-  }
-  if (value === 'SERVER_BACKEND') {
+  if (value === 'BACKEND') {
     return 'cyan'
   }
   if (value === 'ETC') {
