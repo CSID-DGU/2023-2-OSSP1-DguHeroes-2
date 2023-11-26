@@ -1,12 +1,8 @@
-# 프로젝트 용량 측정하는 함수
-def get_project_size():
-    return 0
-
-
-# 프로젝트 issue 개수 측정하는 함수:
+# 깃허브 점수 3번 활용량 구하는 함수들
+# 프로젝트 issue 유무 측정하는 함수:
 def get_cnt_issue():
     # https://api.github.com/repos/OWNER/REPO/issues
-    GH_REPO = '%s/repos/%s/%s/issues' % (GH_API, OWNER, REPO)
+    GH_REPO = '%s/search/issues?q=repo:%s+type:issue' % (GH_API, NAME)
 
     response = requests.get('%s' % (GH_REPO), headers=headers)
     if response.status_code == 200:
@@ -23,7 +19,7 @@ def get_cnt_issue():
 # 프로젝트 branch 개수 측정하는 함수:
 def get_cnt_branch():
     # https://api.github.com/repos/OWNER/REPO/branches
-    GH_REPO = '%s/repos/%s/%s/branches' % (GH_API, OWNER, REPO)
+    GH_REPO = '%s/repos/%s/branches' % (GH_API, NAME)
 
     response = requests.get('%s' % (GH_REPO), headers=headers)
     if response.status_code == 200:
@@ -40,7 +36,7 @@ def get_cnt_branch():
 # 프로젝트 pr 개수 측정하는 함수:
 def get_cnt_pr():
     # https://api.github.com/repos/OWNER/REPO/pull
-    GH_REPO = '%s/repos/%s/%s/pulls' % (GH_API, OWNER, REPO)
+    GH_REPO = '%s/search/issues?q=repo:%s+type:pr' % (GH_API, NAME)
 
     response = requests.get('%s' % (GH_REPO), headers=headers)
     if response.status_code == 200:
@@ -57,7 +53,7 @@ def get_cnt_pr():
 # 프로젝트 tag 개수 측정하는 함수:
 def get_cnt_tag():
     # https://api.github.com/repos/OWNER/REPO/tags
-    GH_REPO = '%s/repos/%s/%s/tags' % (GH_API, OWNER, REPO)
+    GH_REPO = '%s/repos/%s/tags' % (GH_API, NAME)
 
     response = requests.get('%s' % (GH_REPO), headers=headers)
 
@@ -75,7 +71,7 @@ def get_cnt_tag():
 # 프로젝트 release 개수 측정하는 함수:
 def get_cnt_release():
     # https://api.github.com/repos/OWNER/REPO/releases
-    GH_REPO = '%s/repos/%s/%s/releases' % (GH_API, OWNER, REPO)
+    GH_REPO = '%s/repos/%s/releases' % (GH_API, NAME)
 
     response = requests.get('%s' % (GH_REPO), headers=headers)
 
@@ -103,4 +99,4 @@ def get_score_usability():
     return score_usability
 
 
-#print(get_score_usability())
+print(get_score_usability())
