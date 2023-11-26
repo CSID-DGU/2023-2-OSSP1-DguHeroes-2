@@ -1,9 +1,0 @@
-//프로젝트 별 팀원들의 urs들 -> float arr[][] =
-[[10,8], [8,9,8], [9], [6], [7,8,8]]
-
-//프로젝트 별 요구 역할군 -> float arr[][] =
-[[React,1], [React,0], [SpringBoot,1], [SpringBoot,0]]
-[[React,1], [React,0], [SpringBoot,1], [SpringBoot,1]]
-[[HTML/CSS,1], [JavaScript,0],[JavaScript,0]]
-[[Java,1], [Java,0], [Java,0]]
-[[HTML/CSS,1], [HTML/CSS,1],[Django,1], [Django,0]]
