@@ -39,29 +39,11 @@ export const JoinPage: FC<JoinPageProps> = ({ className }) => {
   const { open: questionnaireModalOpen, handleModal: handleQuestionnaireModal } = useModal({})
   const [questionnaireScore, setQuestionnaireScore] = useState<number>()
 
-  const onChangeDevelopmentStack = (value: string | any) => {
-    setDevelopmentStack(value as DevelopmentStackType) 
-  }
 
-  const developmentStackOptionList = defaultDevelopmentStack.map((developmentStackItem) => ({
-    value: developmentStackItem,
-    label: translateDevelopmentStack(developmentStackItem),
-  }))
-
-  const onClickQuestionnaireButton = () => {
-    if (developmentStack) {
-      handleQuestionnaireModal('OPEN')()
-      return
-    }
-  }
-
-  const onSubmitQuestionnaireAnswerSheet = (score: number) => {
-    setQuestionnaireScore(score)
-  }
 
   const onClickJoin = () => {
     // api 넣기
-    if(id.length > 0 && password.length > 0 && password === passwordCheck && email.length > 0 && nickname.length > 0 && introduce.length > 0 && developmentStack !== undefined && questionnaireScore !== undefined) {
+    if(id.length > 0 && password.length > 0 && password === passwordCheck && email.length > 0 && nickname.length > 0 && introduce.length > 0) {
       // eslint-disable-next-line no-unused-vars
       let data = {
         id: id,
@@ -92,6 +74,7 @@ export const JoinPage: FC<JoinPageProps> = ({ className }) => {
       console.error('Error :', error);
     });
     */
+      alert("회원가입을 완료했습니다.")
       navigate('/login');
     } else {
       // eslint-disable-next-line no-undef
@@ -114,30 +97,9 @@ export const JoinPage: FC<JoinPageProps> = ({ className }) => {
           <ContentInput placeholder="이메일" onChange={(e) => setEmail(e.target.value)}/>
           <ContentInput placeholder="닉네임" onChange={(e) => setNickname(e.target.value)}/>
           <ContentTextArea placeholder="자기소개" onChange={(e) => setIntroduce(e.target.value)}></ContentTextArea>
-          <ContentSelect
-            value={developmentStack}
-            onChange={onChangeDevelopmentStack}
-            placeholder="기술 스택을 선택해주세요."
-            options={developmentStackOptionList}
-            disabled={!!questionnaireScore}
-          />
-          {developmentStack && (
-            <QuestionnaireButton onClick={onClickQuestionnaireButton} disabled={!!questionnaireScore}>
-              퀴즈 풀기
-            </QuestionnaireButton>
-          )}
-          {questionnaireScore && <QuestionnaireScoreTypo>정답률 : {questionnaireScore}%</QuestionnaireScoreTypo>}
         </InputContainer>
         <JoinButton type={'primary'} onClick={onClickJoin}>회원가입</JoinButton>
       </Container>
-      {developmentStack && (
-        <QuestionnaireModal
-          open={questionnaireModalOpen}
-          developmentStack={developmentStack}
-          onCloseModal={handleQuestionnaireModal('CLOSE')}
-          onSubmitQuestionnaireAnswerSheet={onSubmitQuestionnaireAnswerSheet}
-        />
-      )}
     </Root>
   )
 }
