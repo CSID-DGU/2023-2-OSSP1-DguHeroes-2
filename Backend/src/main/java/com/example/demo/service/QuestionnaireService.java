@@ -58,12 +58,12 @@ public class QuestionnaireService {
 
     @Transactional
     public void update(Questionnaire questionnaire) {
-        Optional<Questionnaire> questionnaireOptional = question_rp.findById(questionnaire.getQuestionnaire_id());
+        Optional<Questionnaire> questionnaireOptional = question_rp.findById(questionnaire.getId());
         if (questionnaireOptional.isPresent()) {
             Questionnaire questionnaire1 = questionnaireOptional.get();
             // update only present fields
-            if(questionnaire.getQuestionnaire_content() != null) questionnaire1.setQuestionnaire_content(questionnaire.getQuestionnaire_content());
-            if(questionnaire.getQuestionnaire_total() != 0) questionnaire1.setQuestionnaire_total(questionnaire.getQuestionnaire_total());
+            if(questionnaire.getContent() != null) questionnaire1.setContent(questionnaire.getContent());
+            if(questionnaire.getTotal() != 0) questionnaire1.setTotal(questionnaire.getTotal());
             if(questionnaire.getVersion() != 0) questionnaire1.setVersion(questionnaire.getVersion());
             question_rp.save(questionnaire1);
         }
@@ -71,12 +71,12 @@ public class QuestionnaireService {
 
    @Transactional
     public void modify(Questionnaire questionnaire) {
-        Optional<Questionnaire> questionnaireOptional = question_rp.findById(questionnaire.getQuestionnaire_id());
+        Optional<Questionnaire> questionnaireOptional = question_rp.findById(questionnaire.getId());
         if (questionnaireOptional.isPresent()) {
             Questionnaire questionnaire1 = questionnaireOptional.get();
             // update only present fields
-            if(questionnaire.getQuestionnaire_content() != null) questionnaire1.setQuestionnaire_content(questionnaire.getQuestionnaire_content());
-            if(questionnaire.getQuestionnaire_total() != 0) questionnaire1.setQuestionnaire_total(questionnaire.getQuestionnaire_total());
+            if(questionnaire.getContent() != null) questionnaire1.setContent(questionnaire.getContent());
+            if(questionnaire.getTotal() != 0) questionnaire1.setTotal(questionnaire.getTotal());
             if(questionnaire.getVersion() != 0) questionnaire1.setVersion(questionnaire.getVersion());
             question_rp.save(questionnaire1);
         }

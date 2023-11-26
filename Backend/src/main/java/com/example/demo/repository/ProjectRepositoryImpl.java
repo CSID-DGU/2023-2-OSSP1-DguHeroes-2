@@ -34,7 +34,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         Map<Integer, Integer> popular_map = new HashMap<Integer, Integer>();
 
         for (Project project : allProjects) {
-            popular_map.put(project.getProject_id(), (project.getLike_count() * 5 + project.getVisited_number()));
+            popular_map.put(project.getId(), (project.getLike_count() * 5 + project.getVisited_number()));
         }
 
         List<Integer> keySet = new ArrayList<>(popular_map.keySet());
@@ -54,7 +54,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
     @Override
     public Project findByProjectId(int project_id) {
-        String sql = "select project from Project project where Project_id = :project_id";
+        String sql = "select project from Project project where id = :project_id";
         TypedQuery<Project> query = em.createQuery(sql, Project.class);
         query.setParameter("project_id", project_id);
         List<Project> list = query.getResultList();
@@ -104,7 +104,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
     @Override
     public List<ProjectStack> findProjectStackByProjectId(int project_id){
-        String sql = "select project_stacks from Project ps where ps.Project_id =: project_id";
+        String sql = "select project_stacks from Project ps where ps.id =: project_id";
         TypedQuery<ProjectStack> query = em.createQuery(sql, ProjectStack.class);
         query.setParameter("project_id", project_id);
         List<ProjectStack> list = query.getResultList();

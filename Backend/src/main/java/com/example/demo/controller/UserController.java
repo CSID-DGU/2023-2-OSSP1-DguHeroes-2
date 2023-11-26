@@ -57,7 +57,7 @@ public class UserController {
 
     @PostMapping("/user/join")
     public SingleResponse<User> insert(@RequestBody User user){
-        List<DevelopmentStack> developmentStacks = user.getDevelopmentStacks();
+        List<DevelopmentStack> developmentStacks = user.getDevelopment_stacks();
         User saved_user = userService.join(user);
         for(DevelopmentStack stack : developmentStacks){
             stack.setUser(saved_user);

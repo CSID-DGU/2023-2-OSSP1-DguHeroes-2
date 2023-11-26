@@ -65,7 +65,7 @@ public class InvitationRepositoryImpl implements InvitationRepository{
         query.setParameter("user_id", user_id);
         List<Invitation> list = query.getResultList();
         for (Invitation entity : list) {
-            return entity.getInvitation_id();
+            return entity.getId();
         }
         return null;
     }

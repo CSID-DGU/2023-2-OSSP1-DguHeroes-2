@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class Invitation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long invitation_id;
+    private Long id;
     private String state;
     private String content;
     @ManyToOne
