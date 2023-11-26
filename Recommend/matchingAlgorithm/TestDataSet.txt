@@ -7,5 +7,3 @@
 [[HTML/CSS,1], [JavaScript,0],[JavaScript,0]]
 [[Java,1], [Java,0], [Java,0]]
 [[HTML/CSS,1], [HTML/CSS,1],[Django,1], [Django,0]]
-
-//
