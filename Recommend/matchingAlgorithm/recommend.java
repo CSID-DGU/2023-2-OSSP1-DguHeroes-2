@@ -2,75 +2,92 @@ import java.util.*;
 
 public class recommend {
     public static void main(String[] args) {
-        float a = get_teamscore(123);
+        float a = urs.get_teamscore(123);
         System.out.println("get_teamscore() 테스트 : " + a);
 
-        float b = calculate_urs(123,456,"Java");
+        float b = urs.calculate_urs(123,456,"Java");
         System.out.println("calculate_urs() 테스트 : " + b);
+
+        int result[] = get_users(20, 10, 1, "Java");
+
+        for(int i = 0; i < result.length; i++){
+            System.out.println("최종 추천 리스트 > " + i + ", user_id : " + Math.round(result[i]));
+        }
     }
 
-    // 프로젝트의 평균 user_role_score를 계산해주는 메소드
-    static float get_teamscore(int proj_id){
-        float avg_score = 0;
-
-        //구현: proj_id를 이용하여 PROJECT_MEMBER 테이블에서 프로젝트 멤버들의 user_role_score 추출
+    static int[] get_users(int sample_size, int recommend_size, int proj_id, String target_stack){
+        //구현 1: target_stack 숙련도 테이블에서 |PROJECT_INFO.avg_score(id=proj_id) - target_stack.proficiency|의 값이 작은 순으로 sample_size만큼 추출 -------------
+        int test_size = 100;    //테스트를 위한 target_stack 테이블의 데이터 수
         Random random = new Random();
-        int randomCount = random.nextInt(7) + 1;
-        float[] user_role_score = new float[randomCount];
-        for (int i = 0; i < user_role_score.length; i++) {
-            user_role_score[i] = 5 + random.nextFloat() * (10 - 5);
-        }
-        //------------------------------------------------------------------------------
 
-        float sum = 0;
-        for (float score : user_role_score) {
-            sum += score;
-        }
-        avg_score = sum / user_role_score.length;
+        float avg_score = 3 + random.nextFloat() * (10 - 3);    //PROJECT_INFO.avg_score(id=proj_id) 테스트 데이터셋 생성
+        float proficiency[][] = new float[test_size][2];
 
-        return avg_score;
+        //1000부터 9999까지 겹치지 않는 test_size개의 수 생성
+        Set<Integer> uniqueNumbers = new HashSet<>();
+        while (uniqueNumbers.size() < test_size) {
+            int randomNumber = random.nextInt(9000) + 1000;
+            uniqueNumbers.add(randomNumber);
+        }
+
+        int i = 0;
+        //target_stack.proficiency 테스트 데이터셋 생성
+        for (int user_id : uniqueNumbers) {
+            proficiency[i][0] = user_id;
+            proficiency[i][1] = 3 + random.nextFloat() * (10 - 3);
+            System.out.println(i + ", user_id : " + Math.round(proficiency[i][0]) + ", 숙련도 : " + proficiency[i][1]);
+            i+=1;
+        }
+        System.out.println("\n");
+
+        //|avg_urs - proficiency|를 구하여 sample_size만큼 샘플링
+        float gap_proj_users[][] = new float[test_size][3]; //|PROJECT_INFO.avg_score(id=proj_id) - target_stack.proficiency|값이 저장되는 배열
+        for(i = 0; i < test_size; i++){
+            gap_proj_users[i][0] = proficiency[i][0];
+            gap_proj_users[i][1] = Math.abs(avg_score-proficiency[i][1]);
+            gap_proj_users[i][2] = proficiency[i][1];
+            System.out.println(i + ", user_id : " + Math.round(gap_proj_users[i][0]) + ", avg_urs-숙련도 : " + gap_proj_users[i][1]);
+        }
+        System.out.println("\n");
+
+        Arrays.sort(gap_proj_users, Comparator.comparingDouble(arr -> arr[1]));
+
+        for(i = 0; i < sample_size; i++){
+            System.out.println("정렬됨 > " + i + ", user_id : " + Math.round(gap_proj_users[i][0]) + ", avg_urs-숙련도 : " + gap_proj_users[i][1]);
+        }
+        System.out.println("\n");
+        //--------------------------------------------------------------------------------------------------------------------------------------------
+
+        //구현 2: 이전 단계에서 구한 sample들에 대해서 모두 calculate_urs()를 이용해 urs를 구함 ---------------------------------------------------------------------
+        float selected_user[][] = new float[sample_size][2]; //최종 상위 추천 유저가 recommend_size만큼 저장되는 배열
+        int result[] = new int[recommend_size];   //get_users() 함수 최종 출력값
+        for(i = 0; i < sample_size; i++){
+            selected_user[i][0] = gap_proj_users[i][0];
+            selected_user[i][1] = gap_proj_users[i][2] + random.nextFloat() * 3f;   //원래는 calculate_urs() 함수를 사용하여 구해야 하지만 DB 완성 전까지는 이와 같은 방식으로
+            System.out.println(i + ", user_id : " + Math.round(gap_proj_users[i][0]) + ", urs : " + selected_user[i][1]);
+        }
+        System.out.println("\n");
+        //--------------------------------------------------------------------------------------------------------------------------------------------
+
+        //구현 3: |selected_user[][1]-PROJECT_INFO.avg_score(id=proj_id)|의 값이 작은 순으로 recommend_size만큼 추출 -----------------------------------------
+        for(i = 0; i < sample_size; i++){
+            selected_user[i][1] = Math.abs(selected_user[i][1]-avg_score);
+        }
+
+        Arrays.sort(selected_user, Comparator.comparingDouble(arr -> arr[1]));
+
+        for(i = 0; i < recommend_size; i++){
+            result[i] = Math.round(selected_user[i][0]);
+            System.out.println("정렬됨 > " + i + ", user_id : " + Math.round(selected_user[i][0]) + ", urs : " + selected_user[i][1]);
+        }
+        System.out.println("\n");
+        //---------------------------------------------------------------------------------------------------------------------------------------------
+
+        return result;
     }
 
-    // 특정 프로젝트에서 특정 유저의 user_role_score를 계산해주는 메소드
-    static float calculate_urs(int proj_id, int user_id, String stack){
-        float urs = 0;
-
-        //구현: 프로젝트(proj_id)가 요구하는 기술스택 리스트를 PROJECT_SPEC 테이블에서 추출 (중복 제거) -----
-        List<String> proj_stack = new ArrayList<>();
-        proj_stack.add("Java");
-        proj_stack.add("SpringBoot");
-        proj_stack.add("React");
-        //----------------------------------------------------------------------------------
-
-        //구현: 유저(user_id)가 사용할 줄 아는 기술스택 리스트를 USER_STACK 테이블에서 추출 -----------
-        List<String> user_stack = new ArrayList<>();;   //test dataset
-        user_stack.add("Java");
-        user_stack.add("SpringBoot");
-        //------------------------------------------------------------------------------
-
-        List<String> intersection = findIntersection(proj_stack, user_stack);
-
-        System.out.println(intersection + " : intersection success");
-
-        //구현: intersection을 이용하여 참조해야 할 숙련도 테이블들 선택 후,
-        //선택된 숙련도 테이블들과 함수의 input으로 받은 stack, 그리고 STACK_DISTANCE 테이블을 가지고 user_role_score 계산
-        Random random = new Random();
-        urs = 5 + random.nextFloat() * (10 - 5);
-        //------------------------------------------------------------------------------
-
-        return urs;
-    }
-
-    // 두 리스트의 교집합을 반환하는 메소드
-    public static <T> List<T> findIntersection(List<T> list1, List<T> list2) {
-        List<T> intersection = new ArrayList<>();
-
-        for (T element : list1) {
-            if (list2.contains(element)) {
-                intersection.add(element);
-            }
-        }
-
-        return intersection;
+    static String[] get_projs(int sample_size, int recommend_size, int user_id, String target_stack){
+        return null;
     }
 }
+
