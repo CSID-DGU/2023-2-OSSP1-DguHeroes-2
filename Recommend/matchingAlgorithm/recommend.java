@@ -46,14 +46,14 @@ public class recommend {
             gap_proj_users[i][0] = proficiency[i][0];
             gap_proj_users[i][1] = Math.abs(avg_score-proficiency[i][1]);
             gap_proj_users[i][2] = proficiency[i][1];
-            System.out.println(i + ", user_id : " + Math.round(gap_proj_users[i][0]) + ", avg_urs-숙련도 : " + gap_proj_users[i][1]);
+            System.out.println(i + ", user_id : " + Math.round(gap_proj_users[i][0]) + ", |avg_urs - 숙련도| : " + gap_proj_users[i][1]);
         }
         System.out.println("\n");
 
         Arrays.sort(gap_proj_users, Comparator.comparingDouble(arr -> arr[1]));
 
         for(i = 0; i < sample_size; i++){
-            System.out.println("정렬됨 > " + i + ", user_id : " + Math.round(gap_proj_users[i][0]) + ", avg_urs-숙련도 : " + gap_proj_users[i][1]);
+            System.out.println("정렬됨 > " + i + ", user_id : " + Math.round(gap_proj_users[i][0]) + ", |avg_urs - 숙련도| : " + gap_proj_users[i][1]);
         }
         System.out.println("\n");
         //--------------------------------------------------------------------------------------------------------------------------------------------
@@ -78,7 +78,7 @@ public class recommend {
 
         for(i = 0; i < recommend_size; i++){
             result[i] = Math.round(selected_user[i][0]);
-            System.out.println("정렬됨 > " + i + ", user_id : " + Math.round(selected_user[i][0]) + ", urs : " + selected_user[i][1]);
+            System.out.println("정렬됨 > " + i + ", user_id : " + Math.round(selected_user[i][0]) + ", |urs - avg_urs| : " + selected_user[i][1]);
         }
         System.out.println("\n");
         //---------------------------------------------------------------------------------------------------------------------------------------------
