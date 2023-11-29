@@ -1,17 +1,13 @@
-from get_cnt_annotation import *
-from get_score_popularity import *
-from get_score_usability import *
 
-
-# OWNER = 'proysm'
-# NAME='proysm/Healody_Server'
-OWNER = 'Voine'
-NAME = 'Voine/ChatWaifu_Mobile'
+OWNER = 'proysm'
+NAM E ='proysm/Healody_Server'
+# OWNER = 'Voine'
+# NAME = 'Voine/ChatWaifu_Mobile'
 # NAME='CSID-DGU/2023-2-OSSP1-DguHeroes-2'
 
-MAX_PER_PAGE = 30  # 용량을 줄이기 위해 테스톨 30, 실제로는 100
+MAX_PER_PAGE = 100  # 용량을 줄이기 위해 테스톨 30, 실제로는 100
 
-GH_API ='https://api.github.com'
+GH_AP I ='https://api.github.com'
 
 headers = {
     'Authorization': 'token %s ' %(GITHUB_API_TOKEN),
@@ -43,7 +39,7 @@ list_language_extension = [['js'], ['html'], ['css'], ['py'], ['ts'], ['java', '
     , ['c', 'h'], ['php'], ['go'], ['rs'], ['kt'], ['rb'], ['lua'], ['dart'], ['s'], ['swift'], ['r'], ['vb']]
 
 
-# Project 사용 언w어 구하는 함수
+# Project 사용 언어 구하는 함수
 def get_language():
     # https://api.github.com/repos/OWNER/REPO/languages
     GH_REPO = '%s/repos/%s/languages' % (GH_API, NAME)
@@ -91,10 +87,15 @@ def get_commit_code(list_furl):
     cnt_addition = 0
     cnt_deletion = 0
     for furl in list_furl:
+        print(furl)
         response = requests.get('%s' % (furl), headers=headers)
         response = response.json()
 
         # print(response['files'])
+
+        if response['commit']['verification']['verified'] == True:
+            print("verified")
+            continue
 
         for idx_file, file in enumerate(response['files']):
             filename = file['filename'].split('.')[-1]
@@ -102,12 +103,14 @@ def get_commit_code(list_furl):
             if filename in list_extension:
                 # status가 added, deleted, renamed 등 다양하게 있는데 이중 코드를 수정한 경우만 가져와야 하므로
                 # status added를 가져오겠다.
-                if file['status'] == 'added' and file['changes'] != 0:
+                if (file['status'] == 'added' or file['status'] == 'modified') and file['changes'] != 0:
                     # list_addition_code.append(file['additions'])
                     list_filename_language.append(filename)
                     cnt_addition += file['additions']
                     cnt_deletion += file['deletions']
-                    print(file)
+                    print(cnt_addition)
+                    print(cnt_deletion)
+                    # print(file)
                     if 'patch' not in list(file.keys()):  # 이상하게 patch key가 response에 없는 경우 있다.
                         FILE_SHA = file['sha']
                         #  https://api.github.com/repos/OWNER/REPO/git/blobs/FILE_SHA
@@ -129,8 +132,8 @@ def get_commit_code(list_furl):
 
 # Commit SHA값 포함된 주소 가져오는 함수
 def get_commit_sha(fauthor, fsum):
-    # max_page_num = int(fsum+99/100) #실제
-    max_page_num = 1  # 용량 줄이려고 테스트용
+    max_page_num = int(fsum + 99 / 100)  # 실제
+    # max_page_num = 1 #용량 줄이려고 테스트용
     list_url_commits = []
     for page in range(1, max_page_num + 1):
         GH_REPO = '%s/repos/%s/commits?per_page=%s&page=%s&author=%s' % (GH_API, NAME, MAX_PER_PAGE, page, fauthor)
@@ -180,21 +183,21 @@ def get_list_file_stack(fuser, flist_language):  # search api 사용해서 기�
             response = requests.get('%s' % (GH_REPO), headers=headers)
             response = response.json()
 
-            # print(response)
             len_file = len(response['items'])
             idx_file = 0
+            list_file = response['items']
 
             while idx_file < len_file:
                 try:
-                    file = response['items'][idx_file]
+                    file = list_file[idx_file]
                     file_path = file['path']
+                    print(file_path)
 
                     GH_REPO = '%s/repos/%s/commits?path=%s&author=%s' % (GH_API, NAME, file_path, fuser)
 
                     response = requests.get('%s' % (GH_REPO), headers=headers)
                     response = response.json()
 
-                    # print(len(response))
                     if len(response) > 0:
                         list_user_language.append(lang)
                         if lang in list_search:
@@ -202,7 +205,7 @@ def get_list_file_stack(fuser, flist_language):  # search api 사용해서 기�
                         break  # 특정 언어를 쓴 모든 파일을 검색해서, 관련된 커밋 중 committer가 찾는 유저인 게 있다면 for문 종료
                     idx_file += 1
                 except Exception as e:
-                    print("error idx_file:" + str(idx_file))
+                    print("error idx_file1:" + str(idx_file))
                     print(e)
                     time.sleep(5)
             print("language_list:" + str(list_user_language))
@@ -210,7 +213,7 @@ def get_list_file_stack(fuser, flist_language):  # search api 사용해서 기�
             if lang in list_search:
                 list_search.remove(lang)
         except Exception as e:
-            print("error idx_lang:" + str(idx_lang))
+            print("error idx_lang1:" + str(idx_lang))
             print(e)
             time.sleep(5)
 
@@ -230,9 +233,9 @@ def get_list_file_stack(fuser, flist_language):  # search api 사용해서 기�
                 response = requests.get('%s' % (GH_REPO), headers=headers)
                 response = response.json()
 
-                # print(response)
+                print(response)
 
-                len_file = len(response['items'])  # 결과가 없으면 response 자체가 3가지 key가 빈 리스토로 나온다.
+                len_file = len(response['items'])  # 결과가 없으면 response 자체가 3가지 key를 가진 빈 리스토로 나온다.
                 idx_file = 0
 
                 while idx_file < len_file:
@@ -286,8 +289,8 @@ def get_score_project(fdict_user, flist_language):
 
     print("볼륨과 비율 구하는 중")
     for member in list_name_members:
-        sum_project_size += fdict_user[member]['addition_raw']
-        sum_cnt_annotation += fdict_user[member]['annotation']
+        sum_project_size += fdict_user[member]['addition_final']
+        # sum_cnt_annotation += fdict_user[member]['annotation']
         list_user_code_size.append(fdict_user[member]['addition_final'])
 
     list_user_code_size = [size / sum_project_size for size in list_user_code_size]
@@ -298,7 +301,7 @@ def get_score_project(fdict_user, flist_language):
     print("활용도 구하는 중")
     usability_issue, usability_branch, usability_pr, usability_tag, usability_release = get_cnt_usability(NAME)
     print("주석 비율 구하는 중")
-    annotation_rate = sum_cnt_annotation / sum_project_size
+    # annotation_rate = sum_cnt_annotation/sum_project_size
 
     dict_score_db = dict()
     dict_score_db['used_stack'] = get_list_file_stack(OWNER, flist_language)
@@ -312,7 +315,7 @@ def get_score_project(fdict_user, flist_language):
     dict_score_db['usability_release'] = usability_release
     dict_score_db['commit_rate_std'] = user_code_std
     dict_score_db['project_size'] = sum_project_size
-    dict_score_db['annotation_rate'] = annotation_rate
+    # dict_score_db['annotation_rate'] = annotation_rate
 
     print(dict_score_db)
     return dict_score_db
@@ -339,10 +342,14 @@ print(list_name_members)
 for idx, member in enumerate(list_name_members):
     list_url_commit = get_commit_sha(member, list_cnt_commits[idx])
     list_commit_code, list_filename, sum_addition, sum_deletion = get_commit_code(list_url_commit)
-    dict_user_commit[member] = {'code': [], 'annotation': [], 'addition_raw': 0, 'addition_final': 0}
+    dict_user_commit[member] = {'code': [], 'annotation': 0, 'addition_raw': 0, 'addition_final': 0}
     dict_user_commit[member]['code'] = list_commit_code  # 멤버별로 커밋 코드를 포함하는 딕셔너리 생성하기
-    dict_user_commit[member]['annotation'] = get_cnt_annotation(member, list_commit_code)
-    dict_user_commit[member]['addition_raw'] = sum_addition  # 깃허브 점수 1번 프로젝트 용량 구할 때 이용, 유저 전체 합
+    # dict_user_commit[member]['annotation'] = get_cnt_annotation(member, list_commit_code)
+    # dict_user_commit[member]['addition_raw'] = sum_addition #깃허브 점수 1번 프로젝트 용량 구할 때 이용, 유저 전체 합
     dict_user_commit[member]['addition_final'] = sum_addition - sum_deletion  # 깃허브 점수 2번, 커밋 비율 구할 때 이용
+
+for idx, member in enumerate(list_name_members):
+    print(member)
+    print(dict_user_commit[member]['addition_final'])
 
 test = get_score_project(dict_user_commit, list_language)
