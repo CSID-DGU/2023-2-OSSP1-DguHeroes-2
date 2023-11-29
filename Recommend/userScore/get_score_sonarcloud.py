@@ -1,5 +1,6 @@
+import os
+import requests
 
-NAME = 'proysm/Healody_Server'
 #sonarcloud에 전달할 목적으로 깃허브 레포지토리 id 가져오기
 def get_project_id_gh2sc(GITHUB_API_TOKEN, NAME):
 
@@ -9,37 +10,33 @@ def get_project_id_gh2sc(GITHUB_API_TOKEN, NAME):
     print(response['id'])
     return response['id']
 
+#response 코드를 가져올 때 json 변환이 안 되면 에러가 발생하는 것을 방지
+def is_json(obj):
+    try:
+        test = obj.json()
+    except Exception as e:
+        return False
+    return True
 
 #create project
-import requests
-
-USER = 'dgu2022'
-NAME = 'dgu2022-test'
-PROJECT_NAME = 'sonarcube-repeat'
-ORG = 'dgu2022'
-
-def create_project(SC_TOKEN, USER, PROJECT_NAME, NAME, ORG):
+def create_project(SC_TOKEN, USER, PROJECT_NAME, CREATE_NAME, ORG):
     headers = {
         'Authorization': 'token %s'%(SC_TOKEN),
     }
 
     data = {
-        'name': NAME,
+        'name': CREATE_NAME,
         'project': PROJECT_NAME,
         'organization': ORG,
     }
 
     response = requests.post('https://sonarcloud.io/api/projects/create', data=data, headers=headers)
-    response = response.json()
 
+    if(is_json(response)):
+        response = response.json()
     print(response)
     return response
 
-SC_ORG = 'dgu2022'
-SC_GH_ORG = 'proysm'
-SC_GH_REPO = 'Healody_Server'
-SC_GH_KEY = '689547157'
-METRIC = 'complexity,cognitive_complexity,duplicated_lines_density,code_smells,bugs,vulnerabilities'
 
 #깃허브 레포지토리 연동된 프로젝트 만드는 함수
 def create_project_linked_github(SC_GH_ORG, SC_GH_REPO, SC_ORG, SC_GH_KEY, SC_TOKEN):
@@ -53,7 +50,8 @@ def create_project_linked_github(SC_GH_ORG, SC_GH_REPO, SC_ORG, SC_GH_KEY, SC_TO
         data=data,
         auth=(SC_TOKEN, ''),
     )
-    response = response.json()
+    if(is_json(response)):
+        response = response.json()
     print(response)
     return response
 
@@ -70,7 +68,9 @@ def set_autoscan(SC_GH_ORG, SC_GH_REPO, SC_TOKEN):
         params=params,
         auth=(SC_TOKEN, ''),
     )
-    response = response.json()
+
+    if(is_json(response)):
+        response = response.json()
     print(response)
     return response
 
@@ -84,7 +84,8 @@ def scan_project(SC_GH_ORG, SC_GH_REPO, SC_TOKEN):
 
     response = requests.post('https://sonarcloud.io/api/autoscan/activation', data=data, auth=(SC_TOKEN, ''))
 
-    response = response.json()
+    if(is_json(response)):
+        response = response.json()
     print(response)
     return response
 
@@ -97,16 +98,17 @@ def create_webhook(SC_GH_ORG, SC_GH_REPO, SC_ORG, URL, SC_TOKEN):
     }
 
     response = requests.post('https://sonarcloud.io/api/webhooks/create', data=data, headers=headers, auth=(SC_TOKEN, ''))
-    response = response.json()
 
+    if(is_json(response)):
+        response = response.json()
     print(response)
     return response
 
-#프로젝트 분석 결과 가져오는 함수
-def get_value_metric(SC_GH_ORG, SC_GH_REPO, SC_ORG, METRIC, SC_TOKEN):
 
+# 프로젝트 분석 결과 가져오는 함수
+def get_value_metric(SC_GH_ORG, SC_GH_REPO, SC_ORG, METRIC, SC_TOKEN):
     params = {
-        'component' : SC_GH_ORG + '_' + SC_GH_REPO,
+        'component': SC_GH_ORG + '_' + SC_GH_REPO,
         'metricKeys': METRIC
     }
 
@@ -115,6 +117,28 @@ def get_value_metric(SC_GH_ORG, SC_GH_REPO, SC_ORG, METRIC, SC_TOKEN):
         params=params,
         auth=(SC_TOKEN, ''),
     )
-    response = response.json()
+
+    if (is_json(response)):
+        response = response.json()
     print(response)
     return response
+
+
+USER = 'dgu2022'
+SC_TOKEN = ''
+CREATE_NAME = 'dgu2022-test'
+PROJECT_NAME = 'sonarcube-repeat'
+ORG = 'dgu2022'
+NAME = 'proysm/Healody_Server'
+SC_ORG = 'dgu2022'
+SC_GH_ORG = NAME.split('/')[0]
+SC_GH_REPO = NAME.split('/')[-1]
+SC_GH_KEY = get_project_id_gh2sc(GITHUB_API_TOKEN, NAME)
+METRIC = 'complexity,cognitive_complexity,duplicated_lines_density,code_smells,bugs,vulnerabilities,comment_lines'
+
+#create_project_linked_github(SC_GH_ORG, SC_GH_REPO, SC_ORG, SC_GH_KEY, SC_TOKEN)
+#set_autoscan(SC_GH_ORG, SC_GH_REPO, SC_TOKEN)
+scan_project(SC_GH_ORG, SC_GH_REPO, SC_TOKEN)
+#create_webhook(SC_GH_ORG, SC_GH_REPO, SC_ORG, URL, SC_TOKEN)
+
+get_value_metric(SC_GH_ORG, SC_GH_REPO, SC_ORG, METRIC, SC_TOKEN)
