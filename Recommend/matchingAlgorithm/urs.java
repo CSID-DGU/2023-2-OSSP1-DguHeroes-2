@@ -42,12 +42,12 @@ public class urs {
 
         List<String> intersection = findIntersection(projStack, userStack);
 
-        System.out.println(intersection + " : intersection success");
+        //System.out.println(intersection + " : intersection success");
 
         //구현: intersection을 이용하여 참조해야 할 숙련도 테이블들 선택 후,
         //선택된 숙련도 테이블들과 함수의 input으로 받은 stack, 그리고 STACK_DISTANCE 테이블을 가지고 userRoleScore 계산 --------
         Random random = new Random();
-        urs = 5 + random.nextFloat() * (10 - 5);
+        urs = 3 + random.nextFloat() * (10 - 3);
         //--------------------------------------------------------------------------------------------------------
 
         return urs;
