@@ -94,12 +94,16 @@ def get_members():
 
 # Commit Code 가져오는 함수 + 추가한 라인 수도 카운트한 뒤 합해서 전달 (깃허브 점수 2번 구하기 위해)
 def get_commit_code(list_furl):
+    is_initial_commit = 0  # 팀장이 초기에 다른 프로젝트를 클론해 엄청난 양의 코드를 커밋한 게 맞는지 체크
+
+    list_furl.reverse()
+
     list_addition_code = []
     list_filename_language = []
     cnt_addition = []
     cnt_deletion = []
-    list_addition_commit = []
-    for furl in list_furl:
+    len_url = len(list_furl)
+    for idx, furl in enumerate(list_furl):
         # print(furl)
         response = requests.get('%s' % (furl), headers=headers)
         response = response.json()
@@ -110,9 +114,12 @@ def get_commit_code(list_furl):
             # print("verified")
             continue
 
-        if response['stats']['deletions'] == 0 and response['stats']['total'] > 100:
-            print("stat")
-            print(response['stats']['total'])
+        # 초기에 다른 프로젝트 기반 복제를 했을 때 가져오게 되는 엄청난 양의 addition은 무시
+        if response['stats']['deletions'] == 0 and is_initial_commit == 0 and len(response['files']) > 10:
+            print("initial file")
+            is_initial_commit = response['stats']['total']
+            # print(furl)
+            continue
 
         for idx_file, file in enumerate(response['files']):
             filename = file['filename'].split('.')[-1]
@@ -142,7 +149,7 @@ def get_commit_code(list_furl):
                     else:
                         list_addition_code.append(file['patch'])
 
-    return list_addition_code, list_filename_language, cnt_addition, cnt_deletion
+    return list_addition_code, list_filename_language, cnt_addition, cnt_deletion, is_initial_commit
 
 
 # Commit SHA값 포함된 주소 가져오는 함수
@@ -315,13 +322,19 @@ def get_score_project(fdict_user, flist_language):
 
     print("볼륨과 비율 구하는 중")
     for member in list_name_members:
-        sum_cnt_code = sum(fdict_user[member]['cnt_addition']) - sum(fdict_user[member]['cnt_deletion'])
+        if fdict_user[member]['initial'] == 0:
+            sum_cnt_code = sum(fdict_user[member]['cnt_addition']) - sum(fdict_user[member]['cnt_deletion'])
+        elif fdict_user[member]['initial'] != 0:
+            rate_initial = sum(fdict_user[member]['cnt_addition']) / fdict_user[member]['initial'] * 2
+            print(rate_initial)
+            sum_cnt_code = sum(fdict_user[member]['cnt_addition']) + sum(
+                fdict_user[member]['cnt_deletion']) * rate_initial
+            print(sum_cnt_code)
         sum_project_size += sum_cnt_code
         # sum_cnt_annotation += fdict_user[member]['annotation']
         list_user_code_size.append(sum_cnt_code)
         print(member)
-        print(fdict_user[member]['cnt_addition'])
-        print(fdict_user[member]['cnt_deletion'])
+        print(sum_cnt_code)
 
     list_user_code_size = [size / sum_project_size for size in list_user_code_size]
     user_code_std = np.std(np.array(list_user_code_size))
@@ -371,10 +384,11 @@ print(list_name_members)
 
 for idx, member in enumerate(list_name_members):
     list_url_commit = get_commit_sha(member, list_cnt_commits[idx])
-    list_commit_code, list_filename, list_cnt_addition, list_cnt_deletion = get_commit_code(list_url_commit)
-    dict_user_commit[member] = {'code': [], 'list_cnt_addition': [], 'list_cnt_deletion': []}
+    list_commit_code, list_filename, list_cnt_addition, list_cnt_deletion, is_initial = get_commit_code(list_url_commit)
+    dict_user_commit[member] = {'code': [], 'cnt_addition': [], 'cnt_deletion': [], 'initial': 0}
     dict_user_commit[member]['code'] = list_commit_code  # 멤버별로 커밋 코드를 포함하는 딕셔너리 생성하기
     dict_user_commit[member]['cnt_addition'] = list_cnt_addition  # 깃허브 점수 1,2번, 커밋 비율 구할 때 이용
     dict_user_commit[member]['cnt_deletion'] = list_cnt_deletion  # 깃허브 점수 1,2번, 커밋 비율 구할 때 이용
+    dict_user_commit[member]['initial'] = is_initial
 
 test = get_score_project(dict_user_commit, list_language)
