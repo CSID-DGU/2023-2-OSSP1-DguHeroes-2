@@ -1,11 +1,12 @@
 
-OWNER = 'proysm'
-NAM E ='proysm/Healody_Server'
+OWNER = 'dgu2022'
+NAM E ='CSID-DGU/2023-2-OSSP1-DguHeroes-2'
 # OWNER = 'Voine'
 # NAME = 'Voine/ChatWaifu_Mobile'
 # NAME='CSID-DGU/2023-2-OSSP1-DguHeroes-2'
 
-MAX_PER_PAGE = 100  # 용량을 줄이기 위해 테스톨 30, 실제로는 100
+MAX_PER_PAGE = 30  # 용량을 줄이기 위해 테스톨 30, 실제로는 100
+MIN_CNT_FILE = 3
 
 GH_AP I ='https://api.github.com'
 
@@ -13,18 +14,29 @@ headers = {
     'Authorization': 'token %s ' %(GITHUB_API_TOKEN),
 }
 
+GRAPH_KEYWORD_TREE = {'express' : ['express' ,'port'], 'socket.io': ['socket' ,'on'], 'axios' : ['axios' ,'response'], \
+                      'react' : ['react' ,'render'], 'angularjs' : ['angular' ,'controller'], 'react native' : \
+                          ['react-native' ,'view'], 'electron' : ['electron', 'app'], 'vue.js' : ['vue' ,'app'], 'jquery' : \
+                          ['jquery', 'ready'], 'next.js' : ['next' ,'router'], 'svelte' : ['svelte' ,'app'], \
+                      'flask' : ['flask', 'route'], 'django' : ['from django' ,'view'], 'pandas' : ['import pandas', 'dataframe'], \
+                      'tensorflow' : ['import tensorflow', 'model'], 'scikit-learn' : ['sklearn', 'predict'], \
+                      'apache kafka' : ['kafka', 'connect'], 'pytorch' : ['import torch' ,'loss'], 'opencv' : ['cv' ,'image'], \
+                      'opengl' : ['gl' ,'display'], 'keras' : ['keras' ,'model'], 'apache spark' : ['apache', 'spark'], 'qt' : \
+                          ['<Q', 'qapplication'], '.net' : ['.net', 'net'], 'blazor' :['blazor' ,'net'], 'cuda' :['cuda' ,'cudamalloc'], \
+                      'laravel' :['Illuminate' ,'provider'], 'ruby on rails' :['ApplicationController' ,'end'], 'springboot': \
+                          ['import org.springframework', 'springboot'], 'angular' : ['angular' ,'controller']}
+
 GRAPH_STACK_TREE = \
     {'javascript': ['express', 'socket.io', 'axios', 'react', 'angularjs', 'react native', 'electron', 'vue.js', \
-                   'jquery', 'next.js', 'svelte'], 'html': ['electron'], 'css': [],
+                   'jquery', 'next.js', 'svelte', 'opengl', 'opencv'], 'html': ['electron'],
     'python': ['flask', 'django', 'pandas', \
-               'tensorflow', 'scikit-learn', 'apache kafka', 'pytorch', 'opencv', 'opengl', 'keras', 'apache spark',
-               'qt'], \
-    'typescript': ['react', 'angular', 'react native'], 'java': ['springboot', 'apache kafka'], 'c#': ['blazor', \
-                                                                                                       '.net',
-                                                                                                       '.net framework'],
-    'c++': ['cuda', 'apache kafka'], 'c': ['apache kafka', 'cuda'], 'php': ['laravel'], \
+               'tensorflow', 'scikit-learn', 'apache kafka', 'pytorch', 'opencv', 'opengl', 'keras', 'apache spark'], \
+    'typescript': ['react', 'angular', 'react native'], 'java': ['springboot', 'apache kafka', 'opengl', 'opencv'], \
+    'c#': ['blazor', '.net', 'opengl', 'opencv'], 'c++': ['cuda', 'apache kafka', 'opengl', \
+                                                          'opencv', 'qt'], 'c': ['cuda', 'apache kafka', 'opengl'],
+    'php': ['laravel'], 'css': [], \
     'go': ['apache kafka'], 'rust': [], 'kotlin': [], 'ruby': ['ruby on rails'], 'lua': [], 'dart': [], 'swift': [], \
-    'r': [], 'visual basic': ['.net', '.net framework'], 'node.js': ['express', 'socket.io', 'axios', 'electron'], \
+    'r': [], 'visual basic': ['.net'], 'node.js': ['express', 'socket.io', 'axios', 'electron'], \
     'flutter': [], '.net': ['blazor'], 'rabbitmq': []}
 
 GRAPH_LANGUAGE = ['javascript', 'html', 'css', 'python', 'typescript', 'java', 'c#', 'c++', 'c', 'php', 'go', 'rust',
@@ -34,9 +46,9 @@ GRAPH_LANGUAGE = ['javascript', 'html', 'css', 'python', 'typescript', 'java', '
 GRAPH_LANGUAGE = ['JavaScript', 'HTML', 'CSS', 'Python', 'TypeScript', 'Java', 'C#', 'C++', 'C', 'PHP', 'Go', 'Rust', 'Kotlin'\
                , 'Ruby', 'Lua', 'Dart',  'Swift', 'R', 'Visual Basic']
 '''
-list_language_extension = [['js'], ['html'], ['css'], ['py'], ['ts'], ['java', 'class', 'jsp'], ['cs'],
+list_language_extension = [['js'], ['html'], ['css'], ['py'], ['ts', 'tsx'], ['java', 'class', 'jsp'], ['cs'],
                            ['cc', 'cpp', 'h', 'mm'] \
-    , ['c', 'h'], ['php'], ['go'], ['rs'], ['kt'], ['rb'], ['lua'], ['dart'], ['s'], ['swift'], ['r'], ['vb']]
+    , ['c', 'h'], ['php'], ['go'], ['rs'], ['kt'], ['rb', 'erb'], ['lua'], ['dart'], ['s'], ['swift'], ['r'], ['vb']]
 
 
 # Project 사용 언어 구하는 함수
@@ -84,18 +96,23 @@ def get_members():
 def get_commit_code(list_furl):
     list_addition_code = []
     list_filename_language = []
-    cnt_addition = 0
-    cnt_deletion = 0
+    cnt_addition = []
+    cnt_deletion = []
+    list_addition_commit = []
     for furl in list_furl:
-        print(furl)
+        # print(furl)
         response = requests.get('%s' % (furl), headers=headers)
         response = response.json()
 
         # print(response['files'])
 
         if response['commit']['verification']['verified'] == True:
-            print("verified")
+            # print("verified")
             continue
+
+        if response['stats']['deletions'] == 0 and response['stats']['total'] > 100:
+            print("stat")
+            print(response['stats']['total'])
 
         for idx_file, file in enumerate(response['files']):
             filename = file['filename'].split('.')[-1]
@@ -106,10 +123,8 @@ def get_commit_code(list_furl):
                 if (file['status'] == 'added' or file['status'] == 'modified') and file['changes'] != 0:
                     # list_addition_code.append(file['additions'])
                     list_filename_language.append(filename)
-                    cnt_addition += file['additions']
-                    cnt_deletion += file['deletions']
-                    print(cnt_addition)
-                    print(cnt_deletion)
+                    cnt_addition.append(file['additions'])
+                    cnt_deletion.append(file['deletions'])
                     # print(file)
                     if 'patch' not in list(file.keys()):  # 이상하게 patch key가 response에 없는 경우 있다.
                         FILE_SHA = file['sha']
@@ -228,7 +243,9 @@ def get_list_file_stack(fuser, flist_language):  # search api 사용해서 기�
             for stack in list_stack:
                 if stack not in list_search:  # 이미 유저가 쓰는 기술스택 리스트에 해당 스택이 있으면 패스.
                     continue
-                GH_REPO = '%s/search/code?q=%s +repo:%s' % (GH_API, stack, NAME)
+                list_stack_keyword = GRAPH_KEYWORD_TREE[stack]
+                GH_REPO = '%s/search/code?q=%s +%s +repo:%s' % (
+                GH_API, list_stack_keyword[0], list_stack_keyword[1], NAME)
 
                 response = requests.get('%s' % (GH_REPO), headers=headers)
                 response = response.json()
@@ -237,18 +254,27 @@ def get_list_file_stack(fuser, flist_language):  # search api 사용해서 기�
 
                 len_file = len(response['items'])  # 결과가 없으면 response 자체가 3가지 key를 가진 빈 리스토로 나온다.
                 idx_file = 0
+                list_file = response['items']
+
+                if len_file < MIN_CNT_FILE:
+                    if stack in list_search:
+                        list_search.remove(stack)
+                    continue
 
                 while idx_file < len_file:
                     try:
-                        file = response['items'][idx_file]
+                        file = list_file[idx_file]
                         file_path = file['path']
+
+                        print(file_path)
 
                         GH_REPO = '%s/repos/%s/commits?path=%s&author=%s' % (GH_API, NAME, file_path, fuser)
 
                         response = requests.get('%s' % (GH_REPO), headers=headers)
                         response = response.json()
 
-                        # print(len(response))
+                        print(response)
+                        print(len(response))
                         if len(response) > 0:  # 결과가 없으면 response 자체가 빈 리스트로 나온다.
                             list_user_stack.append(stack)
                             if stack in list_search:
@@ -258,7 +284,7 @@ def get_list_file_stack(fuser, flist_language):  # search api 사용해서 기�
                     except Exception as e:
                         print("error idx_file:" + str(idx_file))
                         print(e)
-                        time.sleep(5)
+                        time.sleep(10)
                 if lang in list_search:
                     list_search.remove(stack)
             print("stack_list:" + str(list_user_stack))
@@ -266,7 +292,7 @@ def get_list_file_stack(fuser, flist_language):  # search api 사용해서 기�
         except Exception as e:
             print("error idx_lang:" + str(idx_lang))
             print(e)
-            time.sleep(5)
+            time.sleep(10)
     list_user_stack.extend(list_user_language)
     print("final stack_list:" + str(list_user_stack))
 
@@ -289,9 +315,13 @@ def get_score_project(fdict_user, flist_language):
 
     print("볼륨과 비율 구하는 중")
     for member in list_name_members:
-        sum_project_size += fdict_user[member]['addition_final']
+        sum_cnt_code = sum(fdict_user[member]['cnt_addition']) - sum(fdict_user[member]['cnt_deletion'])
+        sum_project_size += sum_cnt_code
         # sum_cnt_annotation += fdict_user[member]['annotation']
-        list_user_code_size.append(fdict_user[member]['addition_final'])
+        list_user_code_size.append(sum_cnt_code)
+        print(member)
+        print(fdict_user[member]['cnt_addition'])
+        print(fdict_user[member]['cnt_deletion'])
 
     list_user_code_size = [size / sum_project_size for size in list_user_code_size]
     user_code_std = np.std(np.array(list_user_code_size))
@@ -341,15 +371,10 @@ print(list_name_members)
 
 for idx, member in enumerate(list_name_members):
     list_url_commit = get_commit_sha(member, list_cnt_commits[idx])
-    list_commit_code, list_filename, sum_addition, sum_deletion = get_commit_code(list_url_commit)
-    dict_user_commit[member] = {'code': [], 'annotation': 0, 'addition_raw': 0, 'addition_final': 0}
+    list_commit_code, list_filename, list_cnt_addition, list_cnt_deletion = get_commit_code(list_url_commit)
+    dict_user_commit[member] = {'code': [], 'list_cnt_addition': [], 'list_cnt_deletion': []}
     dict_user_commit[member]['code'] = list_commit_code  # 멤버별로 커밋 코드를 포함하는 딕셔너리 생성하기
-    # dict_user_commit[member]['annotation'] = get_cnt_annotation(member, list_commit_code)
-    # dict_user_commit[member]['addition_raw'] = sum_addition #깃허브 점수 1번 프로젝트 용량 구할 때 이용, 유저 전체 합
-    dict_user_commit[member]['addition_final'] = sum_addition - sum_deletion  # 깃허브 점수 2번, 커밋 비율 구할 때 이용
-
-for idx, member in enumerate(list_name_members):
-    print(member)
-    print(dict_user_commit[member]['addition_final'])
+    dict_user_commit[member]['cnt_addition'] = list_cnt_addition  # 깃허브 점수 1,2번, 커밋 비율 구할 때 이용
+    dict_user_commit[member]['cnt_deletion'] = list_cnt_deletion  # 깃허브 점수 1,2번, 커밋 비율 구할 때 이용
 
 test = get_score_project(dict_user_commit, list_language)
