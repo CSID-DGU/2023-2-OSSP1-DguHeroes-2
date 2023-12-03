@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.domain.Project;
-import com.example.demo.domain.ProjectStack;
 import com.example.demo.domain.User;
 import com.example.demo.response.CommonResponse;
 import com.example.demo.response.ListResponse;
@@ -21,7 +20,6 @@ public class ProjectController {
     private UserService userService;
     private ApplyService applyService;
 
-    private ProjectStackService projectStackService;
 
     private ResponseService responseService;
 
@@ -29,14 +27,11 @@ public class ProjectController {
                              ProjectLikeService projectLikeService,
                              UserService userService,
                              ApplyService applyService,
-                             ProjectStackService projectStackService,
                              ResponseService responseService)
     {
         this.projectService = projectService;
-        this.projectStackService = projectStackService;
         this.userService = userService;
         this.applyService = applyService;
-        this.projectStackService = projectStackService;
         this.responseService = responseService;
     }
 
@@ -66,12 +61,9 @@ public class ProjectController {
     @PostMapping("/project/create")
     public SingleResponse<Project> projectCreate(@RequestBody Project project){
         CommonResponse commonResponse = new CommonResponse();
-        List<ProjectStack> projectStackList = project.getProject_stacks();
+
         Project saved_project = projectService.insert(project);
-        for(ProjectStack stack : projectStackList){
-            stack.setProject(saved_project);
-            projectStackService.insert(stack);
-        }
+
 
         if(saved_project!=null){
             commonResponse.setStatus("SUCCESS");
@@ -104,7 +96,7 @@ public class ProjectController {
 
     @PostMapping("/project/apply")
     public CommonResponse apply(HttpServletRequest request, int project_id){
-        Project project = new Project();
+        Project project;
         project = projectService.findByProjectId(project_id);
         String user_id = userService.findSessionId(request);
         User user = userService.findUserInfo(user_id);

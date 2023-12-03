@@ -1,7 +1,6 @@
 package com.example.demo.repository;
 
 import com.example.demo.domain.Project;
-import com.example.demo.domain.ProjectStack;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -99,15 +98,6 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         query.setParameter("user_id", user_id);
         query.setParameter("is_available", "EXPIRED");
         List<Project> list = query.getResultList();
-        return list;
-    }
-
-    @Override
-    public List<ProjectStack> findProjectStackByProjectId(int project_id){
-        String sql = "select project_stacks from Project ps where ps.id =: project_id";
-        TypedQuery<ProjectStack> query = em.createQuery(sql, ProjectStack.class);
-        query.setParameter("project_id", project_id);
-        List<ProjectStack> list = query.getResultList();
         return list;
     }
 

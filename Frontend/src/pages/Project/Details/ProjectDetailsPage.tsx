@@ -74,9 +74,14 @@ export const ProjectDetailsPage: FC<ProjectDetailsPageProps> = ({ className }) =
   }
 
   const onClickApplyProject = () => {
-    navigate('/')
+    const applyType = window.prompt("지원하고자 하는 분야를 선택하세요: 백엔드, 프론트엔드, 기타");
+    if (applyType === "백엔드" || applyType === "프론트엔드" || applyType === "기타") {
+      alert(`${applyType} 분야에 지원 완료되었습니다.`);
+      navigate('/');
+    } else{
+      alert("유효한 선택이 아닙니다.");
+    }
     // eslint-disable-next-line no-undef
-    alert("프로젝트에 지원 완료되었습니다.")
   }
   
   const renderButton = (ProjectItem: ProjectItemType) => {
@@ -208,13 +213,13 @@ export const ProjectDetailsPage: FC<ProjectDetailsPageProps> = ({ className }) =
                       {translateDevelopmentStack(requireMemberItem.developmentStack)}
                     </SideSectionRequireMemberItemTypo>
                     <SideSectionRequireMemberItemTypo>0/{requireMemberItem.number}</SideSectionRequireMemberItemTypo>
-                  </SideSectionRequireMemberItemContainer>
+                  </SideSectionRequireMemberItemContainer> 
                 ))}
               </SideSectionRequireMemberContentContainer>
             </SideSectionRequireMemberContainer>
-            <SideSectionDateRangeContainer>
+            <SideSectionDateRangeContainer> 
               <SideSectionDateRangeTitleTypo>프로젝트 기간</SideSectionDateRangeTitleTypo>
-              <SideSectionDateRangeTypo>2023.05.15 ~ 2023.06.01</SideSectionDateRangeTypo>
+              <SideSectionDateRangeTypo>{projectItem.projectStartDate} ~ {projectItem.projectEndDate}</SideSectionDateRangeTypo>
             </SideSectionDateRangeContainer>
             <SideSectionProjectTypeContainer>
               <SideSectionProjectTypeTitleTypo>분야</SideSectionProjectTypeTitleTypo>
