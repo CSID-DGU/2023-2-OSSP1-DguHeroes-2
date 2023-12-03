@@ -4,8 +4,7 @@ import com.example.demo.domain.position.ProjectBack;
 import com.example.demo.domain.position.ProjectEtc;
 import com.example.demo.domain.position.ProjectFront;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -15,7 +14,9 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name="project")
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

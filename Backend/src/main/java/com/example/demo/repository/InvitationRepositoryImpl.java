@@ -25,15 +25,16 @@ public class InvitationRepositoryImpl implements InvitationRepository{
 
     @Override
     public void insert(Project project, User user){
-        Invitation invitation = new Invitation();
-        invitation.setProject(project);
-        invitation.setUser(user);
-        invitation.setState("초대됨");
+        Invitation invitation = Invitation.builder()
+                .project(project)
+                .user(user)
+                .state("초대됨")
+                .build();
         em.persist(invitation);
     }
     @Override
     public Invitation findById(Long invitation_id){
-        String sql = "select invitation from Invitation invitation where invitation_id = :invitation_id";
+        String sql = "select invitation from Invitation invitation where id = :invitation_id";
         TypedQuery<Invitation> query = em.createQuery(sql, Invitation.class);
         query.setParameter("invitation_id", invitation_id);
         List<Invitation> list = query.getResultList();

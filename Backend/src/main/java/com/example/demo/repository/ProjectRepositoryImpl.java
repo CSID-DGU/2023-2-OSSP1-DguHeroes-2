@@ -102,15 +102,6 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     }
 
     @Override
-    public List<ProjectStack> findProjectStackByProjectId(int project_id){
-        String sql = "select project_stacks from Project ps where ps.id =: project_id";
-        TypedQuery<ProjectStack> query = em.createQuery(sql, ProjectStack.class);
-        query.setParameter("project_id", project_id);
-        List<ProjectStack> list = query.getResultList();
-        return list;
-    }
-
-    @Override
     public List<Project> findAll() {
         return findAll();
     }

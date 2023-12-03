@@ -36,16 +36,6 @@ public class SpringConfig {
     }
 
     @Autowired
-    public DevelopmentStackRepository developmentStackRepository(){
-        return new DevelopmentStackRepositoryImpl(em);
-    }
-
-    @Autowired
-    public QuestionnaireRepository questionnaireRepository(){
-        return new QuestionnaireRepositoryImpl(em);
-    }
-
-    @Autowired
     public ProjectRepository projectRepository(){
         return new ProjectRepositoryImpl(em);
     }
@@ -66,8 +56,8 @@ public class SpringConfig {
     }
 
     @Autowired
-    public MemberRepository memberRepository(){
-        return new MemberRepositoryImpl(em);
+    public ProjectMemberRepository memberRepository(){
+        return new ProjectMemberRepositoryImpl(em);
     }
 
     @Autowired
@@ -75,23 +65,6 @@ public class SpringConfig {
         return new ResponseRepositoryImpl(em);
     }
 
-    @Autowired
-    public ProjectStackRepository projectStackRepository(){
-        return new ProjectStackRepositoryImpl(em);
-    }
-
-    @Bean
-    public UserService userService(UserRepository userRepository, DevelopmentStackRepository developmentStackRepository, QuestionnaireRepository questionnaireRepository, ApplyRepository applyRepository) {
-        return new UserService(userRepository, developmentStackRepository, questionnaireRepository, applyRepository);
-    }
-    @Bean
-    public DevelopmentStackService developmentStackService(){
-        return new DevelopmentStackService(developmentStackRepository());
-    }
-    @Bean
-    public QuestionnaireService questionnaireService(){
-        return new QuestionnaireService(questionnaireRepository());
-    }
 
     @Bean
     public ProjectService projectService(){
@@ -109,20 +82,14 @@ public class SpringConfig {
     }
 
     @Bean
-    public MemberService memberService(){
-        return new MemberService(memberRepository());
+    public ProjectMemberService memberService(){
+        return new ProjectMemberService(memberRepository());
     }
 
     @Bean
     public ResponseService responseService(){
         return new ResponseService(responseRepository());
     }
-
-    @Bean
-    public ProjectStackService projectStackService(){
-        return new ProjectStackService(projectStackRepository());
-    }
-
 
 }
 

@@ -26,16 +26,16 @@ public class ApplyRepositoryImpl implements ApplyRepository{
 
     @Override
     public void insert(Project project, User user){
-        Apply apply = new Apply();
-        apply.setProject(project);
-        apply.setUser(user);
-        apply.setState("PENDING");
-        em.persist(apply);
+        Invitation invitation = Invitation.builder()
+                .project(project)
+                .user(user)
+                .state("PENDING")
+                .build();
+        em.persist(invitation);
     }
-
     @Override
     public Apply findById(Long apply_id){
-        String sql = "select apply from Apply apply where apply_id = :apply_id";
+        String sql = "select apply from Apply apply where id = :apply_id";
         TypedQuery<Apply> query = em.createQuery(sql, Apply.class);
         query.setParameter("apply_id", apply_id);
         List<Apply> list = query.getResultList();

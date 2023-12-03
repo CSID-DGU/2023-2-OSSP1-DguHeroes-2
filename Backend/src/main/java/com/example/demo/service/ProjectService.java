@@ -28,9 +28,6 @@ public class ProjectService {
         return project;
     }
 
-    public List<ProjectStack> findProjectStackByProjectId(int project_id){
-        return project_rp.findProjectStackByProjectId(project_id);
-    }
 
     public Project insert(Project project) {
         return project_rp.insert(project);
@@ -76,51 +73,52 @@ public class ProjectService {
     // 3. 결과적으로 recommended_project_list를 반환
 
     public List<Project> getRecommendProject(HttpServletRequest request){
-        List<Project> temp_list = new ArrayList<>();
-        HttpSession session = request.getSession();
-        String id = (String)session.getAttribute("id");
-        User user = userService.findUserById(id);
-        DevelopmentStack development_stack = userService.develop_rp.findDevelopmentStack(user.getId());
-        String stack = development_stack.getDevelopment_stack();
-        int grade = development_stack.getGrade();
-        List<Project> list = project_rp.findAllProjectList();
-        for(Project project : list){
-            List<ProjectStack> stack_list = project.getProject_stacks();
-            for(ProjectStack project_stack : stack_list){
-                if(project_stack.getDevelopment_stack().equals(development_stack) && project_stack.getRequire_grade() == grade){
-                    temp_list.add(project);
-                }
-            }
-        }
-
-        List<Project> recommended_project_list = new ArrayList<>();
-
-        if(temp_list.size()<=4){
-            for(int i=0;i<temp_list.size();i++){
-                recommended_project_list.add(temp_list.get(i));
-            }
-        }
-
-        while(temp_list.size()>4){
-            List<Integer> numbers = new ArrayList<>();
-            for (int i = 1; i <= temp_list.size(); i++) {
-                numbers.add(i);
-            }
-
-            List<Integer> randomNumbers = new ArrayList<>();
-            Random random = new Random();
-            for (int i = 0; i < 4; i++) {
-                int index = random.nextInt(numbers.size());
-                randomNumbers.add(numbers.remove(index));
-            }
-            for(Integer num : randomNumbers){
-                recommended_project_list.add(temp_list.get(num));
-            }
-        }
-        CommonResponse commonResponse = new CommonResponse();
-        commonResponse.setStatus("SUCCESS");
-        commonResponse.setMessage(null);
-        return recommended_project_list;
+//        List<Project> temp_list = new ArrayList<>();
+//        HttpSession session = request.getSession();
+//        String id = (String)session.getAttribute("id");
+//        User user = userService.findUserById(id);
+//        DevelopmentStack development_stack = userService.develop_rp.findDevelopmentStack(user.getId());
+//        String stack = development_stack.getDevelopment_stack();
+//        int grade = development_stack.getGrade();
+//        List<Project> list = project_rp.findAllProjectList();
+//        for(Project project : list){
+//            List<ProjectStack> stack_list = project.getProject_stacks();
+//            for(ProjectStack project_stack : stack_list){
+//                if(project_stack.getDevelopment_stack().equals(development_stack) && project_stack.getRequire_grade() == grade){
+//                    temp_list.add(project);
+//                }
+//            }
+//        }
+//
+//        List<Project> recommended_project_list = new ArrayList<>();
+//
+//        if(temp_list.size()<=4){
+//            for(int i=0;i<temp_list.size();i++){
+//                recommended_project_list.add(temp_list.get(i));
+//            }
+//        }
+//
+//        while(temp_list.size()>4){
+//            List<Integer> numbers = new ArrayList<>();
+//            for (int i = 1; i <= temp_list.size(); i++) {
+//                numbers.add(i);
+//            }
+//
+//            List<Integer> randomNumbers = new ArrayList<>();
+//            Random random = new Random();
+//            for (int i = 0; i < 4; i++) {
+//                int index = random.nextInt(numbers.size());
+//                randomNumbers.add(numbers.remove(index));
+//            }
+//            for(Integer num : randomNumbers){
+//                recommended_project_list.add(temp_list.get(num));
+//            }
+//        }
+//        CommonResponse commonResponse = new CommonResponse();
+//        commonResponse.setStatus("SUCCESS");
+//        commonResponse.setMessage(null);
+//        return recommended_project_list;
+        return null;
     }
     public List<Project> findEndProjects(String user_id) {
         List<Project> list = project_rp.findEndProjects(user_id);

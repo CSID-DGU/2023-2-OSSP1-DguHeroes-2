@@ -22,9 +22,10 @@ public class ProjectLikeRepositoryImpl implements ProjectLikeRepository {
 
     @Override
     public ProjectLike insert(Project project, User user){
-        ProjectLike projectLike = new ProjectLike();
-        projectLike.setProject(project);
-        projectLike.setUser(user);
+        ProjectLike projectLike = ProjectLike.builder()
+                .project(project)
+                .user(user)
+                .build();
         em.persist(projectLike);
         return projectLike;
     }

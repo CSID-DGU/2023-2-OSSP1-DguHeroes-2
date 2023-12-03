@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -24,4 +25,5 @@ public class Apply {
     private User user;
 
     private String state;
+
 }

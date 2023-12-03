@@ -5,8 +5,6 @@ import com.example.demo.dto.HireInfo;
 import com.example.demo.dto.UserProjectList;
 import com.example.demo.response.*;
 import com.example.demo.service.*;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,38 +23,31 @@ public class UserController {
 
     private ResponseService responseService;
     private UserService userService;
-    private DevelopmentStackService developmentStackService;
     private ProjectService projectService;
     private InvitationService invitationService;
-    private QuestionnaireService questionnaireService;
-    private MemberService memberService;
-    private ProjectStackService projectStackService;
+    private ProjectMemberService projectMemberService;
+
     @Autowired
     private ApplyService applyService;
 
 
     private ProjectLikeService projectLikeService;
 
-    public UserController(ResponseService responseService,ApplyService applyService, UserService userService, DevelopmentStackService developmentStackService, ProjectService projectService, InvitationService invitationService, MemberService memberService, QuestionnaireService questionnaireService) {
+    public UserController(ResponseService responseService, ApplyService applyService, UserService userService, ProjectService projectService, InvitationService invitationService, ProjectMemberService memberService) {
         this.responseService = responseService;
         this.userService = userService;
-        this.developmentStackService = developmentStackService;
         this.projectService = projectService;
         this.invitationService = invitationService;
-        this.memberService = memberService;
-        this.questionnaireService = questionnaireService;
+        this.projectMemberService = memberService;
         this.applyService = applyService;
         //this.projectStackService = projectService;
     }
 
     @PostMapping("/user/join")
     public SingleResponse<User> insert(@RequestBody User user){
-        List<DevelopmentStack> developmentStacks = user.getDevelopment_stacks();
+
         User saved_user = userService.join(user);
-        for(DevelopmentStack stack : developmentStacks){
-            stack.setUser(saved_user);
-            developmentStackService.insert(stack);
-        }
+
         CommonResponse commonResponse = new CommonResponse();
         if(saved_user!=null){
             commonResponse.setStatus("SUCCESS");
@@ -83,7 +73,6 @@ public class UserController {
             commonResponse.setMessage(null);
             session.setAttribute("id", id);
             System.out.println(session.getAttribute("id"));
-            isAdmin = userService.findIsAdminById(id);
         } else {
             commonResponse.setStatus("FAILED");
             commonResponse.setMessage("로그인 실패");
@@ -107,22 +96,6 @@ public class UserController {
         return commonResponse;
     }
 
-    @GetMapping("/user/join/questionnaire")
-    public<T> SingleResponse<Questionnaire> question(@RequestBody String developmentStack) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode = objectMapper.readTree(developmentStack);
-        String value = jsonNode.get("developmentStack").asText();
-        Questionnaire questionnaire = userService.findQuestionnaire(value);
-        CommonResponse commonResponse = new CommonResponse();
-        if (value != null) {
-            commonResponse.setStatus("SUCCESS");
-            commonResponse.setMessage(null);
-        } else {
-            commonResponse.setStatus("FAILED");
-            commonResponse.setMessage("질문지 가져오기 실패");
-        }
-        return responseService.getSingleResponse(commonResponse, questionnaire);
-    }
 
     @GetMapping("/user/info")
     public <T> SingleResponse<User> findUserInfo(HttpServletRequest request) {
@@ -139,53 +112,53 @@ public class UserController {
         return responseService.getSingleResponse(commonResponse, user);
     }
 
-    @GetMapping("/user/project/manage/recommend")
-    public <T> ListResponse<User> recommendUser(int project_id) {
-        int require_member_num = 0;
-        List<User> temp_list = null;
-        List<ProjectStack> projectStacks = projectService.findProjectStackByProjectId(project_id);
-        for (ProjectStack stack : projectStacks) {
-            require_member_num += stack.getRequire_member();
-            List<User> list = userService.findUsersByStack(stack.getDevelopment_stack()); //일단 스택에 맞는 유저들만 뽑아옴
-            for (User user : list) {
-                if (userService.findGradeByUserId(user) == stack.getRequire_grade()) {
-                    temp_list.add(user);
-                }
-            }
-        }
-
-        List<User> temp_list2 = null;
-
-        if (temp_list.size() <= require_member_num) {
-            for (int i = 0; i < temp_list.size(); i++) {
-                temp_list2.add(temp_list.get(i));
-            }
-        }
-
-        while (temp_list.size() > require_member_num * 2) {
-            List<Integer> numbers = new ArrayList<>();
-            for (int i = 1; i <= temp_list.size(); i++) {
-                numbers.add(i);
-            }
-
-            List<Integer> randomNumbers = new ArrayList<>();
-            Random random = new Random();
-            for (int i = 0; i < require_member_num; i++) {
-                int index = random.nextInt(numbers.size());
-                randomNumbers.add(numbers.remove(index));
-            }
-            for (Integer num : randomNumbers) {
-                temp_list2.add(temp_list.get(num));
-            }
-        }
-        CommonResponse commonResponse = new CommonResponse();
-        commonResponse.setStatus("SUCCESS");
-        commonResponse.setMessage(null);
-
-        List<Map<List<User>, String>> recommended_user_list = null;
-
-        return responseService.getListResponse(commonResponse, temp_list2);
-    }
+//    @GetMapping("/user/project/manage/recommend")
+//    public <T> ListResponse<User> recommendUser(int project_id) {
+//        int require_member_num = 0;
+//        List<User> temp_list = null;
+//        List<ProjectStack> projectStacks = projectService.findProjectStackByProjectId(project_id);
+//        for (ProjectStack stack : projectStacks) {
+//            require_member_num += stack.getRequire_member();
+//            List<User> list = userService.findUsersByStack(stack.getDevelopment_stack()); //일단 스택에 맞는 유저들만 뽑아옴
+//            for (User user : list) {
+//                if (userService.findGradeByUserId(user) == stack.getRequire_grade()) {
+//                    temp_list.add(user);
+//                }
+//            }
+//        }
+//
+//        List<User> temp_list2 = null;
+//
+//        if (temp_list.size() <= require_member_num) {
+//            for (int i = 0; i < temp_list.size(); i++) {
+//                temp_list2.add(temp_list.get(i));
+//            }
+//        }
+//
+//        while (temp_list.size() > require_member_num * 2) {
+//            List<Integer> numbers = new ArrayList<>();
+//            for (int i = 1; i <= temp_list.size(); i++) {
+//                numbers.add(i);
+//            }
+//
+//            List<Integer> randomNumbers = new ArrayList<>();
+//            Random random = new Random();
+//            for (int i = 0; i < require_member_num; i++) {
+//                int index = random.nextInt(numbers.size());
+//                randomNumbers.add(numbers.remove(index));
+//            }
+//            for (Integer num : randomNumbers) {
+//                temp_list2.add(temp_list.get(num));
+//            }
+//        }
+//        CommonResponse commonResponse = new CommonResponse();
+//        commonResponse.setStatus("SUCCESS");
+//        commonResponse.setMessage(null);
+//
+//        List<Map<List<User>, String>> recommended_user_list = null;
+//
+//        return responseService.getListResponse(commonResponse, temp_list2);
+//    }
 
     @GetMapping("/user/project/manage/list")
     public <T> ListResponse<Project> manageProjectList(HttpServletRequest request) {
@@ -245,15 +218,15 @@ public class UserController {
         String user_id = userService.findSessionId(request);
         User user = userService.findUserInfo(user_id);
         Project project = projectService.findByProjectId(project_id);
-        List<ProjectStack> projectStacks = projectStackService.findStackByProjectId(project_id);
+
 
         CommonResponse commonResponse = new CommonResponse();
         if (status.equals("APPROVE")) {
-            Member member = new Member();
-            member.setUser(user);
-            member.setProject(project);
-            member.setPosition("MEMBER");
-            memberService.insert(member);
+            ProjectMember projectMember = ProjectMember.builder()
+                    .project(project)
+                    .position("MEMBER")
+                    .build();
+            projectMemberService.insert(projectMember);
             invitationService.updateState(user_id);
             commonResponse.setStatus("SUCCESS");
             commonResponse.setMessage("프로젝트 초대 수락됨");
@@ -276,11 +249,12 @@ public class UserController {
         CommonResponse commonResponse = new CommonResponse();
         //멤버테이블에 저장
         if(state.equals("APPROVE")){
-            Member member = new Member();
-            member.setUser(user);
-            member.setProject(project);
-            member.setPosition("MEMBER");
-            memberService.insert(member);
+            ProjectMember projectMember = ProjectMember.builder()
+                    .project(project)
+                    .position("MEMBER")
+                    .build();
+
+            projectMemberService.insert(projectMember);
             //지원테이블의 상태를 "pending" 에서 "BELONG" 으로 변경
             applyService.updateState(project_id);
             commonResponse.setStatus("SUCCESS");
