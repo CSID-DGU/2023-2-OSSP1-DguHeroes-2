@@ -1,5 +1,6 @@
 package com.example.demo.domain;
 
+import com.example.demo.domain.stacks.NodeJS;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
@@ -41,6 +42,11 @@ public class User {
     @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Apply> applys;
+
+    // stacks
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<NodeJS> nodeJS;
 
 }
 
