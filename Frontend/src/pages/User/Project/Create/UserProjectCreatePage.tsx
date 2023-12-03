@@ -27,6 +27,8 @@ import {
   ProjectCreateButton,
   LocationContainer,
   InputTitleContainer,
+  RecommendButton,
+  RecommendButtonText,
 } from './styled'
 // antd 적용하기
 import { Form, Input, Select, DatePicker, Row, Col, Slider, Radio, RadioChangeEvent } from 'antd'
@@ -36,9 +38,10 @@ import { locationOptions } from 'constants/project/locationOptions'
 import { DevelopmentStackType, ProjectRequireMemberListType, ProjectType } from 'types/project'
 import { PostProjectCreateResponseType, postprojectCreate } from 'api/postProjectCreate'
 import { useNavigate } from 'react-router-dom'
+import { Modal, Button } from 'antd';
 
 import { stacks } from 'types/stacks'; // 전체 기술 스택
-
+import RecommendModal from 'pages/Recommend/RecommendUsers/RecommendModal'; // 팝업창 컴포넌트 추가
 
 type UserProjectCreatePageProps = {
   className?: string
@@ -193,11 +196,28 @@ export const UserProjectCreatePage: FC<UserProjectCreatePageProps> = ({ classNam
   };
 
   // 기술 스택 선택을 위한 것들
+  const [isStackModalVisible, setIsStackModalVisible] = useState(false);
+
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
-  const onHandlePositionStack = (selectedValues : string[]) => {
+
+  const onHandlePositionStack = (selectedValues: string[]) => {
     setSelectedItems(selectedValues);
   };
 
+  // 추가된 부분 시작
+  // 추가된 부분 시작
+  const showStackModal = () => {
+    if (selectedItems.length > 0) {
+      setIsStackModalVisible(true);
+    } else {
+      // 선택된 스택이 없을 때의 처리 (예: 에러 메시지 출력)
+    }
+  };
+
+  const handleStackModalCancel = () => {
+    setIsStackModalVisible(false);
+  };
+  // 추가된 부분 끝
 
 
   return (
@@ -258,6 +278,19 @@ export const UserProjectCreatePage: FC<UserProjectCreatePageProps> = ({ classNam
                         ))}
                         </Select>
                       </Form.Item>
+
+                      <RecommendButton onClick={showStackModal}>
+                        <RecommendButtonText>추천 팀원 보기</RecommendButtonText>
+                      </RecommendButton>
+                      {/* <RecommendModal
+                        visible={isStackModalVisible}
+                        selectedItems={selectedItems}
+                        onCancel={handleStackModalCancel}
+                        onHandlePositionStack={onHandlePositionStack}
+                      /> */} 
+                      {/* 스택 선택하고 검색 버튼 누르면 팝업으로 넘어가서 (src/pages/Recommend/RecommendUsers/RecommendModal.tsx) 유저를 초대할 수 있는 창이 나오도록 하였고 잘 되다가 어느순간부터 잘 작동하지 않음. 
+                      내(문현우) 컴퓨터에서는 npm start 하면 흰 화면이 나옴. 하지만 이 부분 주석 처리하고 다시 돌려보면 흰 화면 안나오고 홈 페이지 제대로 나옴. */}
+
                   </ProjectMemberInputContainer>
                   ))
                 }
