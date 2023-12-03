@@ -2,10 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.domain.Member;
 import com.example.demo.domain.Project;
-import com.example.demo.domain.Questionnaire;
 import com.example.demo.service.MemberService;
 import com.example.demo.service.ProjectService;
-import com.example.demo.service.QuestionnaireService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;

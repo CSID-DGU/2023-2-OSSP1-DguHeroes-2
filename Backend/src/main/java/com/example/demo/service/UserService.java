@@ -1,8 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.domain.DevelopmentStack;
 import com.example.demo.domain.Project;
-import com.example.demo.domain.Questionnaire;
 import com.example.demo.domain.User;
 import com.example.demo.repository.ApplyRepository;
 import com.example.demo.repository.DevelopmentStackRepository;
@@ -15,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Set;
 
 @Transactional
 @Service

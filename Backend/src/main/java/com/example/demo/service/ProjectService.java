@@ -1,8 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.domain.DevelopmentStack;
 import com.example.demo.domain.Project;
-import com.example.demo.domain.ProjectStack;
 import com.example.demo.domain.User;
 import com.example.demo.repository.ApplyRepository;
 import com.example.demo.repository.ProjectRepository;
