@@ -227,11 +227,22 @@ export const UserProjectCreatePage: FC<UserProjectCreatePageProps> = ({ classNam
                       >
                         <div>{stackItem.label}</div>
                       </Form.Item>
+                      {/*<Form.Item*/}
+                      {/*  name={`number_${stackItem.key}`}*/}
+                      {/*  style={{ display: 'inline-block', width: 'calc(20% - 8px)', marginLeft: '5px', marginBottom: 0 }}*/}
+                      {/*>*/}
+                      {/*  <Input onChange={(e) => onChangeProjectMemberNumber(e, stackItem.key)} type='number' placeholder="인원" />*/}
+                      {/*</Form.Item>*/}
                       <Form.Item
                         name={`number_${stackItem.key}`}
                         style={{ display: 'inline-block', width: 'calc(20% - 8px)', marginLeft: '5px', marginBottom: 0 }}
                       >
-                        <Input onChange={(e) => onChangeProjectMemberNumber(e, stackItem.key)} type='number' placeholder="인원" />
+                        <Input
+                          onChange={(e) => onChangeProjectMemberNumber(e, stackItem.key)}
+                          type='number'
+                          placeholder="인원"
+                          min={0}  // 0 미만의 값은 입력할 수 없도록 설정
+                        />
                       </Form.Item>
 
                       {/* 기술 스택 입력 - 다중 선택 */}
