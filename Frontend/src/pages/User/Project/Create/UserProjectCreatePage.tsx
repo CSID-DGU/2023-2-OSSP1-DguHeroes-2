@@ -282,14 +282,12 @@ export const UserProjectCreatePage: FC<UserProjectCreatePageProps> = ({ classNam
                       <RecommendButton onClick={showStackModal}>
                         <RecommendButtonText>추천 팀원 보기</RecommendButtonText>
                       </RecommendButton>
-                      {/* <RecommendModal
+                      <RecommendModal
                         visible={isStackModalVisible}
                         selectedItems={selectedItems}
                         onCancel={handleStackModalCancel}
                         onHandlePositionStack={onHandlePositionStack}
-                      /> */} 
-                      {/* 스택 선택하고 검색 버튼 누르면 팝업으로 넘어가서 (src/pages/Recommend/RecommendUsers/RecommendModal.tsx) 유저를 초대할 수 있는 창이 나오도록 하였고 잘 되다가 어느순간부터 잘 작동하지 않음. 
-                      내(문현우) 컴퓨터에서는 npm start 하면 흰 화면이 나옴. 하지만 이 부분 주석 처리하고 다시 돌려보면 흰 화면 안나오고 홈 페이지 제대로 나옴. */}
+                      />
 
                   </ProjectMemberInputContainer>
                   ))
