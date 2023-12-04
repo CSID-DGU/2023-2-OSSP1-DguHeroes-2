@@ -1,6 +1,8 @@
+import pandas as pd
+import seaborn as sns
 
 OWNER = 'dgu2022'
-NAM E ='CSID-DGU/2023-2-OSSP1-DguHeroes-2'
+NAME = 'CSID-DGU/2023-2-OSSP1-DguHeroes-2'
 # OWNER = 'Voine'
 # NAME = 'Voine/ChatWaifu_Mobile'
 # NAME='CSID-DGU/2023-2-OSSP1-DguHeroes-2'
@@ -8,47 +10,70 @@ NAM E ='CSID-DGU/2023-2-OSSP1-DguHeroes-2'
 MAX_PER_PAGE = 30  # 용량을 줄이기 위해 테스톨 30, 실제로는 100
 MIN_CNT_FILE = 3
 
-GH_AP I ='https://api.github.com'
+GH_API = 'https://api.github.com'
 
 headers = {
-    'Authorization': 'token %s ' %(GITHUB_API_TOKEN),
+    'Authorization': 'token %s' % (GITHUB_API_TOKEN),
 }
 
-GRAPH_KEYWORD_TREE = {'express' : ['express' ,'port'], 'socket.io': ['socket' ,'on'], 'axios' : ['axios' ,'response'], \
-                      'react' : ['react' ,'render'], 'angularjs' : ['angular' ,'controller'], 'react native' : \
-                          ['react-native' ,'view'], 'electron' : ['electron', 'app'], 'vue.js' : ['vue' ,'app'], 'jquery' : \
-                          ['jquery', 'ready'], 'next.js' : ['next' ,'router'], 'svelte' : ['svelte' ,'app'], \
-                      'flask' : ['flask', 'route'], 'django' : ['from django' ,'view'], 'pandas' : ['import pandas', 'dataframe'], \
-                      'tensorflow' : ['import tensorflow', 'model'], 'scikit-learn' : ['sklearn', 'predict'], \
-                      'apache kafka' : ['kafka', 'connect'], 'pytorch' : ['import torch' ,'loss'], 'opencv' : ['cv' ,'image'], \
-                      'opengl' : ['gl' ,'display'], 'keras' : ['keras' ,'model'], 'apache spark' : ['apache', 'spark'], 'qt' : \
-                          ['<Q', 'qapplication'], '.net' : ['.net', 'net'], 'blazor' :['blazor' ,'net'], 'cuda' :['cuda' ,'cudamalloc'], \
-                      'laravel' :['Illuminate' ,'provider'], 'ruby on rails' :['ApplicationController' ,'end'], 'springboot': \
-                          ['import org.springframework', 'springboot'], 'angular' : ['angular' ,'controller']}
+GRAPH_KEYWORD_TREE = {'express': ['express', 'port'], 'socket.io': ['socket', 'on'], 'axios': ['axios', 'response'], \
+                      'react': ['react', 'render'], 'angularjs': ['angular', 'controller'], 'react native': \
+                          ['react-native', 'view'], 'electron': ['electron', 'app'], 'vue.js': ['vue', 'app'], 'jquery': \
+                          ['jquery', 'ready'], 'next.js': ['next', 'router'], 'svelte': ['svelte', 'app'], \
+                      'flask': ['flask', 'route'], 'django': ['from django', 'view'],
+                      'pandas': ['import pandas', 'dataframe'], \
+                      'tensorflow': ['import tensorflow', 'model'], 'scikit-learn': ['sklearn', 'predict'], \
+                      'apache kafka': ['kafka', 'connect'], 'pytorch': ['import torch', 'loss'],
+                      'opencv': ['cv', 'image'], \
+                      'opengl': ['gl', 'display'], 'keras': ['keras', 'model'], 'apache spark': ['context', 'spark'],
+                      'qt': \
+                          ['<Q', 'qapplication'], '.net': ['.net', 'net'], 'blazor': ['blazor', 'net'],
+                      'cuda': ['cuda', 'cudamalloc'], \
+                      'laravel': ['Illuminate', 'provider'], 'ruby on rails': ['ApplicationController', 'end'],
+                      'springboot': \
+                          ['import org.springframework', 'springboot'], 'angular': ['angular', 'controller']}
 
-GRAPH_STACK_TREE = \
-    {'javascript': ['express', 'socket.io', 'axios', 'react', 'angularjs', 'react native', 'electron', 'vue.js', \
+GRAPH_STACK_TREE = {
+    'javascript': ['express', 'socket.io', 'axios', 'react', 'angularjs', 'react native', 'electron', 'vue.js', \
                    'jquery', 'next.js', 'svelte', 'opengl', 'opencv'], 'html': ['electron'],
     'python': ['flask', 'django', 'pandas', \
                'tensorflow', 'scikit-learn', 'apache kafka', 'pytorch', 'opencv', 'opengl', 'keras', 'apache spark'], \
-    'typescript': ['react', 'angular', 'react native'], 'java': ['springboot', 'apache kafka', 'opengl', 'opencv'], \
+    'typescript': ['react', 'angular', 'react native'], 'java': ['springboot', 'apache kafka', 'opengl', 'opencv', \
+                                                                 'apache spark'],
     'c#': ['blazor', '.net', 'opengl', 'opencv'], 'c++': ['cuda', 'apache kafka', 'opengl', \
                                                           'opencv', 'qt'], 'c': ['cuda', 'apache kafka', 'opengl'],
     'php': ['laravel'], 'css': [], \
     'go': ['apache kafka'], 'rust': [], 'kotlin': [], 'ruby': ['ruby on rails'], 'lua': [], 'dart': [], 'swift': [], \
-    'r': [], 'visual basic': ['.net'], 'node.js': ['express', 'socket.io', 'axios', 'electron'], \
+    'r': ['apache spark'], 'node.js': ['express', 'socket.io', 'axios', 'electron'], \
     'flutter': [], '.net': ['blazor'], 'rabbitmq': []}
 
 GRAPH_LANGUAGE = ['javascript', 'html', 'css', 'python', 'typescript', 'java', 'c#', 'c++', 'c', 'php', 'go', 'rust',
                   'kotlin' \
-    , 'ruby', 'lua', 'dart', 'swift', 'r', 'visual basic']
+    , 'ruby', 'lua', 'dart', 'swift', 'r']
 ''' #혹시 쓰일지도 모를, 대문자용 리스트
 GRAPH_LANGUAGE = ['JavaScript', 'HTML', 'CSS', 'Python', 'TypeScript', 'Java', 'C#', 'C++', 'C', 'PHP', 'Go', 'Rust', 'Kotlin'\
-               , 'Ruby', 'Lua', 'Dart',  'Swift', 'R', 'Visual Basic']
+               , 'Ruby', 'Lua', 'Dart',  'Swift', 'R']
 '''
 list_language_extension = [['js'], ['html'], ['css'], ['py'], ['ts', 'tsx'], ['java', 'class', 'jsp'], ['cs'],
                            ['cc', 'cpp', 'h', 'mm'] \
     , ['c', 'h'], ['php'], ['go'], ['rs'], ['kt'], ['rb', 'erb'], ['lua'], ['dart'], ['s'], ['swift'], ['r'], ['vb']]
+
+
+# 이상치 제거하는 함수
+def detect_outliers(df, columns):
+    q1 = df[columns].quantile(0.25)
+    q3 = df[columns].quantile(0.75)
+    iqr = q3 - q1
+
+    boundary = 1.5 * iqr
+
+    index1 = df[df[columns] > q3 + boundary].index
+    index2 = df[df[columns] > q1 - boundary].index
+
+    df[columns] = df[columns].drop(index1)
+    df[columns] = df[columns].drop(index2)
+
+    return df
 
 
 # Project 사용 언어 구하는 함수
@@ -94,14 +119,14 @@ def get_members():
 
 # Commit Code 가져오는 함수 + 추가한 라인 수도 카운트한 뒤 합해서 전달 (깃허브 점수 2번 구하기 위해)
 def get_commit_code(list_furl):
-    is_initial_commit = 0  # 팀장이 초기에 다른 프로젝트를 클론해 엄청난 양의 코드를 커밋한 게 맞는지 체크
+    is_initial_commit = 0  # 초기에 다른 프로젝트를 클론해 엄청난 양의 코드를 커밋한 게 맞는지 체크
 
     list_furl.reverse()
 
     list_addition_code = []
     list_filename_language = []
     cnt_addition = []
-    cnt_deletion = []
+    # cnt_deletion = []
     len_url = len(list_furl)
     for idx, furl in enumerate(list_furl):
         # print(furl)
@@ -115,9 +140,10 @@ def get_commit_code(list_furl):
             continue
 
         # 초기에 다른 프로젝트 기반 복제를 했을 때 가져오게 되는 엄청난 양의 addition은 무시
-        if response['stats']['deletions'] == 0 and is_initial_commit == 0 and len(response['files']) > 10:
+        if response['stats']['additions'] - response['stats']['deletions'] > 5000 and \
+                is_initial_commit == 0 and len(response['files']) > 20:
             print("initial file")
-            is_initial_commit = response['stats']['total']
+            is_initial_commit = response['stats']['additions']
             # print(furl)
             continue
 
@@ -131,7 +157,7 @@ def get_commit_code(list_furl):
                     # list_addition_code.append(file['additions'])
                     list_filename_language.append(filename)
                     cnt_addition.append(file['additions'])
-                    cnt_deletion.append(file['deletions'])
+                    # cnt_deletion.append(file['deletions'])
                     # print(file)
                     if 'patch' not in list(file.keys()):  # 이상하게 patch key가 response에 없는 경우 있다.
                         FILE_SHA = file['sha']
@@ -149,7 +175,8 @@ def get_commit_code(list_furl):
                     else:
                         list_addition_code.append(file['patch'])
 
-    return list_addition_code, list_filename_language, cnt_addition, cnt_deletion, is_initial_commit
+    return list_addition_code, list_filename_language, cnt_addition, is_initial_commit
+    # return list_addition_code, list_filename_language, cnt_addition, cnt_deletion, is_initial_commit
 
 
 # Commit SHA값 포함된 주소 가져오는 함수
@@ -280,8 +307,8 @@ def get_list_file_stack(fuser, flist_language):  # search api 사용해서 기�
                         response = requests.get('%s' % (GH_REPO), headers=headers)
                         response = response.json()
 
-                        print(response)
-                        print(len(response))
+                        # print(response)
+                        # print(len(response))
                         if len(response) > 0:  # 결과가 없으면 response 자체가 빈 리스트로 나온다.
                             list_user_stack.append(stack)
                             if stack in list_search:
@@ -291,7 +318,7 @@ def get_list_file_stack(fuser, flist_language):  # search api 사용해서 기�
                     except Exception as e:
                         print("error idx_file:" + str(idx_file))
                         print(e)
-                        time.sleep(10)
+                        time.sleep(5)
                 if lang in list_search:
                     list_search.remove(stack)
             print("stack_list:" + str(list_user_stack))
@@ -299,7 +326,7 @@ def get_list_file_stack(fuser, flist_language):  # search api 사용해서 기�
         except Exception as e:
             print("error idx_lang:" + str(idx_lang))
             print(e)
-            time.sleep(10)
+            time.sleep(5)
     list_user_stack.extend(list_user_language)
     print("final stack_list:" + str(list_user_stack))
 
@@ -322,14 +349,17 @@ def get_score_project(fdict_user, flist_language):
 
     print("볼륨과 비율 구하는 중")
     for member in list_name_members:
+        '''
         if fdict_user[member]['initial'] == 0:
             sum_cnt_code = sum(fdict_user[member]['cnt_addition']) - sum(fdict_user[member]['cnt_deletion'])
         elif fdict_user[member]['initial'] != 0:
-            rate_initial = sum(fdict_user[member]['cnt_addition']) / fdict_user[member]['initial'] * 2
+            rate_initial = fdict_user[member]['initial'] / (fdict_user[member]['initial'] + \
+                                                                      sum(fdict_user[member]['cnt_addition']))
             print(rate_initial)
-            sum_cnt_code = sum(fdict_user[member]['cnt_addition']) + sum(
-                fdict_user[member]['cnt_deletion']) * rate_initial
-            print(sum_cnt_code)
+            sum_cnt_code = sum(fdict_user[member]['cnt_addition']) - \
+            (sum(fdict_user[member]['cnt_deletion']) - 0.5 * rate_initial * (sum(fdict_user[member]['cnt_deletion'])))
+        '''
+        sum_cnt_code = sum(fdict_user[member]['cnt_addition'])
         sum_project_size += sum_cnt_code
         # sum_cnt_annotation += fdict_user[member]['annotation']
         list_user_code_size.append(sum_cnt_code)
@@ -384,11 +414,13 @@ print(list_name_members)
 
 for idx, member in enumerate(list_name_members):
     list_url_commit = get_commit_sha(member, list_cnt_commits[idx])
-    list_commit_code, list_filename, list_cnt_addition, list_cnt_deletion, is_initial = get_commit_code(list_url_commit)
-    dict_user_commit[member] = {'code': [], 'cnt_addition': [], 'cnt_deletion': [], 'initial': 0}
+    # list_commit_code, list_filename, list_cnt_addition, list_cnt_deletion, is_initial = get_commit_code(list_url_commit)
+    list_commit_code, list_filename, list_cnt_addition, is_initial = get_commit_code(list_url_commit)
+    # dict_user_commit[member] = {'code': [], 'cnt_addition': [], 'cnt_deletion': [], 'initial': 0}
+    dict_user_commit[member] = {'code': [], 'cnt_addition': [], 'initial': 0}
     dict_user_commit[member]['code'] = list_commit_code  # 멤버별로 커밋 코드를 포함하는 딕셔너리 생성하기
     dict_user_commit[member]['cnt_addition'] = list_cnt_addition  # 깃허브 점수 1,2번, 커밋 비율 구할 때 이용
-    dict_user_commit[member]['cnt_deletion'] = list_cnt_deletion  # 깃허브 점수 1,2번, 커밋 비율 구할 때 이용
+    # dict_user_commit[member]['cnt_deletion'] = list_cnt_deletion #깃허브 점수 1,2번, 커밋 비율 구할 때 이용
     dict_user_commit[member]['initial'] = is_initial
 
 test = get_score_project(dict_user_commit, list_language)
