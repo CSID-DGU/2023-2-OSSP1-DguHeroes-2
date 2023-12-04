@@ -28,9 +28,8 @@ const projectTypeOptions: OptionType[] = [
 ];
 
 const stackOptions: OptionType[] = [
-  { value: "web_frontend", label: "웹 프론트엔드" },
-  { value: "server_backend", label: "서버 백엔드" },
-  { value: "app_client", label: "앱 클라이언트" },
+  { value: "frontend", label: "프론트엔드" },
+  { value: "backend", label: "백엔드" },
   { value: "etc", label: "기타" },
 ];
 
@@ -102,7 +101,7 @@ export const ProjectListPage: FC<ProjectListPageProps> = ({ className }) => {
         </SelectContainer>
         <SelectContainer>
           <TitleTypo>포지션 검색</TitleTypo>
-          <SelectBox onChange={(option) => handleStackTypeSelectChange(option)} defaultValue="web_frontend" options={stackOptions} />
+          <SelectBox onChange={(option) => handleStackTypeSelectChange(option)} defaultValue="frontend" options={stackOptions} />
         </SelectContainer>
         <SelectContainer>
           <TitleTypo>지역 검색</TitleTypo>

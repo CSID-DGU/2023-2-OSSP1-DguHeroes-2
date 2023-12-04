@@ -2,7 +2,7 @@ package com.example.demo.repository;
 
 import com.example.demo.domain.Project;
 import com.example.demo.domain.User;
-import com.example.demo.domain.Member;
+import com.example.demo.domain.ProjectMember;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -50,14 +50,7 @@ public class UserRepositoryImpl implements UserRepository{
         if(removed_user==null) return 1;
         else return 0;
     }
-    @Override
-    public List<Project> findProjectList(String user_id){
-        String sql = "select project from Member member where member.user = :user_id";
-        TypedQuery<Project> query = em.createQuery(sql, Project.class);
-        query.setParameter("user_id", user_id);
-        List<Project> list = query.getResultList();
-        return list;
-    }
+
 
     @Override
     public int login(String id, String password){
@@ -88,39 +81,10 @@ public class UserRepositoryImpl implements UserRepository{
 
     @Override
     public List<Project> findManageProjectList(String user_id){
-        String sql = "select project from Member member where member.user = :user_id and member.position = :position";
-        TypedQuery<Project> query = em.createQuery(sql, Project.class);
-        query.setParameter("user_id", user_id);
-        query.setParameter("position","팀장");
-        List<Project> list = query.getResultList();
-        return list;
+        return null;
     }
 
-    public List<User> findUsersByStack(String stack){
-        String sql = "select user from User user where user.id in (select ds.user from DevelopmentStack ds where ds.development_stack =: stack )";
-        TypedQuery<User> query = em.createQuery(sql, User.class);
-        query.setParameter("stack", stack);
-        List<User> list = query.getResultList();
-        return list;
-    }
 
-    @Override
-    public int findGradeByUserId(User user){
-        String sql = "select grade from DevelopmentStack where user =: user_id";
-        TypedQuery<Integer> query = em.createQuery(sql, Integer.class);
-        query.setParameter("user_id", user.getId());
-        int grade = query.getSingleResult();
-        return grade;
-
-    }
-    @Override
-    public String findUserStackById(String user_id){
-        String sql = "select development_stack from DevelopmentStack where user =: user_id";
-        TypedQuery<String> query = em.createQuery(sql, String.class);
-        query.setParameter("user_id", user_id);
-        String stack = query.getSingleResult();
-        return stack;
-    }
     @Override
     public User findUserById(String id){
         String sql = "select user from User user where id =: user_id";
@@ -130,22 +94,15 @@ public class UserRepositoryImpl implements UserRepository{
         return user;
     }
 
-    @Override
-    public int findIsAdminById(String id){
-        String sql = "select is_admin from User where id =: user_id";
-        TypedQuery<Integer> query = em.createQuery(sql, Integer.class);
-        query.setParameter("user_id", id);
-        int isAdmin  = query.getSingleResult();
-        return isAdmin;
-    }
 
     @Override
     public List<Project> findBelongingProjects(String user_id){
-        String sql = "select member.project from Member member where member.user = :user_id";
-        TypedQuery<Project> query = em.createQuery(sql, Project.class);
-        query.setParameter("user_id", user_id);
-        List<Project> list = query.getResultList();
-        return list;
+        return null;
+    }
+
+    @Override
+    public List<Project> findProjectList(String user_id) {
+        return null;
     }
 
 

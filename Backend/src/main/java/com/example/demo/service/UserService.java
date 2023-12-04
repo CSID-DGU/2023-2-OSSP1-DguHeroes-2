@@ -1,12 +1,8 @@
 package com.example.demo.service;
 
-import com.example.demo.domain.DevelopmentStack;
 import com.example.demo.domain.Project;
-import com.example.demo.domain.Questionnaire;
 import com.example.demo.domain.User;
 import com.example.demo.repository.ApplyRepository;
-import com.example.demo.repository.DevelopmentStackRepository;
-import com.example.demo.repository.QuestionnaireRepository;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -15,23 +11,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Set;
 
 @Transactional
 @Service
 public class UserService {
     UserRepository user_rp;
-    DevelopmentStackRepository develop_rp;
-    QuestionnaireRepository questionnaire_rp;
+
     ApplyRepository apply_rp;
     public UserService(@Qualifier("userRepository")UserRepository user_rp,
-                       @Qualifier("developmentStackRepository")DevelopmentStackRepository develop_rp,
-                       @Qualifier("questionnaireRepository")QuestionnaireRepository questionnaire_rp,
                        @Qualifier ("applyRepository")ApplyRepository apply_rp)
     {
         this.user_rp = user_rp;
-        this.develop_rp = develop_rp;
-        this.questionnaire_rp = questionnaire_rp;
+
         this.apply_rp=apply_rp;
     }
 
@@ -59,9 +50,6 @@ public class UserService {
 
     public int login(String id, String pw){return user_rp.login(id,pw);}
 
-    public Questionnaire findQuestionnaire(String developmentsStack){
-        return questionnaire_rp.findQuestionnaire(developmentsStack);
-    }
 
     public String findSessionId(HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -94,25 +82,10 @@ public class UserService {
         return list;
     }
 
-    public String findUserStackById(String user_id){
-        return user_rp.findUserStackById(user_id);
-    }
-
-    public List<User> findUsersByStack(String stack){
-        return user_rp.findUsersByStack(stack);
-    }
-
-    public int findGradeByUserId(User user){
-        return user_rp.findGradeByUserId(user);
-    }
-
 
     public User findUserById(String id){
         return user_rp.findUserById(id);
     }
 
-    public int findIsAdminById(String id){
-        return user_rp.findIsAdminById(id);
-    }
 }
 

@@ -17,15 +17,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     public List<Project> findManageProjectList(String user_id);
     public List<Project> findBelongingProjects(String user_id);
     public List<Project> findProjectList(String user_id);
-    public List<User> findUsersByStack(String stack);
-
-    public int findGradeByUserId(User user);
-
-    public String findUserStackById(String id);
-
     public User findUserById(String id);
-
-    public int findIsAdminById(String id);
 
 
 }

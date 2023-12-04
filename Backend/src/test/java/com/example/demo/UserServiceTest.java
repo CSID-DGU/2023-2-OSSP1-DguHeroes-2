@@ -1,8 +1,6 @@
 package com.example.demo;
-import com.example.demo.domain.DevelopmentStack;
 import com.example.demo.domain.User;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.service.DevelopmentStackService;
 import com.example.demo.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

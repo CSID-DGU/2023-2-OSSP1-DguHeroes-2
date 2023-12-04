@@ -19,21 +19,18 @@ public class MainController {
 
     private ResponseService responseService;
     private UserService userService;
-    private DevelopmentStackService developmentStackService;
+
     private ProjectService projectService;
     private InvitationService invitationService;
-    private QuestionnaireService questionnaireService;
-    private MemberService memberService;
+    private ProjectMemberService memberService;
     private com.example.demo.Main.MainInfo MainInfo;
 
-    public MainController(ResponseService responseService, UserService userService, DevelopmentStackService developmentStackService, ProjectService projectService, InvitationService invitationService, MemberService memberService, QuestionnaireService questionnaireService) {
+    public MainController(ResponseService responseService, UserService userService, ProjectService projectService, InvitationService invitationService, ProjectMemberService memberService) {
         this.responseService = responseService;
         this.userService = userService;
-        this.developmentStackService = developmentStackService;
         this.projectService = projectService;
         this.invitationService = invitationService;
         this.memberService = memberService;
-        this.questionnaireService = questionnaireService;
         this.responseService = responseService;
     }
     @GetMapping("/main/info")

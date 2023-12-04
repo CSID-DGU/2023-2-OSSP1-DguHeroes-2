@@ -132,6 +132,26 @@ export const LocationContainer = styled.div`
   display: flex;
   flex-direction: column;
 `
+export const RecommendButton = styled(Button)`
+  margin-top: 5px;
+  max-width: 120px; /* 변경된 max-width */
+  width: 100%; /* 추가된 width */
+  position: relative;  // position 속성 추가
+  top: -5px;
+  left: 350px;
+  background-color: #1890ff;
+  color: #fff;
+  border: none;
+  &:hover {
+    background-color: #096dd9;
+  }
+`
+export const RecommendButtonText = styled.span`
+  display: inline-block;
+  text-align: center;
+  font-size: 14px;
+  width: 100%; /* 추가된 width */
+`
 export const ProjectCreateButton = styled(Button)``
 export const ProjectMemberInputContainer = styled.div``
 export const ProjectDateContainer = styled.div``
