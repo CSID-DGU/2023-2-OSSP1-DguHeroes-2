@@ -128,6 +128,7 @@ const RecommendModal: React.FC<RecommendModalProps> = ({
                 style={{ backgroundColor: invitationSent[user.user_id] ? 'gray' : undefined }}
                 //버튼 누르면 버튼 비활성화 but 페이지 새로고침하면 버튼 다시 활성화되므로 데이터베이스를 통해 초대를 보낸 적이 있는지 없는지,
                 //보냈다면 상대가 수락했는지 거절했는지, 거절 시점이 언제인지를 고려하여 페이지 새로고침 해도 다시 버튼 활성화되지 않도록 하는 프로세스 필요
+              >
                 초대
               </Button>
             </List.Item>
