@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Button, Select, Form } from 'antd';
+import { Modal, Select, Form } from 'antd';
 import { stacks } from 'types/stacks';
 
 const { Option } = Select;
@@ -26,16 +26,22 @@ const RecommendModal: React.FC<RecommendModalProps> = ({
   const handleOk = () => {
     onHandlePositionStack(selectedTargets);
     onCancel();
+    setSelectedTargets([]); // Ok 버튼 눌렀을 때 초기화
+  };
+
+  const handleCancel = () => {
+    onCancel();
+    setSelectedTargets([]); // Cancel 버튼이나 X 버튼 눌렀을 때 초기화
   };
 
   return (
     <Modal
       title="추천 팀원 보기"
       visible={visible}
-      onCancel={onCancel}
+      onCancel={handleCancel}
       onOk={handleOk}
       width={800}
-      bodyStyle={{ height: '800px', overflowY: 'auto' }} // 높이를 조절합니다. 필요에 따라 적절한 값을 설정하세요.
+      bodyStyle={{ height: '800px', overflowY: 'auto' }}
     >
       <Form.Item>
         <Select
@@ -60,7 +66,3 @@ const RecommendModal: React.FC<RecommendModalProps> = ({
 };
 
 export default RecommendModal;
-
-
-
-
