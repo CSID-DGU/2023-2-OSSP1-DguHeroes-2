@@ -49,18 +49,18 @@ for lan in list(GRAPH_SEARCH_VARIABLE.keys()):
 
     with open('%s_project_list' % (lan), 'wb') as f:
         pickle.dump(list_project_name, f)
-# '''
 
 # lan = 'c%2B%2B'
 list_project_name = get_project_id(lan, GRAPH_SEARCH_VARIABLE)
 
 print(len(list_project_name))
 print(list_project_name)
+# '''
 
-# '''
-with open('%s_project_list.pkl' % (lan), 'wb') as f:
+'''
+with open('%s_project_list.pkl'%(lan), 'wb') as f:
     pickle.dump(list_project_name, f)
-# '''
+'''
 '''
 with open('c++_project_list.pkl', 'wb') as f:
     pickle.dump(list_project_name, f)

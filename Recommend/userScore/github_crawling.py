@@ -1,49 +1,82 @@
-from get_cnt_annotation import *
-from get_score_popularity import *
-from get_score_usability import *
+import pandas as pd
+import seaborn as sns
 
-
-# OWNER = 'proysm'
-# NAME='proysm/Healody_Server'
-OWNER = 'Voine'
-NAME = 'Voine/ChatWaifu_Mobile'
+OWNER = 'dgu2022'
+NAME = 'CSID-DGU/2023-2-OSSP1-DguHeroes-2'
+# OWNER = 'Voine'
+# NAME = 'Voine/ChatWaifu_Mobile'
 # NAME='CSID-DGU/2023-2-OSSP1-DguHeroes-2'
 
 MAX_PER_PAGE = 30  # 용량을 줄이기 위해 테스톨 30, 실제로는 100
+MIN_CNT_FILE = 3
 
-GH_API ='https://api.github.com'
+GH_API = 'https://api.github.com'
 
 headers = {
-    'Authorization': 'token %s ' %(GITHUB_API_TOKEN),
+    'Authorization': 'token %s' % (GITHUB_API_TOKEN),
 }
 
-GRAPH_STACK_TREE = \
-    {'javascript': ['express', 'socket.io', 'axios', 'react', 'angularjs', 'react native', 'electron', 'vue.js', \
-                   'jquery', 'next.js', 'svelte'], 'html': ['electron'], 'css': [],
+GRAPH_KEYWORD_TREE = {'express': ['express', 'port'], 'socket.io': ['socket', 'on'], 'axios': ['axios', 'response'], \
+                      'react': ['react', 'render'], 'angularjs': ['angular', 'controller'], 'react native': \
+                          ['react-native', 'view'], 'electron': ['electron', 'app'], 'vue.js': ['vue', 'app'], 'jquery': \
+                          ['jquery', 'ready'], 'next.js': ['next', 'router'], 'svelte': ['svelte', 'app'], \
+                      'flask': ['flask', 'route'], 'django': ['from django', 'view'],
+                      'pandas': ['import pandas', 'dataframe'], \
+                      'tensorflow': ['import tensorflow', 'model'], 'scikit-learn': ['sklearn', 'predict'], \
+                      'apache kafka': ['kafka', 'connect'], 'pytorch': ['import torch', 'loss'],
+                      'opencv': ['cv', 'image'], \
+                      'opengl': ['gl', 'display'], 'keras': ['keras', 'model'], 'apache spark': ['context', 'spark'],
+                      'qt': \
+                          ['<Q', 'qapplication'], '.net': ['.net', 'net'], 'blazor': ['blazor', 'net'],
+                      'cuda': ['cuda', 'cudamalloc'], \
+                      'laravel': ['Illuminate', 'provider'], 'ruby on rails': ['ApplicationController', 'end'],
+                      'springboot': \
+                          ['import org.springframework', 'springboot'], 'angular': ['angular', 'controller']}
+
+GRAPH_STACK_TREE = {
+    'javascript': ['express', 'socket.io', 'axios', 'react', 'angularjs', 'react native', 'electron', 'vue.js', \
+                   'jquery', 'next.js', 'svelte', 'opengl', 'opencv'], 'html': ['electron'],
     'python': ['flask', 'django', 'pandas', \
-               'tensorflow', 'scikit-learn', 'apache kafka', 'pytorch', 'opencv', 'opengl', 'keras', 'apache spark',
-               'qt'], \
-    'typescript': ['react', 'angular', 'react native'], 'java': ['springboot', 'apache kafka'], 'c#': ['blazor', \
-                                                                                                       '.net',
-                                                                                                       '.net framework'],
-    'c++': ['cuda', 'apache kafka'], 'c': ['apache kafka', 'cuda'], 'php': ['laravel'], \
+               'tensorflow', 'scikit-learn', 'apache kafka', 'pytorch', 'opencv', 'opengl', 'keras', 'apache spark'], \
+    'typescript': ['react', 'angular', 'react native'], 'java': ['springboot', 'apache kafka', 'opengl', 'opencv', \
+                                                                 'apache spark'],
+    'c#': ['blazor', '.net', 'opengl', 'opencv'], 'c++': ['cuda', 'apache kafka', 'opengl', \
+                                                          'opencv', 'qt'], 'c': ['cuda', 'apache kafka', 'opengl'],
+    'php': ['laravel'], 'css': [], \
     'go': ['apache kafka'], 'rust': [], 'kotlin': [], 'ruby': ['ruby on rails'], 'lua': [], 'dart': [], 'swift': [], \
-    'r': [], 'visual basic': ['.net', '.net framework'], 'node.js': ['express', 'socket.io', 'axios', 'electron'], \
+    'r': ['apache spark'], 'node.js': ['express', 'socket.io', 'axios', 'electron'], \
     'flutter': [], '.net': ['blazor'], 'rabbitmq': []}
 
 GRAPH_LANGUAGE = ['javascript', 'html', 'css', 'python', 'typescript', 'java', 'c#', 'c++', 'c', 'php', 'go', 'rust',
                   'kotlin' \
-    , 'ruby', 'lua', 'dart', 'swift', 'r', 'visual basic']
+    , 'ruby', 'lua', 'dart', 'swift', 'r']
 ''' #혹시 쓰일지도 모를, 대문자용 리스트
 GRAPH_LANGUAGE = ['JavaScript', 'HTML', 'CSS', 'Python', 'TypeScript', 'Java', 'C#', 'C++', 'C', 'PHP', 'Go', 'Rust', 'Kotlin'\
-               , 'Ruby', 'Lua', 'Dart',  'Swift', 'R', 'Visual Basic']
+               , 'Ruby', 'Lua', 'Dart',  'Swift', 'R']
 '''
-list_language_extension = [['js'], ['html'], ['css'], ['py'], ['ts'], ['java', 'class', 'jsp'], ['cs'],
+list_language_extension = [['js'], ['html'], ['css'], ['py'], ['ts', 'tsx'], ['java', 'class', 'jsp'], ['cs'],
                            ['cc', 'cpp', 'h', 'mm'] \
-    , ['c', 'h'], ['php'], ['go'], ['rs'], ['kt'], ['rb'], ['lua'], ['dart'], ['s'], ['swift'], ['r'], ['vb']]
+    , ['c', 'h'], ['php'], ['go'], ['rs'], ['kt'], ['rb', 'erb'], ['lua'], ['dart'], ['s'], ['swift'], ['r'], ['vb']]
 
 
-# Project 사용 언w어 구하는 함수
+# 이상치 제거하는 함수
+def detect_outliers(df, columns):
+    q1 = df[columns].quantile(0.25)
+    q3 = df[columns].quantile(0.75)
+    iqr = q3 - q1
+
+    boundary = 1.5 * iqr
+
+    index1 = df[df[columns] > q3 + boundary].index
+    index2 = df[df[columns] > q1 - boundary].index
+
+    df[columns] = df[columns].drop(index1)
+    df[columns] = df[columns].drop(index2)
+
+    return df
+
+
+# Project 사용 언어 구하는 함수
 def get_language():
     # https://api.github.com/repos/OWNER/REPO/languages
     GH_REPO = '%s/repos/%s/languages' % (GH_API, NAME)
@@ -86,15 +119,33 @@ def get_members():
 
 # Commit Code 가져오는 함수 + 추가한 라인 수도 카운트한 뒤 합해서 전달 (깃허브 점수 2번 구하기 위해)
 def get_commit_code(list_furl):
+    is_initial_commit = 0  # 초기에 다른 프로젝트를 클론해 엄청난 양의 코드를 커밋한 게 맞는지 체크
+
+    list_furl.reverse()
+
     list_addition_code = []
     list_filename_language = []
-    cnt_addition = 0
-    cnt_deletion = 0
-    for furl in list_furl:
+    cnt_addition = []
+    # cnt_deletion = []
+    len_url = len(list_furl)
+    for idx, furl in enumerate(list_furl):
+        # print(furl)
         response = requests.get('%s' % (furl), headers=headers)
         response = response.json()
 
         # print(response['files'])
+
+        if response['commit']['verification']['verified'] == True:
+            # print("verified")
+            continue
+
+        # 초기에 다른 프로젝트 기반 복제를 했을 때 가져오게 되는 엄청난 양의 addition은 무시
+        if response['stats']['additions'] - response['stats']['deletions'] > 5000 and \
+                is_initial_commit == 0 and len(response['files']) > 20:
+            print("initial file")
+            is_initial_commit = response['stats']['additions']
+            # print(furl)
+            continue
 
         for idx_file, file in enumerate(response['files']):
             filename = file['filename'].split('.')[-1]
@@ -102,12 +153,12 @@ def get_commit_code(list_furl):
             if filename in list_extension:
                 # status가 added, deleted, renamed 등 다양하게 있는데 이중 코드를 수정한 경우만 가져와야 하므로
                 # status added를 가져오겠다.
-                if file['status'] == 'added' and file['changes'] != 0:
+                if (file['status'] == 'added' or file['status'] == 'modified') and file['changes'] != 0:
                     # list_addition_code.append(file['additions'])
                     list_filename_language.append(filename)
-                    cnt_addition += file['additions']
-                    cnt_deletion += file['deletions']
-                    print(file)
+                    cnt_addition.append(file['additions'])
+                    # cnt_deletion.append(file['deletions'])
+                    # print(file)
                     if 'patch' not in list(file.keys()):  # 이상하게 patch key가 response에 없는 경우 있다.
                         FILE_SHA = file['sha']
                         #  https://api.github.com/repos/OWNER/REPO/git/blobs/FILE_SHA
@@ -124,13 +175,14 @@ def get_commit_code(list_furl):
                     else:
                         list_addition_code.append(file['patch'])
 
-    return list_addition_code, list_filename_language, cnt_addition, cnt_deletion
+    return list_addition_code, list_filename_language, cnt_addition, is_initial_commit
+    # return list_addition_code, list_filename_language, cnt_addition, cnt_deletion, is_initial_commit
 
 
 # Commit SHA값 포함된 주소 가져오는 함수
 def get_commit_sha(fauthor, fsum):
-    # max_page_num = int(fsum+99/100) #실제
-    max_page_num = 1  # 용량 줄이려고 테스트용
+    max_page_num = int(fsum + 99 / 100)  # 실제
+    # max_page_num = 1 #용량 줄이려고 테스트용
     list_url_commits = []
     for page in range(1, max_page_num + 1):
         GH_REPO = '%s/repos/%s/commits?per_page=%s&page=%s&author=%s' % (GH_API, NAME, MAX_PER_PAGE, page, fauthor)
@@ -180,21 +232,21 @@ def get_list_file_stack(fuser, flist_language):  # search api 사용해서 기�
             response = requests.get('%s' % (GH_REPO), headers=headers)
             response = response.json()
 
-            # print(response)
             len_file = len(response['items'])
             idx_file = 0
+            list_file = response['items']
 
             while idx_file < len_file:
                 try:
-                    file = response['items'][idx_file]
+                    file = list_file[idx_file]
                     file_path = file['path']
+                    print(file_path)
 
                     GH_REPO = '%s/repos/%s/commits?path=%s&author=%s' % (GH_API, NAME, file_path, fuser)
 
                     response = requests.get('%s' % (GH_REPO), headers=headers)
                     response = response.json()
 
-                    # print(len(response))
                     if len(response) > 0:
                         list_user_language.append(lang)
                         if lang in list_search:
@@ -202,7 +254,7 @@ def get_list_file_stack(fuser, flist_language):  # search api 사용해서 기�
                         break  # 특정 언어를 쓴 모든 파일을 검색해서, 관련된 커밋 중 committer가 찾는 유저인 게 있다면 for문 종료
                     idx_file += 1
                 except Exception as e:
-                    print("error idx_file:" + str(idx_file))
+                    print("error idx_file1:" + str(idx_file))
                     print(e)
                     time.sleep(5)
             print("language_list:" + str(list_user_language))
@@ -210,7 +262,7 @@ def get_list_file_stack(fuser, flist_language):  # search api 사용해서 기�
             if lang in list_search:
                 list_search.remove(lang)
         except Exception as e:
-            print("error idx_lang:" + str(idx_lang))
+            print("error idx_lang1:" + str(idx_lang))
             print(e)
             time.sleep(5)
 
@@ -225,26 +277,37 @@ def get_list_file_stack(fuser, flist_language):  # search api 사용해서 기�
             for stack in list_stack:
                 if stack not in list_search:  # 이미 유저가 쓰는 기술스택 리스트에 해당 스택이 있으면 패스.
                     continue
-                GH_REPO = '%s/search/code?q=%s +repo:%s' % (GH_API, stack, NAME)
+                list_stack_keyword = GRAPH_KEYWORD_TREE[stack]
+                GH_REPO = '%s/search/code?q=%s +%s +repo:%s' % (
+                GH_API, list_stack_keyword[0], list_stack_keyword[1], NAME)
 
                 response = requests.get('%s' % (GH_REPO), headers=headers)
                 response = response.json()
 
-                # print(response)
+                print(response)
 
-                len_file = len(response['items'])  # 결과가 없으면 response 자체가 3가지 key가 빈 리스토로 나온다.
+                len_file = len(response['items'])  # 결과가 없으면 response 자체가 3가지 key를 가진 빈 리스토로 나온다.
                 idx_file = 0
+                list_file = response['items']
+
+                if len_file < MIN_CNT_FILE:
+                    if stack in list_search:
+                        list_search.remove(stack)
+                    continue
 
                 while idx_file < len_file:
                     try:
-                        file = response['items'][idx_file]
+                        file = list_file[idx_file]
                         file_path = file['path']
+
+                        print(file_path)
 
                         GH_REPO = '%s/repos/%s/commits?path=%s&author=%s' % (GH_API, NAME, file_path, fuser)
 
                         response = requests.get('%s' % (GH_REPO), headers=headers)
                         response = response.json()
 
+                        # print(response)
                         # print(len(response))
                         if len(response) > 0:  # 결과가 없으면 response 자체가 빈 리스트로 나온다.
                             list_user_stack.append(stack)
@@ -286,9 +349,22 @@ def get_score_project(fdict_user, flist_language):
 
     print("볼륨과 비율 구하는 중")
     for member in list_name_members:
-        sum_project_size += fdict_user[member]['addition_raw']
-        sum_cnt_annotation += fdict_user[member]['annotation']
-        list_user_code_size.append(fdict_user[member]['addition_final'])
+        '''
+        if fdict_user[member]['initial'] == 0:
+            sum_cnt_code = sum(fdict_user[member]['cnt_addition']) - sum(fdict_user[member]['cnt_deletion'])
+        elif fdict_user[member]['initial'] != 0:
+            rate_initial = fdict_user[member]['initial'] / (fdict_user[member]['initial'] + \
+                                                                      sum(fdict_user[member]['cnt_addition']))
+            print(rate_initial)
+            sum_cnt_code = sum(fdict_user[member]['cnt_addition']) - \
+            (sum(fdict_user[member]['cnt_deletion']) - 0.5 * rate_initial * (sum(fdict_user[member]['cnt_deletion'])))
+        '''
+        sum_cnt_code = sum(fdict_user[member]['cnt_addition'])
+        sum_project_size += sum_cnt_code
+        # sum_cnt_annotation += fdict_user[member]['annotation']
+        list_user_code_size.append(sum_cnt_code)
+        print(member)
+        print(sum_cnt_code)
 
     list_user_code_size = [size / sum_project_size for size in list_user_code_size]
     user_code_std = np.std(np.array(list_user_code_size))
@@ -298,7 +374,7 @@ def get_score_project(fdict_user, flist_language):
     print("활용도 구하는 중")
     usability_issue, usability_branch, usability_pr, usability_tag, usability_release = get_cnt_usability(NAME)
     print("주석 비율 구하는 중")
-    annotation_rate = sum_cnt_annotation / sum_project_size
+    # annotation_rate = sum_cnt_annotation/sum_project_size
 
     dict_score_db = dict()
     dict_score_db['used_stack'] = get_list_file_stack(OWNER, flist_language)
@@ -312,7 +388,7 @@ def get_score_project(fdict_user, flist_language):
     dict_score_db['usability_release'] = usability_release
     dict_score_db['commit_rate_std'] = user_code_std
     dict_score_db['project_size'] = sum_project_size
-    dict_score_db['annotation_rate'] = annotation_rate
+    # dict_score_db['annotation_rate'] = annotation_rate
 
     print(dict_score_db)
     return dict_score_db
@@ -338,11 +414,13 @@ print(list_name_members)
 
 for idx, member in enumerate(list_name_members):
     list_url_commit = get_commit_sha(member, list_cnt_commits[idx])
-    list_commit_code, list_filename, sum_addition, sum_deletion = get_commit_code(list_url_commit)
-    dict_user_commit[member] = {'code': [], 'annotation': [], 'addition_raw': 0, 'addition_final': 0}
+    # list_commit_code, list_filename, list_cnt_addition, list_cnt_deletion, is_initial = get_commit_code(list_url_commit)
+    list_commit_code, list_filename, list_cnt_addition, is_initial = get_commit_code(list_url_commit)
+    # dict_user_commit[member] = {'code': [], 'cnt_addition': [], 'cnt_deletion': [], 'initial': 0}
+    dict_user_commit[member] = {'code': [], 'cnt_addition': [], 'initial': 0}
     dict_user_commit[member]['code'] = list_commit_code  # 멤버별로 커밋 코드를 포함하는 딕셔너리 생성하기
-    dict_user_commit[member]['annotation'] = get_cnt_annotation(member, list_commit_code)
-    dict_user_commit[member]['addition_raw'] = sum_addition  # 깃허브 점수 1번 프로젝트 용량 구할 때 이용, 유저 전체 합
-    dict_user_commit[member]['addition_final'] = sum_addition - sum_deletion  # 깃허브 점수 2번, 커밋 비율 구할 때 이용
+    dict_user_commit[member]['cnt_addition'] = list_cnt_addition  # 깃허브 점수 1,2번, 커밋 비율 구할 때 이용
+    # dict_user_commit[member]['cnt_deletion'] = list_cnt_deletion #깃허브 점수 1,2번, 커밋 비율 구할 때 이용
+    dict_user_commit[member]['initial'] = is_initial
 
 test = get_score_project(dict_user_commit, list_language)

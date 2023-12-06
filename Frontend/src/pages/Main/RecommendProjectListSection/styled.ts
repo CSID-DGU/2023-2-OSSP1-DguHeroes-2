@@ -19,12 +19,26 @@ export const Container = styled.div`
 export const TitleContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between; // 추가된 부분
   gap: 10px;
 `
 
 export const TitleLogoImg = styled.img`
   width: 20px;
 `
+
+// 서브 컨테이너 스타일
+export const LeftContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`
+
+export const RightContainer = styled.div`
+  display: flex;
+  align-items: center;
+`
+
 
 export const TitleTypo = styled(Typography)`
   font-size: 18px;

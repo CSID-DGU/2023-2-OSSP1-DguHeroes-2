@@ -27,6 +27,8 @@ import {
   ProjectCreateButton,
   LocationContainer,
   InputTitleContainer,
+  RecommendButton,
+  RecommendButtonText,
 } from './styled'
 // antd 적용하기
 import { Form, Input, Select, DatePicker, Row, Col, Slider, Radio, RadioChangeEvent } from 'antd'
@@ -36,9 +38,10 @@ import { locationOptions } from 'constants/project/locationOptions'
 import { DevelopmentStackType, ProjectRequireMemberListType, ProjectType } from 'types/project'
 import { PostProjectCreateResponseType, postprojectCreate } from 'api/postProjectCreate'
 import { useNavigate } from 'react-router-dom'
+import { Modal, Button } from 'antd';
 
 import { stacks } from 'types/stacks'; // 전체 기술 스택
-
+import RecommendModal from 'pages/Recommend/RecommendUsers/RecommendModal'; // 팝업창 컴포넌트 추가
 
 type UserProjectCreatePageProps = {
   className?: string
@@ -193,11 +196,28 @@ export const UserProjectCreatePage: FC<UserProjectCreatePageProps> = ({ classNam
   };
 
   // 기술 스택 선택을 위한 것들
+  const [isStackModalVisible, setIsStackModalVisible] = useState(false);
+
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
-  const onHandlePositionStack = (selectedValues : string[]) => {
+
+  const onHandlePositionStack = (selectedValues: string[]) => {
     setSelectedItems(selectedValues);
   };
 
+  // 추가된 부분 시작
+  // 추가된 부분 시작
+  const showStackModal = () => {
+    if (selectedItems.length > 0) {
+      setIsStackModalVisible(true);
+    } else {
+      // 선택된 스택이 없을 때의 처리 (예: 에러 메시지 출력)
+    }
+  };
+
+  const handleStackModalCancel = () => {
+    setIsStackModalVisible(false);
+  };
+  // 추가된 부분 끝
 
 
   return (
@@ -231,7 +251,12 @@ export const UserProjectCreatePage: FC<UserProjectCreatePageProps> = ({ classNam
                         name={`number_${stackItem.key}`}
                         style={{ display: 'inline-block', width: 'calc(20% - 8px)', marginLeft: '5px', marginBottom: 0 }}
                       >
-                        <Input onChange={(e) => onChangeProjectMemberNumber(e, stackItem.key)} type='number' placeholder="인원" />
+                        <Input
+                          onChange={(e) => onChangeProjectMemberNumber(e, stackItem.key)}
+                          type='number'
+                          placeholder="인원"
+                          min={0}  // 0 미만의 값은 입력할 수 없도록 설정
+                        />
                       </Form.Item>
 
                       {/* 기술 스택 입력 - 다중 선택 */}
@@ -247,6 +272,17 @@ export const UserProjectCreatePage: FC<UserProjectCreatePageProps> = ({ classNam
                         ))}
                         </Select>
                       </Form.Item>
+
+                      <RecommendButton onClick={showStackModal}>
+                        <RecommendButtonText>추천 팀원 보기</RecommendButtonText>
+                      </RecommendButton>
+                      <RecommendModal
+                        visible={isStackModalVisible}
+                        selectedItems={selectedItems}
+                        onCancel={handleStackModalCancel}
+                        onHandlePositionStack={onHandlePositionStack}
+                      />
+
                   </ProjectMemberInputContainer>
                   ))
                 }
