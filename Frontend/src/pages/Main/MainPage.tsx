@@ -12,11 +12,12 @@ type MainPageProps = {
   className?: string
 }
 
+
 export const MainPage: FC<MainPageProps> = ({ className }) => {
   const [recommendedProjectList, setRecommendedProjectList] = useState<ProjectListType>([]);
   const [popularProjectList, setPopularProjectList] = useState<ProjectListType>([]);
   const [recentProjectList, setRecentProjectList] = useState<ProjectListType>([])
-  
+
   useEffect(() => {
     getmainInfo()
     .then((response: GetMainInfoResponseType) => {
