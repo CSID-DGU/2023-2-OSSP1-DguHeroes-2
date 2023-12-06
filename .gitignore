@@ -30,7 +30,7 @@ replay_pid*
 .yml
 .gradle
 resources/
-demo/
+backend/demo
 # front
 node_modules/
 
