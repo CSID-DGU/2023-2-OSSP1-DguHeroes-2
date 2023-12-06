@@ -43,6 +43,7 @@ public class UserController {
         //this.projectStackService = projectService;
     }
 
+    // 회원가입
     @PostMapping("/user/join")
     public SingleResponse<User> insert(@RequestBody User user){
 
@@ -60,6 +61,7 @@ public class UserController {
         return responseService.getSingleResponse(commonResponse, saved_user);
     }
 
+    // 로그인
     @PostMapping("/user/login") //ok
     public AdminResponse login(HttpServletRequest request, @RequestBody Map<String, String> loginData){
         String id = loginData.get("id");
@@ -80,6 +82,7 @@ public class UserController {
         return responseService.getAdminResponse(commonResponse, isAdmin);
     }
 
+    // 로그아웃
     @PostMapping("/user/logout")
     public CommonResponse logout(HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -96,7 +99,7 @@ public class UserController {
         return commonResponse;
     }
 
-
+    // 유저 세부정보
     @GetMapping("/user/info")
     public <T> SingleResponse<User> findUserInfo(HttpServletRequest request) {
         String user_id = userService.findSessionId(request);
@@ -160,6 +163,7 @@ public class UserController {
 //        return responseService.getListResponse(commonResponse, temp_list2);
 //    }
 
+    // ??
     @GetMapping("/user/project/manage/list")
     public <T> ListResponse<Project> manageProjectList(HttpServletRequest request) {
         String user_id = userService.findSessionId(request);
@@ -175,6 +179,7 @@ public class UserController {
         return responseService.getListResponse(commonResponse, list);
     }
 
+    // ??
     @GetMapping("/user/project/list")
     public<T> SingleResponse<UserProjectList> findProjectList(HttpServletRequest request) {
         String user_id = userService.findSessionId(request);
@@ -202,6 +207,7 @@ public class UserController {
         return responseService.getSingleResponse(commonResponse, list);
     }
 
+    // 프로젝트에 다른 유저 초대 하기
     @PostMapping("/user/project/manage/invite")
     public CommonResponse invite(int project_id, Long user_id) {
         Project project = projectService.findByProjectId(project_id);
@@ -213,6 +219,7 @@ public class UserController {
         return commonResponse;
     }
 
+    // 프로젝트 초대 수락/거부
     @GetMapping("/user/project/accept")
     public CommonResponse accept(HttpServletRequest request, int project_id, String status){
         String user_id = userService.findSessionId(request);
@@ -267,7 +274,7 @@ public class UserController {
     }
 
 
-    //프로젝트 관리페이지에서 팀장에게 지원한 유저 목록을 보여줌
+    // 프로젝트 관리페이지에서 팀장에게 지원한 유저 목록을 보여줌
     @GetMapping("/user/project/manage/apply")
     public<T> ListResponse<User> applyUserList(HttpServletRequest request,int project_id) {
         Project project = projectService.findByProjectId(project_id);
