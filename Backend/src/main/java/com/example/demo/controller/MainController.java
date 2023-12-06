@@ -33,8 +33,9 @@ public class MainController {
         this.memberService = memberService;
         this.responseService = responseService;
     }
-    @GetMapping("/main/info")
 
+    // 메인 화면 (추천 프로젝트, 인기 있는 프로젝트, 최근 프로젝트)
+    @GetMapping("/main/info")
     public SingleResponse <MainInfo> getMainInfo(HttpServletRequest request) {
         List<Project> recommendedProjects = projectService.getRecommendProject(request);
         List<Project> popularProjects = projectService.getPopularProjects();

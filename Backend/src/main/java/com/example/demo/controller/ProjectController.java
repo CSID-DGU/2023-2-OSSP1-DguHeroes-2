@@ -36,14 +36,14 @@ public class ProjectController {
     }
 
 
-
-
-
+    // 프로젝트 좋아요 누르기
     @PostMapping("/project/like")
     public String projectLike(HttpServletRequest request, int projectId){
         projectLikeService.projectLike(request, projectId);
         return null;
     }
+
+    // 모든 프로젝트 리스트
     @GetMapping("/project/list")
     public<T> ListResponse<Project> findProjectList() {
         CommonResponse commonResponse = new CommonResponse();
@@ -58,12 +58,12 @@ public class ProjectController {
         return responseService.getListResponse(commonResponse, list);
     }
 
+    // 프로젝트 생성
     @PostMapping("/project/create")
     public SingleResponse<Project> projectCreate(@RequestBody Project project){
         CommonResponse commonResponse = new CommonResponse();
 
         Project saved_project = projectService.insert(project);
-
 
         if(saved_project!=null){
             commonResponse.setStatus("SUCCESS");
@@ -75,11 +75,13 @@ public class ProjectController {
         return responseService.getSingleResponse(commonResponse,project);
     }
 
+    // 프로젝트 삭제
     @PostMapping("/project/delete")
     public void projectDelete(int project_id){
         projectService.delete(project_id);
     }
 
+    // 프로젝트 세부 정보
     @GetMapping("/project/details")
     public<T> SingleResponse<Project> findProject(@RequestParam int project_id)throws JsonProcessingException {
         Project project = projectService.findByProjectId(project_id);
@@ -94,6 +96,7 @@ public class ProjectController {
         return responseService.getSingleResponse(commonResponse,project);
     }
 
+    // 프로젝트 지원하기
     @PostMapping("/project/apply")
     public CommonResponse apply(HttpServletRequest request, int project_id){
         Project project;
