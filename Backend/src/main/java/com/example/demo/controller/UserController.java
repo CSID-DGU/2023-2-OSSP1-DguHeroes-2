@@ -68,12 +68,12 @@ public class UserController {
         String pw = loginData.get("password");
         int login_result = userService.login(id, pw);
         CommonResponse commonResponse = new CommonResponse();
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(); // Session이 있으면 가져오고 없으면 Session을 생성
         int isAdmin = -1;
         if (login_result == 1) {
             commonResponse.setStatus("SUCCESS");
             commonResponse.setMessage(null);
-            session.setAttribute("id", id);
+            session.setAttribute("id", id); // key:id, value:id
             System.out.println(session.getAttribute("id"));
         } else {
             commonResponse.setStatus("FAILED");
