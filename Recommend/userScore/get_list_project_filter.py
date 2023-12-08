@@ -1,5 +1,3 @@
-import pickle
-
 # Team Members 구하는 함수
 def get_num_members(NAME):
     # 처음에는 collaborators를 구하려고 했으나, collaborators여도 기여하지 않은 경우 프로젝트 초기에 팀에서 나갔을 수도 있고,
@@ -52,22 +50,3 @@ with open('%s_project_list.pkl'%(lan), 'rb') as f:
         if cnt_members >= 2 and cnt_members <= 8:
             list_project_name_last.append(project_name)
 '''
-
-list_combine = []
-
-for lan in list(GRAPH_SEARCH_VARIABLE.keys()):
-    print(lan)
-    if lan == "c%23":
-        lan = "c#"
-    elif lan == "c%2B%2B":
-        lan = "c++"
-    with open('%s_project_list_last.pkl' % (lan), 'rb') as f:
-        list_project_name = pickle.load(f)
-
-        list_combine.extend(list_project_name)
-
-list_combine = list(set(list_combine))
-print(len(list_combine))
-
-with open('combine_project_list.pkl', 'wb') as f:
-    pickle.dump(list_combine, f)
