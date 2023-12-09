@@ -38,7 +38,7 @@ export const LoginPage: FC<LoginPageProps> = ({ className }) => {
       id: id,
       password: password
     }
-    postuserLogin('/user/login', data)
+    postuserLogin(`${process.env.REACT_APP_BACKEND_URL}/user/login`, data)
     .then((response: PostUserLoginResponseType) => {
       if (response.status === 'SUCCESS') {
         // eslint-disable-next-line no-undef
