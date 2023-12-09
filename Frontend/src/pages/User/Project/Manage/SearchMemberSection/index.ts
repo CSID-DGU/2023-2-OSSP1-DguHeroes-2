@@ -1,1 +1,0 @@
-export { SearchMemberSection } from './SearchMemberSection'
