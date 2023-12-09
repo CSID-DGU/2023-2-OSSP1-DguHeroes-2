@@ -51,28 +51,29 @@ export const CommonHeader: FC<CommonHeaderProps> = ({ className }) => {
   const onClickLogoutButton = () => {
     // eslint-disable-next-line no-undef
     postuserLogout('/user/logout')
-    .then((response: PostUserLogoutResponseType) => {
-      if (response.status === 'SUCCESS') {
+      .then((response: PostUserLogoutResponseType) => {
+        if (response.status === 'SUCCESS') {
+          // eslint-disable-next-line no-undef
+          console.log('SUCCESS')
+          // eslint-disable-next-line no-undef
+          localStorage.removeItem('test_login')
+          // eslint-disable-next-line no-undef
+          window.location.reload()
+        } else {
+          // eslint-disable-next-line no-undef
+          alert("로그아웃에 실패했습니다.")
+          // eslint-disable-next-line no-undef
+          console.log('Error message:', response.message);
+        }
+      })
+      .catch((error: any) => {
         // eslint-disable-next-line no-undef
-        console.log('SUCCESS')
-        // eslint-disable-next-line no-undef
-        localStorage.removeItem('test_login')
-        // eslint-disable-next-line no-undef
-        window.location.reload()
-      } else {
-        // eslint-disable-next-line no-undef
-        alert("로그아웃에 실패했습니다.")
-        // eslint-disable-next-line no-undef
-        console.log('Error message:', response.message);
-      }
-    })
-    .catch((error: any) => {
-      // eslint-disable-next-line no-undef
-      console.error('Error :', error);
-    });
+        console.error('Error :', error);
+      });
   }
   const renderUserContainer = () => {
     // eslint-disable-next-line no-undef
+
     if (localStorage.getItem('test_login') === 'true') {
       return (
         <UserContainer>
@@ -91,6 +92,25 @@ export const CommonHeader: FC<CommonHeaderProps> = ({ className }) => {
       </UserContainer>
     )
   }
+
+  //   if (localStorage.getItem('test_login') === 'true') {
+  //     return (
+  //       <UserContainer>
+  //         <LoginButton onClick={onClickLoginButton}>로그인</LoginButton>
+  //         <JoinButton onClick={onClickJoinButton}>회원가입</JoinButton>
+  //       </UserContainer>
+  //     )
+  //   }
+  //
+  //   return (
+  //     <UserContainer>
+  //       <BellIcon onClick={onClickNoticeListButton} />
+  //       <MyPageButton onClick={onClickMyPageButton}>마이페이지</MyPageButton>
+  //       <LogoutButton onClick={onClickLogoutButton}>로그아웃</LogoutButton>
+  //       <UserIcon src={Avatar} alt={'유저 아바타 이미지'} />
+  //     </UserContainer>
+  //   )
+  // }
 
   return (
     <Root className={className}>
