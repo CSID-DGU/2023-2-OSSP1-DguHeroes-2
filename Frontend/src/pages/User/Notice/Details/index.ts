@@ -1,0 +1,1 @@
+export { UserNoticeDetailsPage } from './UserNoticeDetailsPage'

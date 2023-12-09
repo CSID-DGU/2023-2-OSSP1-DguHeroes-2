@@ -1,0 +1,115 @@
+### 회원가입
+POST http://localhost:8000/user/join
+Accept: application/json
+Content-Type: application/json
+
+{
+  "nickname":"hh",
+  "id":"id5678",
+  "password":"pw5678",
+  "introduce":"안녕하세요222",
+  "email": "user1234@naver.com",
+  "scorePercent": 80,
+  "developmentStacks":[
+    {"user":null, "development_stack":"front-end", "grade":1, "version":1}
+  ]
+}
+
+
+### 로그인
+POST http://localhost:8000/user/login
+Accept: application/json
+Content-Type: application/json
+
+{
+    "id": "id5678",
+    "password": "pw5678"
+}
+
+
+### 로그아웃
+POST http://localhost:8000/user/logout
+Accept: application/json
+Content-Type: application/json
+
+
+### 질문지 가져오기
+GET http://localhost:8000/user/join/questionnaire
+Accept: application/json
+Content-Type: application/json
+
+{"developmentStack":"웹 프론트엔드"}
+
+### 회원정보 가져오기
+GET http://localhost:8000/user/info
+Accept: application/json
+Content-Type: application/json
+
+### 유저의 프로젝트 리스트 출력
+GET http://localhost:8000/user/project/list
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id":"id5678"
+}
+
+### 팀장에게 지원한 유저들을 보여주는 리스트
+GET http://localhost:8000/user/project/manage/apply
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id":"id5678",
+  "project_id": 17
+}
+
+### 팀장의 리스트 출력
+GET http://localhost:8000/user/project/manage/list
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id":"id5678"
+}
+
+### apply한 유저 hire
+POST http://localhost:8000/user/project/manage/hire
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id":"id5678",
+  "project_id": 17,
+  "status" : "APPROVE"
+}
+
+### 팀장이 유저를 초대
+POST http://localhost:8000/user/project/manage/invite
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id":"id5678",
+  "project_id": 17
+}
+
+### 초대 수락
+POST http://localhost:8000/user/project/accept
+Accept: application/json
+Content-Type: application/json
+
+{
+"id":"id5678",
+"project_id": 17
+}
+
+### 유저의 초대 리스트
+GET http://localhost:user/project/invite/list
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id":"id5678"
+
+}

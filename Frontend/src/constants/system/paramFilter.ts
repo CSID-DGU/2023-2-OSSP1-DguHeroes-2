@@ -1,0 +1,1 @@
+export const paramFilter = /[^a-zA-Z0-9ㄱ-힣]/g; // 숫자, 영어, 한글에 해당하지 않는 문자는 특수문자로 취급

@@ -1,0 +1,34 @@
+### 어드민
+GET http://localhost:8000/admin/questionnaire/list
+Accept: application/json
+Content-Type: application/json
+
+### 멤버
+GET http://localhost:8000/user/project/manage/member
+Accept: application/json
+Content-Type: application/json
+
+### 질문지 업데이트
+PATCH http://localhost:8000/admin/questionnaire/update
+Accept: application/json
+Content-Type: application/json
+{
+    "questionnaire_id": "id3"
+}
+
+
+### 질문지 수정
+PATCH http://localhost:8000/admin/questionnaire/modify
+Accept: application/json
+Content-Type: application/json
+{
+    "questionnaire_id": "id3"
+}
+
+### 프로젝트 내용
+PATCH http://localhost:8000/user/project/manage/content
+Accept: application/json
+Content-Type: application/json
+{
+    "project_id": 17
+}
