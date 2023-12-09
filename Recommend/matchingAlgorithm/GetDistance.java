@@ -9,9 +9,15 @@ import org.neo4j.driver.Value;
 //neo4j 그래프 db로부터 노드간 최단거리를 가져오는 함수
 public class GetDistance {
   public static float getDistance(String stack1, String stack2){
-    String uri = "neo4j+s://1fc435f2.databases.neo4j.io";
-    String user = "neo4j";
-    String password = "hgjtCyWMi5hVUIHhc0Au_VLVcOGkxBe0FM02DqUoX7k";
+    @Value("${spring.data.neo4j.uri}")
+    private String neo4jUri;
+
+    @Value("${spring.data.neo4j.user}")
+    private String neo4jUser;
+
+    @Value("${spring.data.neo4j.password}")
+    private String neo4jPassword;
+
     float distance=0;
 
     try (Driver driver = GraphDatabase.driver(uri, AuthTokens.basic(user, password));
