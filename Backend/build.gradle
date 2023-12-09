@@ -27,6 +27,7 @@ dependencies {
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.neo4j.driver:neo4j-java-driver:5.7.0' // 그래프 db 연결
 
 	// Optional: if vert.x is needed
 	// implementation 'io.vertx:vertx-core:3.5.3'
