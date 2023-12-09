@@ -20,7 +20,7 @@ import {
   Root,
 } from './styled'
 import { useNavigate } from 'react-router-dom'
-// import { PostUserJoinResponseType, postuserJoin } from 'api/postUserJoin'
+import { PostUserJoinResponseType, postuserJoin } from 'api/postUserJoin'
 
 type JoinPageProps = {
   className?: string
@@ -54,14 +54,14 @@ export const JoinPage: FC<JoinPageProps> = ({ className }) => {
         developmentStack : developmentStack,
         scorePercent : questionnaireScore,
       }
-      /*
+      
       // userJoin 함수 호출하기
-    postuserJoin('/user/join', data)
+      postuserJoin(`${process.env.REACT_APP_BACKEND_URL}/user/join`, data)
     .then((response: PostUserJoinResponseType) => {
       if (response.status === 'SUCCESS') {
         // eslint-disable-next-line no-undef
         console.log('SUCCESS');
-        navigate('/user/login')
+        navigate(`${process.env.REACT_APP_BACKEND_URL}/user/login`)
       } else {
         // eslint-disable-next-line no-undef
         alert("회원가입에 실패했습니다.")
@@ -73,7 +73,7 @@ export const JoinPage: FC<JoinPageProps> = ({ className }) => {
       // eslint-disable-next-line no-undef
       console.error('Error :', error);
     });
-    */
+    
       alert("회원가입을 완료했습니다.")
       navigate('/login');
     } else {
