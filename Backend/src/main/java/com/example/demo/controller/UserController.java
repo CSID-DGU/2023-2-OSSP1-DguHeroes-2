@@ -309,6 +309,16 @@ public class UserController {
         }
         return responseService.getListResponse(commonResponse, list);
     }
+
+    // User 숙련도값 갱신 요청 -> 수정 필요
+    @PostMapping("user/request/newscore")
+    public CommonResponse requestScore(Long user_id) {
+
+        CommonResponse commonResponse = new CommonResponse();
+        commonResponse.setStatus("SUCCESS");
+        commonResponse.setMessage("숙련도 값 갱신 요청 성공");
+        return commonResponse;
+    }
 }
 
 
