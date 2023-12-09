@@ -22,9 +22,11 @@ type OptionType = {
 };
 
 const projectTypeOptions: OptionType[] = [
-  { value: "web", label: "WEB" },
-  { value: "app", label: "APP" },
-  { value: "etc", label: "ETC" },
+  { value: "WEB", label: "WEB" },
+  { value: "MOBILE APP", label: "MOBILE APP" },
+  { value: "DESKTOP APP", label: "DESKTOP APP" },
+  { value: "WEB APP", label: "WEB APP" },
+  { value: "ETC", label: "ETC" },
 ];
 
 const stackOptions: OptionType[] = [
@@ -97,7 +99,7 @@ export const ProjectListPage: FC<ProjectListPageProps> = ({ className }) => {
       <Container>
         <SelectContainer>
           <TitleTypo>분야 검색</TitleTypo>
-          <SelectBox onChange={(option) => handleProjectTypeSelectChange(option)} defaultValue="web" options={projectTypeOptions} />
+          <SelectBox onChange={(option) => handleProjectTypeSelectChange(option)} defaultValue="WEB" options={projectTypeOptions} />
         </SelectContainer>
         <SelectContainer>
           <TitleTypo>포지션 검색</TitleTypo>
