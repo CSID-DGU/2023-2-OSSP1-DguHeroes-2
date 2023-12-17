@@ -44,14 +44,14 @@ export const JoinPage: FC<JoinPageProps> = ({ className }) => {
         introduce: introduce,
         gitId: gitId,
       }
-      
+     
       // userJoin 함수 호출하기
-      postuserJoin(`${baseURL}/user/join`, data)
+      postuserJoin(`/user/join`, data)
     .then((response: PostUserJoinResponseType) => {
       if (response.status === 'SUCCESS') {
         // eslint-disable-next-line no-undef
         console.log('SUCCESS');
-        navigate(`${baseURL}/user/login`)
+        navigate(`/user/login`)
       } else {
         // eslint-disable-next-line no-undef
         alert("회원가입에 실패했습니다.")
