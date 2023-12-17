@@ -19,4 +19,7 @@ public interface UserJPARepository  extends JpaRepository<User, Long> {
 
     @Query("SELECT u.stacks FROM User u WHERE u.id = :userId")
     String findStacksByUserId(Long userId);
+
+    @Query("SELECT u.githubId FROM User u WHERE u.id = :userId")
+    String findGithubIdByUserId(Long userId);
 }
