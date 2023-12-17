@@ -1,9 +1,27 @@
 import java.util.*;
+
 public class recommend {
+
+    public void projectBaseSearch(int teamId, String stack){
+        float teamScore=AccessDB.getTeamScore(teamId);
+        List<String> projectRequiredStack =AccessDB.getProjRequiredStack(teamId);
+
+
+
+
+
+    }
+
     public static void main(String[] args) {
-        float a = urs.getTeamScore(123);
+        float a = AccessDB.getTeamScore(2);
         System.out.println("getTeamScore() 테스트 : " + a);
 
+        List<String> requiredStack = AccessDB.getProjRequiredStack(2);
+
+        System.out.println(requiredStack);
+
+
+/*
         float b = urs.calculateUrs(123,456,"Java");
         System.out.println("calculateUrs() 테스트 : " + b);
 
@@ -22,6 +40,7 @@ public class recommend {
         for(int i = 0; i < result2.length; i++){
             System.out.println("최종 추천 리스트 > " + i + ", projectId : " + Math.round(result2[i]));
         }
+ */
     }
 
     // 프로젝트 팀장이 특정 기술 스택에 대하여 팀원을 추천 받는 메소드 (output: 추천 팀원들의 userId 배열)
@@ -130,7 +149,7 @@ public class recommend {
             //|PROJECT_INFO.avg_score - <target_stack>.proficiency(id=user_id)|를 구하여 sampleSize만큼 샘플링
         for(i = 0; i < testSize; i++){
             gapsProjUsers[i][0] = recruitingProjs[i];
-            gapsProjUsers[i][1] = Math.abs(urs.getTeamScore(Math.round(recruitingProjs[i])) - proficiency);
+            gapsProjUsers[i][1] = Math.abs(AccessDB.getTeamScore(Math.round(recruitingProjs[i])) - proficiency);
             System.out.println(i + ", projectId : " + Math.round(gapsProjUsers[i][0]) + ", |avgUrs - 숙련도| : " + gapsProjUsers[i][1]);
         }
         System.out.println("\n");
@@ -147,7 +166,7 @@ public class recommend {
         //구현 3: 이전 단계에서 구한 상위 sampleSize개의 샘플들에 대해서 모두 calculateUrs()를 이용해 urs를 구함
         for(i = 0; i < sampleSize; i++){
             selectedProjs[i][0] = gapsProjUsers[i][0];
-            selectedProjs[i][1] = urs.getTeamScore(Math.round(gapsProjUsers[i][0]));
+            selectedProjs[i][1] = AccessDB.getTeamScore(Math.round(gapsProjUsers[i][0]));
             selectedProjs[i][2] = proficiency + random.nextFloat() * 1.5f;   //원래는 calculateUrs() 함수를 사용하여 urs를 구해야 하지만 DB 완성 전까지는 이와 같은 방식으로 대체
             System.out.println(i + ", projectId : " + Math.round(selectedProjs[i][0]) + ", urs : " + selectedProjs[i][1]);
         }
