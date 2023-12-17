@@ -9,8 +9,6 @@ import javax.persistence.Entity;
 @Entity
 @Getter
 @Setter
-@SuperBuilder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Angular extends StackBase {
 }

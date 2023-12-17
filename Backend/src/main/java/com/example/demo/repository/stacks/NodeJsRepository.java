@@ -8,5 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface NodeJsRepository extends JpaRepository<NodeJs, Long> {
-    
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE NodeJs d SET d.score = :score WHERE d.user.id = :userId")
+    void updateScoreByUserId(Long userId, Float score);
 }
