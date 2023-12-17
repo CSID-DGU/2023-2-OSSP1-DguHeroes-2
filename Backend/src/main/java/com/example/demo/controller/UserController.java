@@ -55,16 +55,17 @@ public class UserController {
     // 로그인
     @PostMapping("/user/login") //ok
     public AdminResponse login(HttpServletRequest request, @RequestBody Map<String, String> loginData){
-        String id = loginData.get("id");
-        String pw = loginData.get("password");
-        int login_result = userService.login(id, pw);
+        String email = loginData.get("email");
+        String password = loginData.get("password");
+        Long login_result = userService.login(email, password);
+
         CommonResponse commonResponse = new CommonResponse();
         HttpSession session = request.getSession(); // Session이 있으면 가져오고 없으면 Session을 생성
         int isAdmin = -1;
-        if (login_result == 1) {
+        if (login_result > 0) {
             commonResponse.setStatus("SUCCESS");
             commonResponse.setMessage(null);
-            session.setAttribute("id", id); // key:id, value:id
+            session.setAttribute("id", login_result); // key:id, value:id
             System.out.println(session.getAttribute("id"));
         } else {
             commonResponse.setStatus("FAILED");
