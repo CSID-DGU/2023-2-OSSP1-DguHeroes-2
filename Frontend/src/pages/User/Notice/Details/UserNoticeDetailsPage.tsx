@@ -163,7 +163,7 @@ export const UserNoticeDetailsPage: FC<UserNoticeDetailsPageProps> = ({ classNam
             </SideSectionProjectTypeContainer>
             <SideSectionInvitedProjectButtonContainer>
               <SideSectionApplyProjectButton type={'primary'} onClick={onClickAcceptProject}>수락하기</SideSectionApplyProjectButton>
-              <SideSectionQuitProjectButton type={'ghost'} onClick={onClickRejectProject}>거절하기</SideSectionQuitProjectButton>
+              <SideSectionQuitProjectButton type={'primary'} onClick={onClickRejectProject}>거절하기</SideSectionQuitProjectButton>
             </SideSectionInvitedProjectButtonContainer>
           </SideSectionContainer>
         </Container>

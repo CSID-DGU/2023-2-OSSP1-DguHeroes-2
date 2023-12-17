@@ -87,10 +87,10 @@ export const ProjectDetailsPage: FC<ProjectDetailsPageProps> = ({ className }) =
   const renderButton = (ProjectItem: ProjectItemType) => {
     if (ProjectItem.valid === 'VALID') {
       if (ProjectItem.position === 'LEADER') {
-        return <SideSectionManageProjectButton type={'ghost'} onClick={() => onClickProjectManage(ProjectItem.title)}>관리하기</SideSectionManageProjectButton>
+        return <SideSectionManageProjectButton type={'primary'} onClick={() => onClickProjectManage(ProjectItem.title)}>관리하기</SideSectionManageProjectButton>
       } else if (ProjectItem.position === 'MEMBER') {
         return (
-          <SideSectionQuitProjectButton type={'ghost'} disabled>
+          <SideSectionQuitProjectButton type={'primary'} disabled>
             참여 중
           </SideSectionQuitProjectButton>
         )
@@ -99,7 +99,7 @@ export const ProjectDetailsPage: FC<ProjectDetailsPageProps> = ({ className }) =
       } 
     } else {
       return (
-        <SideSectionQuitProjectButton type={'ghost'} disabled>
+        <SideSectionQuitProjectButton type={'primary'} disabled>
           만료됨
         </SideSectionQuitProjectButton>
       )

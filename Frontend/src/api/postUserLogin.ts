@@ -2,7 +2,7 @@ import { AxiosRequestConfig } from 'axios'
 import { axiosPOST } from './base'
 
 export type PostUserLoginRequestType = {
-  id: string
+  email: string
 	password: string
 }
 

@@ -1,13 +1,12 @@
 import { AxiosRequestConfig } from 'axios'
 import { axiosPOST } from './base'
-import { DevelopmentStackType } from 'types/project'
 
 export type PostUserJoinRequestType = {
-  id: string
+  email: string
 	password: string
 	nickname: string
 	introduce: string
-	email: string
+  gitId: string
 }
 
 export type PostUserJoinResponseType = {
