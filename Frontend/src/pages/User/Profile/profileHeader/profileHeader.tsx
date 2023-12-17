@@ -22,6 +22,7 @@ import {
   ScoreDisplay,
 } from './styled';
 import { GetUserInfoResponseType, getUserInfo } from 'api/getUserInfo';
+import { identity } from 'lodash';
 
 type ProfileHeaderProps = {
   className?: string;
@@ -30,7 +31,7 @@ type ProfileHeaderProps = {
 export const ProfileHeader: FC<ProfileHeaderProps> = ({ className }) => {
   const [score, setScore] = useState<number>(0);
   const [updatingScore, setUpdatingScore] = useState<boolean>(false);
-
+  const [id, setId] = useState<string>("");
   useEffect(() => {
     getUserInfo()
       .then((response: GetUserInfoResponseType) => {
@@ -48,6 +49,31 @@ export const ProfileHeader: FC<ProfileHeaderProps> = ({ className }) => {
   }, []);
 
   const UserListData: UserInfoListType = camelizeKey(UserListSampleJson.user_list) as UserInfoListType;
+  const userId = localStorage.getItem('id') || ''; 
+  setId(userId);
+
+  const updateUrsAPI = () => {
+    const data = {
+      id: id
+    }
+    postUpdateUrs(`${process.env.REACT_APP_BACKEND_URL}/user/login`, data)
+    .then((response: PostUpdateUrsResponseType) => {
+      if (response.status === 'SUCCESS') {
+        // eslint-disable-next-line no-undef
+        console.log('SUCCESS');
+        localStorage.removeItem('test_login')
+      } else {
+        // eslint-disable-next-line no-undef
+        alert("점수 갱신에 실패했습니다.")
+        // eslint-disable-next-line no-undef
+        console.log('Error message:', response.message);
+      }
+    })
+    .catch((error: any) => {
+      // eslint-disable-next-line no-undef
+      console.error('Error :', error);
+    });
+  }
 
   const handleButtonClick = () => {
     // 버튼 클릭 시 수행할 동작 정의
@@ -59,26 +85,7 @@ export const ProfileHeader: FC<ProfileHeaderProps> = ({ className }) => {
     // 2. 점수 다시 갱신해주는 프로세스 실행 (예시: 1초 후에 갱신 완료로 가정)
     setScore((prevScore) => prevScore + 1);     
 
-    postuserLogout('/user/logout')
-    .then((response: PostUserLogoutResponseType) => {
-      if (response.status === 'SUCCESS') {
-        // eslint-disable-next-line no-undef
-        console.log('SUCCESS')
-        // eslint-disable-next-line no-undef
-        localStorage.removeItem('test_login')
-        // eslint-disable-next-line no-undef
-        window.location.reload()
-      } else {
-        // eslint-disable-next-line no-undef
-        alert("로그아웃에 실패했습니다.")
-        // eslint-disable-next-line no-undef
-        console.log('Error message:', response.message);
-      }
-    })
-    .catch((error: any) => {
-      // eslint-disable-next-line no-undef
-      console.error('Error :', error);
-    });
+    updateUrsAPI()
 
     setTimeout(() => {   
       // 3. '갱신 중입니다' 텍스트 감추기
@@ -112,7 +119,7 @@ export const ProfileHeader: FC<ProfileHeaderProps> = ({ className }) => {
             <ScoreDisplay>Score: {score}</ScoreDisplay>
 
             {/* '갱신 중입니다' 텍스트 팝업 */}
-            {updatingScore && <div>   갱신 중입니다! GitHub repository의 양에 따라 소요 시간은 상이합니다. </div>}
+            {updatingScore && <div> 갱신 중입니다! GitHub repository의 양에 따라 소요 시간은 상이합니다. </div>}
           </UrsContainer>
         </UserInfo>
       </Container>
