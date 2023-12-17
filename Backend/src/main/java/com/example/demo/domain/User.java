@@ -38,7 +38,7 @@ public class User {
 
     @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<ProjectLike> project_l기ikes;
+    private List<ProjectLike> project_likes;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

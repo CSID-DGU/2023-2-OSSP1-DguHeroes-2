@@ -138,6 +138,11 @@ public class UserScoreService {
         return dictionary;
     }
 
+    public String findGithubId(Long userId){
+
+        String githubId = userJPARepository.findGithubIdByUserId(userId);
+        return githubId;
+    }
 
     // github_id 넘기기
     public void postRequestUserScore(String github_id){
