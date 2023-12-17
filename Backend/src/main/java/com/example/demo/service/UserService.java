@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.domain.Project;
 import com.example.demo.domain.User;
 import com.example.demo.repository.ApplyRepository;
+import com.example.demo.repository.UserJPARepository;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.List;
 @Service
 public class UserService {
     UserRepository user_rp;
+    UserJPARepository userJPARepository;
 
     ApplyRepository apply_rp;
     public UserService(@Qualifier("userRepository")UserRepository user_rp,
@@ -27,8 +29,7 @@ public class UserService {
     }
 
     public User join(User user){
-        User result_user = user_rp.save(user);
-        return result_user;
+        return userJPARepository.save(user);
     }
     public int duplicationCheckId(String id){return user_rp.duplicationCheckId(id);}
 
@@ -48,7 +49,10 @@ public class UserService {
         }
     }
 
-    public int login(String id, String pw){return user_rp.login(id,pw);}
+    // 로그인
+    public Long login(String email, String password){
+        return user_rp.login(email, password);
+    }
 
 
     public String findSessionId(HttpServletRequest request){

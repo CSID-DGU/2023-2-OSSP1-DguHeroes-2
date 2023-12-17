@@ -11,7 +11,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     public User save(User user);
     public User findByid(String id);
     public int deleteByid(String id);
-    public int login(String id, String password);
+    public Long login(String email, String password);
     public int duplicationCheckId(String id);
     public int duplicationCheckNickname(String nickname);
     public List<Project> findManageProjectList(String user_id);
