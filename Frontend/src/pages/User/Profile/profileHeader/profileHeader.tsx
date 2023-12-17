@@ -33,7 +33,7 @@ export const ProfileHeader: FC<ProfileHeaderProps> = ({ className }) => {
   const [updatingScore, setUpdatingScore] = useState<boolean>(false);
   const [id, setId] = useState<string>("");
   useEffect(() => {
-    const userId = localStorage.getItem('id') || ''; 
+    const userId = localStorage.getItem('id') || 'fail'; 
     setId(userId);
 
     // getUserInfo()
@@ -117,7 +117,7 @@ export const ProfileHeader: FC<ProfileHeaderProps> = ({ className }) => {
           {/* 버튼과 점수 표시 추가 */}
           <UrsContainer>
             <CustomButton onClick={handleButtonClick}>점수 갱신</CustomButton>
-            {/* <ScoreDisplay>Score: {score}</ScoreDisplay> */}
+            <ScoreDisplay>Score: {id}</ScoreDisplay>
 
             {/* '갱신 중입니다' 텍스트 팝업 */}
             {updatingScore && <div> 갱신 중입니다! GitHub repository의 양에 따라 소요 시간은 상이합니다. </div>}

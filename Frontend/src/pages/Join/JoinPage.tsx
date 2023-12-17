@@ -16,8 +16,6 @@ import {
 import { useNavigate } from 'react-router-dom'
 import { PostUserJoinResponseType, postuserJoin } from 'api/postUserJoin'
 
-export const baseURL = process.env.REACT_APP_API_URL
-
 type JoinPageProps = {
   className?: string
 }
