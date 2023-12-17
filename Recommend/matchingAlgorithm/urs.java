@@ -2,52 +2,36 @@ import java.util.*;
 
 public class urs {
     // 프로젝트의 평균 userRoleScore를 계산해주는 메소드
-    static float getTeamScore(int projId){
-        float avgScore = 0;
-
-        //구현: proj_id를 이용하여 PROJECT_MEMBER 테이블에서 프로젝트 멤버들의 user_role_score 추출
-        Random random = new Random();
-        int randomCount = random.nextInt(7) + 1;
-        float[] userRoleScore = new float[randomCount];
-        for (int i = 0; i < userRoleScore.length; i++) {
-            userRoleScore[i] = 3 + random.nextFloat() * (10 - 3);
-        }
-        //------------------------------------------------------------------------------
-
-        float sum = 0;
-        for (float score : userRoleScore) {
-            sum += score;
-        }
-        avgScore = sum / userRoleScore.length;
-
-        return avgScore;
-    }
 
     // 특정 프로젝트에서 특정 유저의 userRoleScore를 계산해주는 메소드
-    static float calculateUrs(int projId, int userId, String targetStack){
+    static float calculateUrs(List<String> projectRequiredStack, int userId, String targetStack){
         float urs = 0;
         float distance=0;
+<<<<<<< HEAD
 
         //구현: 프로젝트(projId)가 요구하는 기술스택 리스트를 PROJECT_SPEC 테이블에서 추출 (중복 제거) -----
         List<String> projStack = new ArrayList<>();
         projStack.add("Java");
         projStack.add("SpringBoot");
         //----------------------------------------------------------------------------------
+=======
+>>>>>>> main
 
         //구현: 유저(userId)가 사용할 줄 아는 기술스택 리스트를 USER_STACK 테이블에서 추출 -----------
-        List<String> userStack = new ArrayList<>();;   //test dataset
-        userStack.add("Java");
-        userStack.add("SpringBoot");
-        //-------------------------------------------------------------------------------
+        List<String> userRequiredStack =AccessDB.getUserAvailableStack(userId);
 
-        List<String> intersection = findIntersection(projStack, userStack);
+        List<String> intersection = findIntersection(projectRequiredStack, userRequiredStack);
 
         for(int i=0;i<intersection.size();i++){
             String element=intersection.get(i);
             if(targetStack.equals(element)){
                 distance=0;
             }else{
+<<<<<<< HEAD
                 distance=GetDistance.getDistance(targetStack, element);
+=======
+                //distance=GetDistance.getDistance(targetStack, element);
+>>>>>>> main
             }
             // random.nextFlot()*10을 ursscore(element)로 바꾸면 된다.
             // element에 해당하는 stack을 db에서 읽어와서 점수를 호출하면 됨.
@@ -71,4 +55,4 @@ public class urs {
 
         return intersection;
     }
-}
+}.

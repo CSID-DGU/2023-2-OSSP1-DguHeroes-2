@@ -5,6 +5,7 @@ import com.example.demo.dto.HireInfo;
 import com.example.demo.dto.UserProjectList;
 import com.example.demo.response.*;
 import com.example.demo.service.*;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+@AllArgsConstructor
 @RestController
 public class UserController {
 
@@ -26,22 +28,11 @@ public class UserController {
     private ProjectService projectService;
     private InvitationService invitationService;
     private ProjectMemberService projectMemberService;
+    private UserScoreService userScoreService;
+    private ProjectLikeService projectLikeService;
 
     @Autowired
     private ApplyService applyService;
-
-
-    private ProjectLikeService projectLikeService;
-
-    public UserController(ResponseService responseService, ApplyService applyService, UserService userService, ProjectService projectService, InvitationService invitationService, ProjectMemberService memberService) {
-        this.responseService = responseService;
-        this.userService = userService;
-        this.projectService = projectService;
-        this.invitationService = invitationService;
-        this.projectMemberService = memberService;
-        this.applyService = applyService;
-        //this.projectStackService = projectService;
-    }
 
     // 회원가입
     @PostMapping("/user/join")
@@ -64,16 +55,17 @@ public class UserController {
     // 로그인
     @PostMapping("/user/login") //ok
     public AdminResponse login(HttpServletRequest request, @RequestBody Map<String, String> loginData){
-        String id = loginData.get("id");
-        String pw = loginData.get("password");
-        int login_result = userService.login(id, pw);
+        String email = loginData.get("email");
+        String password = loginData.get("password");
+        Long login_result = userService.login(email, password);
+
         CommonResponse commonResponse = new CommonResponse();
         HttpSession session = request.getSession(); // Session이 있으면 가져오고 없으면 Session을 생성
         int isAdmin = -1;
-        if (login_result == 1) {
+        if (login_result > 0) {
             commonResponse.setStatus("SUCCESS");
             commonResponse.setMessage(null);
-            session.setAttribute("id", id); // key:id, value:id
+            session.setAttribute("id", login_result); // key:id, value:id
             System.out.println(session.getAttribute("id"));
         } else {
             commonResponse.setStatus("FAILED");
@@ -115,53 +107,6 @@ public class UserController {
         return responseService.getSingleResponse(commonResponse, user);
     }
 
-//    @GetMapping("/user/project/manage/recommend")
-//    public <T> ListResponse<User> recommendUser(int project_id) {
-//        int require_member_num = 0;
-//        List<User> temp_list = null;
-//        List<ProjectStack> projectStacks = projectService.findProjectStackByProjectId(project_id);
-//        for (ProjectStack stack : projectStacks) {
-//            require_member_num += stack.getRequire_member();
-//            List<User> list = userService.findUsersByStack(stack.getDevelopment_stack()); //일단 스택에 맞는 유저들만 뽑아옴
-//            for (User user : list) {
-//                if (userService.findGradeByUserId(user) == stack.getRequire_grade()) {
-//                    temp_list.add(user);
-//                }
-//            }
-//        }
-//
-//        List<User> temp_list2 = null;
-//
-//        if (temp_list.size() <= require_member_num) {
-//            for (int i = 0; i < temp_list.size(); i++) {
-//                temp_list2.add(temp_list.get(i));
-//            }
-//        }
-//
-//        while (temp_list.size() > require_member_num * 2) {
-//            List<Integer> numbers = new ArrayList<>();
-//            for (int i = 1; i <= temp_list.size(); i++) {
-//                numbers.add(i);
-//            }
-//
-//            List<Integer> randomNumbers = new ArrayList<>();
-//            Random random = new Random();
-//            for (int i = 0; i < require_member_num; i++) {
-//                int index = random.nextInt(numbers.size());
-//                randomNumbers.add(numbers.remove(index));
-//            }
-//            for (Integer num : randomNumbers) {
-//                temp_list2.add(temp_list.get(num));
-//            }
-//        }
-//        CommonResponse commonResponse = new CommonResponse();
-//        commonResponse.setStatus("SUCCESS");
-//        commonResponse.setMessage(null);
-//
-//        List<Map<List<User>, String>> recommended_user_list = null;
-//
-//        return responseService.getListResponse(commonResponse, temp_list2);
-//    }
 
     // ??
     @GetMapping("/user/project/manage/list")
@@ -309,6 +254,7 @@ public class UserController {
         }
         return responseService.getListResponse(commonResponse, list);
     }
+
 }
 
 

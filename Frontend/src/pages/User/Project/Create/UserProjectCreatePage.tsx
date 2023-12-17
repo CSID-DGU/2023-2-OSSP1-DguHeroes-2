@@ -135,8 +135,8 @@ export const UserProjectCreatePage: FC<UserProjectCreatePageProps> = ({ classNam
 
   const onClickProjectCreate = () => {
     if(title.length > 0 && projectType !== undefined && leaderDevelopmentStack !== undefined && location !== undefined && projectStartDate !== undefined && projectEndDate !== undefined && projectContent.length > 0) {
-      
-    const filteredrequireMemberList = requireMemberList.filter((member) => member.number !== undefined && member.number > 0 && member.positionStacks !== undefined && member.positionStacks.length > 0)
+
+      const filteredrequireMemberList = requireMemberList.filter((member) => member.number !== undefined && member.number > 0 && member.positionStacks !== undefined && member.positionStacks.length > 0)
       if(filteredrequireMemberList.length === 0) {
         // eslint-disable-next-line no-undef
         alert("입력값을 모두 채워주세요.")
@@ -154,26 +154,26 @@ export const UserProjectCreatePage: FC<UserProjectCreatePageProps> = ({ classNam
       }
       // api 호출하기
       postprojectCreate('/project/create', data)
-      .then((response: PostProjectCreateResponseType) => {
-        if (response.status === 'SUCCESS') {
+        .then((response: PostProjectCreateResponseType) => {
+          if (response.status === 'SUCCESS') {
+            // eslint-disable-next-line no-undef
+            console.log('SUCCESS');
+            navigate('/')
+          } else {
+            // eslint-disable-next-line no-undef
+            console.log('FAIL');
+            // eslint-disable-next-line no-undef
+            console.log('Error message:', response.message);
+          }
+        })
+        .catch((error: any) => {
           // eslint-disable-next-line no-undef
-          console.log('SUCCESS');
-          navigate('/')
-        } else {
-          // eslint-disable-next-line no-undef
-          console.log('FAIL');
-          // eslint-disable-next-line no-undef
-          console.log('Error message:', response.message);
-        }
-      })
-      .catch((error: any) => {
-        // eslint-disable-next-line no-undef
-        console.error('Error :', error);
-      });
+          console.error('Error :', error);
+        });
     } else {
       // eslint-disable-next-line no-undef
-    alert("프로젝트가 생성되었습니다.")
-    navigate('/')
+      alert("프로젝트가 생성되었습니다.")
+      navigate('/')
     }
   }
 
@@ -265,11 +265,11 @@ export const UserProjectCreatePage: FC<UserProjectCreatePageProps> = ({ classNam
                         style={{ display: 'inline-block', width: 'calc(45% - 8px)', marginLeft: '5px', marginBottom: 0  }}
                       >
                         <Select mode="multiple" placeholder="기술스택" onChange = {onHandlePositionStack} value = {selectedItems}>
-                        {stacks.map((stack) => (
-                          <Option key={stack.value} value={stack.value}>
-                            {stack.label}
-                          </Option>
-                        ))}
+                          {stacks.map((stack) => (
+                            <Option key={stack.value} value={stack.value}>
+                              {stack.label}
+                            </Option>
+                          ))}
                         </Select>
                       </Form.Item>
 
@@ -283,7 +283,7 @@ export const UserProjectCreatePage: FC<UserProjectCreatePageProps> = ({ classNam
                         onHandlePositionStack={onHandlePositionStack}
                       />
 
-                  </ProjectMemberInputContainer>
+                    </ProjectMemberInputContainer>
                   ))
                 }
               </Form.Item>
@@ -315,25 +315,19 @@ export const UserProjectCreatePage: FC<UserProjectCreatePageProps> = ({ classNam
               </InputContainer>
               <Form.Item>
                 <InputTitleRequired>분야</InputTitleRequired>
-                <Radio.Group onChange={onChangeProjectType}>
-                  <Row style={{ flexFlow: 'row nowrap' }}>
-                    <Col span={10}>
-                      <Radio value="WEB" style={{ lineHeight: '32px' }}>
-                        WEB
-                      </Radio>
-                    </Col>
-                    <Col span={10}>
-                      <Radio value="APP" style={{ lineHeight: '32px' }}>
-                        APP
-                      </Radio>
-                    </Col>
-                    <Col span={10}>
-                      <Radio value="ETC" style={{ lineHeight: '32px' }}>
-                        ETC
-                      </Radio>
-                    </Col>
-                  </Row>
-                </Radio.Group>
+                <Form.Item name="category">
+                  <Select
+                    placeholder="분야"
+                    onChange={(value) => setLeaderDevelopmentStack(value)}
+                    style={{ width: '160px' }}
+                  >
+                    <Option value="WEB">WEB</Option>
+                    <Option value="MOBILE APP">ANDROID APP</Option>
+                    <Option value="DESKTOP APP">DESKTOP APP</Option>
+                    <Option value="WEB APP">WEB APP</Option>
+                    <Option value="ETC">ETC</Option>
+                  </Select>
+                </Form.Item>
               </Form.Item>
             </Form>
           </ProjectOptionRightContainer>
@@ -350,3 +344,4 @@ export const UserProjectCreatePage: FC<UserProjectCreatePageProps> = ({ classNam
     </Root>
   )
 }
+

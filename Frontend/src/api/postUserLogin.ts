@@ -2,13 +2,16 @@ import { AxiosRequestConfig } from 'axios'
 import { axiosPOST } from './base'
 
 export type PostUserLoginRequestType = {
-  id: string
+  email: string
 	password: string
 }
 
 export type PostUserLoginResponseType = {
   status: "SUCCESS" | "FAILED"
 	message?: string
+  data?:{
+    id: string
+  }
 }
 
 export const postuserLogin = (url: string, data: PostUserLoginRequestType, config?: AxiosRequestConfig) => {

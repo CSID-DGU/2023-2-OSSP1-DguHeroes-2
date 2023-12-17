@@ -53,14 +53,15 @@ public class UserRepositoryImpl implements UserRepository{
 
 
     @Override
-    public int login(String id, String password){
-        String sql = "select user from User user where id = :id and password = :password";
-        TypedQuery<User> query = em.createQuery(sql, User.class);
-        query.setParameter("id", id);
+    public Long login(String email, String password){
+        String sql = "select id from User user where email = :email and password = :password";
+        TypedQuery<Long> query = em.createQuery(sql, Long.class);
+        query.setParameter("email", email);
         query.setParameter("password", password);
-        List<User> list = query.getResultList();
-        if(list.size()!=0) return 1;
-        else return 0;
+        List<Long> results = query.getResultList();
+
+        if(!results.isEmpty()) return results.get(0);
+        else return 0L;
     }
     @Override
     public int duplicationCheckId(String id){
@@ -250,6 +251,5 @@ public class UserRepositoryImpl implements UserRepository{
     public <S extends User, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
         return null;
     }
-
 
 }

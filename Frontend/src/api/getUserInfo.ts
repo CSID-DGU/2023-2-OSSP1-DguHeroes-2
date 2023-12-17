@@ -6,14 +6,15 @@ export type GetUserInfoRequestType = {}
 
 export type GetUserInfoResponseType = {
   status: "SUCCESS" | "FAILED"
-	message?: string
+  message?: string
   userInfo: UserInfoType
+  score: number
 }
 
 const getQueryPath = `/user/info`
 
 export const getUserInfo = (params?: GetUserInfoRequestType, config?: AxiosRequestConfig) => {
- return axiosGET<GetUserInfoRequestType, GetUserInfoResponseType>(
+  return axiosGET<GetUserInfoRequestType, GetUserInfoResponseType>(
     getQueryPath,
     params,
     config
