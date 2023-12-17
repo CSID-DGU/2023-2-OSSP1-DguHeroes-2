@@ -2,6 +2,8 @@ import { AxiosRequestConfig } from 'axios'
 import { axiosGET } from './base'
 import { ProjectListType } from 'types/project'
 
+export const baseURL = process.env.REACT_APP_API_URL
+
 export type GetMainInfoRequestType = {}
 
 export type GetMainInfoResponseType = {
@@ -12,7 +14,7 @@ export type GetMainInfoResponseType = {
 	recentProjectList: ProjectListType
 }
 
-const getQueryPath = `/main/info`
+const getQueryPath = `${baseURL}/main/info`
 
 export const getmainInfo = (params?: GetMainInfoRequestType, config?: AxiosRequestConfig) => {
  return axiosGET<GetMainInfoRequestType, GetMainInfoResponseType>(
