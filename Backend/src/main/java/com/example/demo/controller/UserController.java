@@ -34,11 +34,6 @@ public class UserController {
     @Autowired
     private ApplyService applyService;
 
-
-
-
-
-
     // 회원가입
     @PostMapping("/user/join")
     public SingleResponse<User> insert(@RequestBody User user){
@@ -111,53 +106,6 @@ public class UserController {
         return responseService.getSingleResponse(commonResponse, user);
     }
 
-//    @GetMapping("/user/project/manage/recommend")
-//    public <T> ListResponse<User> recommendUser(int project_id) {
-//        int require_member_num = 0;
-//        List<User> temp_list = null;
-//        List<ProjectStack> projectStacks = projectService.findProjectStackByProjectId(project_id);
-//        for (ProjectStack stack : projectStacks) {
-//            require_member_num += stack.getRequire_member();
-//            List<User> list = userService.findUsersByStack(stack.getDevelopment_stack()); //일단 스택에 맞는 유저들만 뽑아옴
-//            for (User user : list) {
-//                if (userService.findGradeByUserId(user) == stack.getRequire_grade()) {
-//                    temp_list.add(user);
-//                }
-//            }
-//        }
-//
-//        List<User> temp_list2 = null;
-//
-//        if (temp_list.size() <= require_member_num) {
-//            for (int i = 0; i < temp_list.size(); i++) {
-//                temp_list2.add(temp_list.get(i));
-//            }
-//        }
-//
-//        while (temp_list.size() > require_member_num * 2) {
-//            List<Integer> numbers = new ArrayList<>();
-//            for (int i = 1; i <= temp_list.size(); i++) {
-//                numbers.add(i);
-//            }
-//
-//            List<Integer> randomNumbers = new ArrayList<>();
-//            Random random = new Random();
-//            for (int i = 0; i < require_member_num; i++) {
-//                int index = random.nextInt(numbers.size());
-//                randomNumbers.add(numbers.remove(index));
-//            }
-//            for (Integer num : randomNumbers) {
-//                temp_list2.add(temp_list.get(num));
-//            }
-//        }
-//        CommonResponse commonResponse = new CommonResponse();
-//        commonResponse.setStatus("SUCCESS");
-//        commonResponse.setMessage(null);
-//
-//        List<Map<List<User>, String>> recommended_user_list = null;
-//
-//        return responseService.getListResponse(commonResponse, temp_list2);
-//    }
 
     // ??
     @GetMapping("/user/project/manage/list")
