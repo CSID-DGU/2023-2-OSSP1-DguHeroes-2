@@ -18,6 +18,4 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     public List<Project> findBelongingProjects(String user_id);
     public List<Project> findProjectList(String user_id);
     public User findUserById(String id);
-
-
 }
