@@ -8,5 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface ReactNativeRepository extends JpaRepository<ReactNative, Long> {
-    
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE ReactNative d SET d.score = :score WHERE d.user.id = :userId")
+    void updateScoreByUserId(Long userId, Float score);
 }

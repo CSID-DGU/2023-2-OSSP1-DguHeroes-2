@@ -8,5 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface HtmlCssRepository extends JpaRepository<HtmlCss, Long> {
-    
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE HtmlCss d SET d.score = :score WHERE d.user.id = :userId")
+    void updateScoreByUserId(Long userId, Float score);
 }

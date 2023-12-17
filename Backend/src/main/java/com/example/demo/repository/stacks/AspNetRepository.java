@@ -8,5 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface AspNetRepository extends JpaRepository<AspNet, Long> {
-    
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE AspNet d SET d.score = :score WHERE d.user.id = :userId")
+    void updateScoreByUserId(Long userId, Float score);
 }
