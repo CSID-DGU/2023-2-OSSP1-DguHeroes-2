@@ -5,6 +5,7 @@ import com.example.demo.dto.HireInfo;
 import com.example.demo.dto.UserProjectList;
 import com.example.demo.response.*;
 import com.example.demo.service.*;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+@AllArgsConstructor
 @RestController
 public class UserController {
 
@@ -26,22 +28,16 @@ public class UserController {
     private ProjectService projectService;
     private InvitationService invitationService;
     private ProjectMemberService projectMemberService;
+    private UserScoreService userScoreService;
+    private ProjectLikeService projectLikeService;
 
     @Autowired
     private ApplyService applyService;
 
 
-    private ProjectLikeService projectLikeService;
 
-    public UserController(ResponseService responseService, ApplyService applyService, UserService userService, ProjectService projectService, InvitationService invitationService, ProjectMemberService memberService) {
-        this.responseService = responseService;
-        this.userService = userService;
-        this.projectService = projectService;
-        this.invitationService = invitationService;
-        this.projectMemberService = memberService;
-        this.applyService = applyService;
-        //this.projectStackService = projectService;
-    }
+
+
 
     // 회원가입
     @PostMapping("/user/join")
@@ -312,7 +308,10 @@ public class UserController {
 
     // User 숙련도값 갱신 요청 -> 수정 필요
     @PostMapping("user/request/newscore")
-    public CommonResponse requestScore(Long user_id) {
+    public CommonResponse requestScore(@RequestBody String github_id) {
+
+        // 프론트와 통신 user_id 받아서 숙련도 갱신 요청 보내기
+        userScoreService.postRequestUserScore(github_id);
 
         CommonResponse commonResponse = new CommonResponse();
         commonResponse.setStatus("SUCCESS");

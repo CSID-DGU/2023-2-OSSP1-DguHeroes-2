@@ -26,6 +26,7 @@ public class User {
     private String introduce;
     private String email;
     private String stacks;
+    private String githubId;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -37,16 +38,16 @@ public class User {
 
     @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<ProjectLike> project_likes;
+    private List<ProjectLike> project_l기ikes;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Apply> applys;
 
     // stacks
-    @JsonManagedReference
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<NodeJs> nodeJS;
+//    @JsonManagedReference
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    private List<NodeJs> nodeJS;
 
 }
 

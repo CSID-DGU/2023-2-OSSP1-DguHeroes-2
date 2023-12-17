@@ -12,7 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 
 @ToString
-public class ProjectLikeDto {
+public class ProjectLikeDTO {
 
     private int project_like_id;
     private User user;
