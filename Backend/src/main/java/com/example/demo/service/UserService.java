@@ -48,7 +48,10 @@ public class UserService {
         }
     }
 
-    public int login(String id, String pw){return user_rp.login(id,pw);}
+    // 로그인
+    public Long login(String email, String password){
+        return user_rp.login(email, password);
+    }
 
 
     public String findSessionId(HttpServletRequest request){
