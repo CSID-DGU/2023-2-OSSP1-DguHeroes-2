@@ -5,6 +5,8 @@ import { FC, useEffect, useState } from 'react';
 import { UserInfoListType } from 'types/project';
 import { camelizeKey } from 'utils/camelizeKey';
 import { translateDevelopmentStack, getDevelopmentStackColor } from 'utils/translateDevelopmentStack';
+import { PostUpdateUrsResponseType, postUpdateUrs } from 'api/postUpdateUrs';
+import { PostUserLogoutResponseType, postuserLogout} from 'api/postUserLogout';
 import {
   Root,
   Container,
@@ -27,25 +29,21 @@ type ProfileHeaderProps = {
 
 export const ProfileHeader: FC<ProfileHeaderProps> = ({ className }) => {
   const [score, setScore] = useState<number>(0);
+  const [updatingScore, setUpdatingScore] = useState<boolean>(false);
 
   useEffect(() => {
     getUserInfo()
       .then((response: GetUserInfoResponseType) => {
         if (response.status === 'SUCCESS') {
-          // eslint-disable-next-line no-undef
           console.log('SUCCESS');
-          // 값 받아오기
-          setScore(response.score); // API에서 점수를 받아와서 state 업데이트
+          setScore(response.score);
         } else {
-          // eslint-disable-next-line no-undef
           console.log('FAIL');
-          // eslint-disable-next-line no-undef
           console.log('Error message:', response.message);
         }
       })
       .catch((error: any) => {
-        // eslint-disable-next-line no-undef
-        console.error('Error :', error);
+        console.error('Error:', error);
       });
   }, []);
 
@@ -54,9 +52,38 @@ export const ProfileHeader: FC<ProfileHeaderProps> = ({ className }) => {
   const handleButtonClick = () => {
     // 버튼 클릭 시 수행할 동작 정의
     console.log('Button Clicked!');
-    // 1. 점수 다시 갱신해주는 프로세스 실행
-    // setScore(response.data.score); // 2. API에서 점수를 받아와서 state 업데이트
-    setScore((prevScore) => prevScore + 1); // 예시: 버튼 클릭 시 점수 증가
+    
+    // 1. '갱신 중입니다' 텍스트 표시
+    setUpdatingScore(true);
+
+    // 2. 점수 다시 갱신해주는 프로세스 실행 (예시: 1초 후에 갱신 완료로 가정)
+    setScore((prevScore) => prevScore + 1);     
+
+    postuserLogout('/user/logout')
+    .then((response: PostUserLogoutResponseType) => {
+      if (response.status === 'SUCCESS') {
+        // eslint-disable-next-line no-undef
+        console.log('SUCCESS')
+        // eslint-disable-next-line no-undef
+        localStorage.removeItem('test_login')
+        // eslint-disable-next-line no-undef
+        window.location.reload()
+      } else {
+        // eslint-disable-next-line no-undef
+        alert("로그아웃에 실패했습니다.")
+        // eslint-disable-next-line no-undef
+        console.log('Error message:', response.message);
+      }
+    })
+    .catch((error: any) => {
+      // eslint-disable-next-line no-undef
+      console.error('Error :', error);
+    });
+
+    setTimeout(() => {   
+      // 3. '갱신 중입니다' 텍스트 감추기
+      setUpdatingScore(false);
+    }, 600000);
   };
 
   return (
@@ -83,9 +110,13 @@ export const ProfileHeader: FC<ProfileHeaderProps> = ({ className }) => {
           <UrsContainer>
             <CustomButton onClick={handleButtonClick}>점수 갱신</CustomButton>
             <ScoreDisplay>Score: {score}</ScoreDisplay>
+
+            {/* '갱신 중입니다' 텍스트 팝업 */}
+            {updatingScore && <div>   갱신 중입니다! GitHub repository의 양에 따라 소요 시간은 상이합니다. </div>}
           </UrsContainer>
         </UserInfo>
       </Container>
     </Root>
-  );
-};
+  )
+}
+

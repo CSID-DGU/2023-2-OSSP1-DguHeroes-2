@@ -48,6 +48,7 @@ export const LoginPage: FC<LoginPageProps> = ({ className }) => {
         localStorage.removeItem('test_login')
         // eslint-disable-next-line no-undef
         localStorage.setItem('test_login', 'true')
+        localStorage.setItem('id', email)
       } else {
         // eslint-disable-next-line no-undef
         alert("로그인에 실패했습니다.")
