@@ -21,8 +21,8 @@ import {
   CustomButton,
   ScoreDisplay,
 } from './styled';
-import { GetUserInfoResponseType, getUserInfo } from 'api/getUserInfo';
-import { identity } from 'lodash';
+// import { GetUserInfoResponseType, getUserInfo } from 'api/getUserInfo';
+// import { identity } from 'lodash';
 
 type ProfileHeaderProps = {
   className?: string;
@@ -33,30 +33,31 @@ export const ProfileHeader: FC<ProfileHeaderProps> = ({ className }) => {
   const [updatingScore, setUpdatingScore] = useState<boolean>(false);
   const [id, setId] = useState<string>("");
   useEffect(() => {
-    getUserInfo()
-      .then((response: GetUserInfoResponseType) => {
-        if (response.status === 'SUCCESS') {
-          console.log('SUCCESS');
-          setScore(response.score);
-        } else {
-          console.log('FAIL');
-          console.log('Error message:', response.message);
-        }
-      })
-      .catch((error: any) => {
-        console.error('Error:', error);
-      });
+    const userId = localStorage.getItem('id') || ''; 
+    setId(userId);
+
+    // getUserInfo()
+    //   .then((response: GetUserInfoResponseType) => {
+    //     if (response.status === 'SUCCESS') {
+    //       console.log('SUCCESS');
+    //       setScore(response.score);
+    //     } else {
+    //       console.log('FAIL');
+    //       console.log('Error message:', response.message);
+    //     }
+    //   })
+    //   .catch((error: any) => {
+    //     console.error('Error:', error);
+    //   });
   }, []);
 
   const UserListData: UserInfoListType = camelizeKey(UserListSampleJson.user_list) as UserInfoListType;
-  const userId = localStorage.getItem('id') || ''; 
-  setId(userId);
 
   const updateUrsAPI = () => {
     const data = {
       id: id
     }
-    postUpdateUrs(`${process.env.REACT_APP_BACKEND_URL}/user/login`, data)
+    postUpdateUrs(`/user/login`, data)
     .then((response: PostUpdateUrsResponseType) => {
       if (response.status === 'SUCCESS') {
         // eslint-disable-next-line no-undef
@@ -116,7 +117,7 @@ export const ProfileHeader: FC<ProfileHeaderProps> = ({ className }) => {
           {/* 버튼과 점수 표시 추가 */}
           <UrsContainer>
             <CustomButton onClick={handleButtonClick}>점수 갱신</CustomButton>
-            <ScoreDisplay>Score: {score}</ScoreDisplay>
+            {/* <ScoreDisplay>Score: {score}</ScoreDisplay> */}
 
             {/* '갱신 중입니다' 텍스트 팝업 */}
             {updatingScore && <div> 갱신 중입니다! GitHub repository의 양에 따라 소요 시간은 상이합니다. </div>}
