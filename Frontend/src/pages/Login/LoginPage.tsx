@@ -23,7 +23,7 @@ type LoginPageProps = {
 export const LoginPage: FC<LoginPageProps> = ({ className }) => {
   const navigate = useNavigate();
 
-  const [id, setId] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   const onClickJoinButton = () => {
@@ -31,11 +31,11 @@ export const LoginPage: FC<LoginPageProps> = ({ className }) => {
   }
 
   const onLoginAPI = () => {
-    if(id.length === 0 || password.length === 0) {
+    if(email.length === 0 || password.length === 0) {
       return // alert 넣고 싶다..
     } 
     const data = {
-      id: id,
+      email: email,
       password: password
     }
     postuserLogin(`${process.env.REACT_APP_BACKEND_URL}/user/login`, data)
@@ -51,7 +51,7 @@ export const LoginPage: FC<LoginPageProps> = ({ className }) => {
       } else {
         // eslint-disable-next-line no-undef
         alert("로그인에 실패했습니다.")
-        setId("")
+        setEmail("")
         setPassword("")
         // eslint-disable-next-line no-undef
         console.log('Error message:', response.message);
@@ -80,7 +80,7 @@ export const LoginPage: FC<LoginPageProps> = ({ className }) => {
         <LogoImg src={logoImg} alt={'로고 이미지'} />
         <LogoTypo>당신의 능력, 티밍에서 펼쳐보세요!</LogoTypo>
         <InputContainer>
-          <ContentInput placeholder="아이디" onChange={(e) => setId(e.target.value)}/>
+          <ContentInput placeholder="Email" onChange={(e) => setEmail(e.target.value)}/>
           <ContentInput placeholder="비밀번호" type="password" onKeyDown={onKeyPressEnter} onChange={(e) => setPassword(e.target.value)}/>
         </InputContainer>
         <LoginButton type="primary" onClick={onClickLogin}>
