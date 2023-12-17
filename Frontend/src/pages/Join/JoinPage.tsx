@@ -33,6 +33,7 @@ export const JoinPage: FC<JoinPageProps> = ({ className }) => {
   const [password, setPassword] = useState<string>("");
   const [passwordCheck, setPasswordCheck] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const [gitId, setGitId] = useState<string>("");
   const [nickname, setNickname] = useState<string>("");
   const [introduce, setIntroduce] = useState<string>("");
   const [developmentStack, setDevelopmentStack] = useState<DevelopmentStackType>()
@@ -43,7 +44,7 @@ export const JoinPage: FC<JoinPageProps> = ({ className }) => {
 
   const onClickJoin = () => {
     // api 넣기
-    if(id.length > 0 && password.length > 0 && password === passwordCheck && email.length > 0 && nickname.length > 0 && introduce.length > 0) {
+    if(id.length > 0 && password.length > 0 && password === passwordCheck && email.length > 0 && gitId.length > 0 && nickname.length > 0 && introduce.length > 0) {
       // eslint-disable-next-line no-unused-vars
       let data = {
         id: id,
@@ -51,6 +52,7 @@ export const JoinPage: FC<JoinPageProps> = ({ className }) => {
         nickname: nickname,
         introduce: introduce,
         email: email,
+        gitId: gitId,
         developmentStack : developmentStack,
         scorePercent : questionnaireScore,
       }
@@ -95,6 +97,7 @@ export const JoinPage: FC<JoinPageProps> = ({ className }) => {
           <ContentInput type="password" placeholder="비밀번호" onChange={(e) => setPassword(e.target.value)}/>
           <ContentInput type="password" placeholder="비밀번호 확인" onChange={(e) => setPasswordCheck(e.target.value)}/>
           <ContentInput placeholder="이메일" onChange={(e) => setEmail(e.target.value)}/>
+          <ContentInput placeholder="GitHub 아이디" onChange={(e) => setGitId(e.target.value)}/>
           <ContentInput placeholder="닉네임" onChange={(e) => setNickname(e.target.value)}/>
           <ContentTextArea placeholder="자기소개" onChange={(e) => setIntroduce(e.target.value)}></ContentTextArea>
         </InputContainer>
