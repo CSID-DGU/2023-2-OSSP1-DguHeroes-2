@@ -76,6 +76,17 @@ export const CustomButton = styled.button`
     background-color: #45a049;
   }
 `
+export const Modal = styled.div`
+  /* 모달 스타일링 */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+`
 export const ScoreDisplay = styled.div`
   font-size: 16px;
   font-weight: bold;

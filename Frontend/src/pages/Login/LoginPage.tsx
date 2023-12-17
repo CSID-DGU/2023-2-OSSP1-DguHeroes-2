@@ -38,7 +38,7 @@ export const LoginPage: FC<LoginPageProps> = ({ className }) => {
       email: email,
       password: password
     }
-    postuserLogin(`${process.env.REACT_APP_BACKEND_URL}/user/login`, data)
+    postuserLogin(`/user/login`, data)
     .then((response: PostUserLoginResponseType) => {
       if (response.status === 'SUCCESS') {
         // eslint-disable-next-line no-undef
@@ -48,6 +48,10 @@ export const LoginPage: FC<LoginPageProps> = ({ className }) => {
         localStorage.removeItem('test_login')
         // eslint-disable-next-line no-undef
         localStorage.setItem('test_login', 'true')
+        const userId = response.data?.id;
+        if(userId){
+         localStorage.setItem('id', userId)
+        }
       } else {
         // eslint-disable-next-line no-undef
         alert("로그인에 실패했습니다.")
