@@ -4,8 +4,6 @@ import { ApplyProjectListType, ProjectListType } from 'types/project'
 
 export type GetUserprojectListRequestType = {}
 
-export const baseURL = process.env.REACT_APP_API_URL
-
 export type GetUserprojectListResponseType = {
   status: "SUCCESS" | "FAILED"
 	message?: string
@@ -15,7 +13,7 @@ export type GetUserprojectListResponseType = {
 	endProjectList: ProjectListType // 마감된 프로젝트
 }
 
-const getQueryPath = `${baseURL}/user/project/list`
+const getQueryPath = `/user/project/list`
 
 export const getUserprojectList = (params?: GetUserprojectListRequestType,config?: AxiosRequestConfig) => {
  return axiosGET<GetUserprojectListRequestType, GetUserprojectListResponseType>(
