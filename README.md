@@ -1,13 +1,12 @@
-# 2023-2-OSSP1-DguHeroes-2
-<img src = "../image/banner.png">
-
+<img src = "image/banner.png">
 
 # 👩🏻‍💻 Teaming 
 
-
 ## 🍎 프로젝트 소개
 
+
 ## 🙆🏻‍♀️ Team
+✨ **2023-2-OSSP1-DguHeroes-2** ✨
 | 팀 | 이름 | 전공 | 역할  |
 |----| ----- | ----- | -------- |
 | 팀장 | 유수민 | 컴퓨터공학전공 | yet  |
@@ -39,6 +38,7 @@
 <details>
 <summary>Frontend 구조 확인하기</summary>
 <div markdown="1">
+
 ```
 src
 ├── api
@@ -246,12 +246,14 @@ src
     ├── translatePosition.ts
     └── translateStatus.ts
 ```
+
 </div>
 </details>
 
 <details>
 <summary>Backend 구조 확인하기</summary>
 <div markdown="1">
+
 ```
 src
 └── main
@@ -451,12 +453,15 @@ src
         ├── data.sql
         └── http
 ```
+
 </div>
 </details>
 
 <details>
 <summary>GitHub Crawlling 구조 확인하기</summary>
 <div markdown="1">
+
+```
 .
 ├── __pycache__
 │   ├── common_variable.cpython-310.pyc
@@ -508,6 +513,8 @@ src
 ├── requirements.txt
 ├── sonar_crawling.py
 └── vercel.json
+```
+
 </div>
 </details>
 
@@ -524,16 +531,21 @@ git clone https://github.com/CSID-DGU/2023-2-OSSP1-DguHeroes-2
 **✨Frontend**
 ```linux
 cd Frontend
+npm start
+// npm package 설치 필요
 ```
 
 **✨Backend**
 ```linux
 cd Backend
+// build.gradle을 Open as Project로 열기
 ```
 
 **✨GitHub Crawlling**
 ```linux
 cd Recommend/userScore
+uvicorn main:app —reload —host 0.0.0.0
+// 자신의 환경에 따라 module 설치 필요
 ```
 
 ## 🌴 Branch
@@ -560,5 +572,5 @@ cd Recommend/userScore
 | Chore: | 빌드 테스크 업데이트, 패키지 매니저 환경설정, 프로덕션 코드 변경 없음 |
 
 ## 🔮 Reference
-1. [2023-1.ver] (https://github.com/CSID-DGU/2023-1-OSSP1-colorful-7?tab=readme-ov-file "동국대학교 teaming")
-2. [2022.ver] (https://github.com/kookmin-sw/capstone-2022-17 "국민대학교 teaming")
+1. [2023-1.ver](https://github.com/CSID-DGU/2023-1-OSSP1-colorful-7?tab=readme-ov-file "동국대학교 teaming")
+2. [2022.ver](https://github.com/kookmin-sw/capstone-2022-17 "국민대학교 teaming")
