@@ -37,20 +37,21 @@ public class UserController {
 
     // 회원가입
     @PostMapping("/user/join")
-    public SingleResponse<User> insert(@RequestBody JoinDTO joinDTO){
+    public AdminResponse insert(@RequestBody JoinDTO joinDTO){
 
         User saved_user = userService.join(joinDTO);
+        Long id = saved_user.getId();
 
         CommonResponse commonResponse = new CommonResponse();
         if(saved_user!=null){
             commonResponse.setStatus("SUCCESS");
-            commonResponse.setMessage(null);
+            commonResponse.setMessage("회원가입에 성공했습니다.");
         } else{
             commonResponse.setStatus("FAILED");
             commonResponse.setMessage("회원가입에 실패했습니다.");
         }
 
-        return responseService.getSingleResponse(commonResponse, saved_user);
+        return responseService.getAdminResponse(commonResponse, id);
     }
 
     // 로그인
