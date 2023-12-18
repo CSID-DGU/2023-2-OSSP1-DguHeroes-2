@@ -57,6 +57,7 @@ export const CommonHeader: FC<CommonHeaderProps> = ({ className }) => {
           console.log('SUCCESS')
           // eslint-disable-next-line no-undef
           localStorage.removeItem('test_login')
+          localStorage.removeItem('id')
           // eslint-disable-next-line no-undef
           window.location.reload()
         } else {

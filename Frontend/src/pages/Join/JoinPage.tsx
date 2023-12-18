@@ -33,7 +33,7 @@ export const JoinPage: FC<JoinPageProps> = ({ className }) => {
 
   const onClickJoin = () => {
     // api 넣기
-    if(password.length > 0 && password === passwordCheck && email.length > 0 && gitId.length > 0 && nickname.length > 0 && introduce.length > 0) {
+    if(password.length > 0 && password == passwordCheck && email.length > 0 && gitId.length > 0 && nickname.length > 0 && introduce.length > 0) {
       // eslint-disable-next-line no-unused-vars
       let data = {
         email: email,
@@ -42,13 +42,20 @@ export const JoinPage: FC<JoinPageProps> = ({ className }) => {
         introduce: introduce,
         gitId: gitId,
       }
-     
+    
       // userJoin 함수 호출하기
       postuserJoin(`/user/join`, data)
     .then((response: PostUserJoinResponseType) => {
       if (response.status === 'SUCCESS') {
         // eslint-disable-next-line no-undef
         console.log('SUCCESS');
+
+        const userId = response.data?.id;
+        if(userId){
+         console.log(userId)
+        }
+
+        console.log();
         navigate(`/user/login`)
       } else {
         // eslint-disable-next-line no-undef
