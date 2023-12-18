@@ -322,7 +322,7 @@ export const UserProjectCreatePage: FC<UserProjectCreatePageProps> = ({ classNam
                     style={{ width: '160px' }}
                   >
                     <Option value="WEB">WEB</Option>
-                    <Option value="MOBILE APP">ANDROID APP</Option>
+                    <Option value="MOBILE APP">MOBILE APP</Option>
                     <Option value="DESKTOP APP">DESKTOP APP</Option>
                     <Option value="WEB APP">WEB APP</Option>
                     <Option value="ETC">ETC</Option>
