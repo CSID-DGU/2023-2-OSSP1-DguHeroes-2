@@ -42,7 +42,7 @@ public class UserController {
         System.out.println(joinDTO.getPassword());
         System.out.println(joinDTO.getNickname());
         System.out.println(joinDTO.getIntroduce());
-        System.out.println(joinDTO.getGitId());
+        System.out.println(joinDTO.getGitid());
         System.out.println(joinDTO.getEmail());
 
         User saved_user = userService.join(joinDTO);
