@@ -28,7 +28,7 @@ public class Urs {
                 }
             }
         }
-
+/*
         System.out.println(projectRequiredStack.size());
         System.out.println(userAvailableStack.size());
         System.out.println(intersection.size());
@@ -36,6 +36,8 @@ public class Urs {
             System.out.println(element[0]);
             System.out.println(element[1]);
         }
+
+ */
 
         for(int i=0;i<intersection.size();i++){
             String[] element=intersection.get(i);

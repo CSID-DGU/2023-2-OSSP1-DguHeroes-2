@@ -1,6 +1,8 @@
 package com.example.demo.service.recommendCalc;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -11,6 +13,7 @@ import java.util.List;
 
 @Service
 public class AccessDB {
+
 
     private static String jdbcUrl;
     private static String DBusername;
@@ -31,7 +34,6 @@ public class AccessDB {
         AccessDB.DBpassword=dBpassword;
     }
 
-    @PostConstruct
     static float getTeamScore(int projId){
         float avgScore = 0;
 
@@ -49,8 +51,8 @@ public class AccessDB {
                         float dataCount = resultSet.getFloat("data_count");
                         float scoreSum = resultSet.getFloat("score_sum");
 
-                        System.out.println("데이터 개수: " + dataCount);
-                        System.out.println("user_role_score 합계: " + scoreSum);
+                        //System.out.println("데이터 개수: " + dataCount);
+                        //System.out.println("user_role_score 합계: " + scoreSum);
 
                         avgScore=scoreSum/dataCount;
 
@@ -274,4 +276,121 @@ public class AccessDB {
 
         return userId;
     }
+
+    static ArrayList<Integer> getAllProjectId(){
+        ArrayList<Integer> projId = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(jdbcUrl, DBusername, DBpassword)) {
+            // 프로젝트 ID와 projId가 일치하는 데이터의 개수와 user_role_score의 합을 조회하는 SQL 쿼리
+            String sql = "SELECT id FROM project";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        projId.add(resultSet.getInt("id"));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return projId;
+    }
+    static boolean checkIsRecruiting(int projId, String stack){
+        String stacks_front="";
+        String stacks_back="";
+        String stacks_etc="";
+
+        boolean avail=false;
+
+        List<String[]> requiredStack=new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(jdbcUrl, DBusername, DBpassword)) {
+            // 프로젝트 ID와 projId가 일치하는 데이터의 개수와 user_role_score의 합을 조회하는 SQL 쿼리
+            String sql = "SELECT stacks FROM project_front WHERE project_id = ? AND (required_member - current_member) >= 1";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, projId);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        // stacks 값을 가져오기
+                        stacks_front = resultSet.getString("stacks");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try (Connection connection = DriverManager.getConnection(jdbcUrl, DBusername, DBpassword)) {
+            // 프로젝트 ID와 projId가 일치하는 데이터의 개수와 user_role_score의 합을 조회하는 SQL 쿼리
+            String sql = "SELECT stacks FROM project_back WHERE project_id = ? AND (required_member - current_member) >= 1";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, projId);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        // stacks 값을 가져오기
+                        stacks_back = resultSet.getString("stacks");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try (Connection connection = DriverManager.getConnection(jdbcUrl, DBusername, DBpassword)) {
+            // 프로젝트 ID와 projId가 일치하는 데이터의 개수와 user_role_score의 합을 조회하는 SQL 쿼리
+            String sql = "SELECT stacks FROM project_etc WHERE project_id = ? AND (required_member - current_member) >= 1";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, projId);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        // stacks 값을 가져오기
+                        stacks_etc = resultSet.getString("stacks");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        for(int i=0;i<50;i++){
+            if(stacks_front.length()==50){
+                if(stacks_front.charAt(i)=='8'){
+                    if(stacks.get(i).equals(stack)){
+                        avail=true;
+                    }
+                }
+            }
+
+            if(stacks_back.length()==50){
+                if(stacks_back.charAt(i)=='8'){
+                    if(stacks.get(i).equals(stack)){
+                        avail=true;
+                    }
+                }
+            }
+
+            if(stacks_etc.length()==50){
+                if(stacks_etc.charAt(i)=='8'){
+                    if(stacks.get(i).equals(stack)){
+                        avail=true;
+                    }
+                }
+            }
+        }
+
+        return avail;
+
+
+    }
+
+
 }
