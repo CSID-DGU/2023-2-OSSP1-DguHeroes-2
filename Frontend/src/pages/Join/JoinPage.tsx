@@ -20,6 +20,10 @@ type JoinPageProps = {
   className?: string
 }
 
+function getVariableType<T>(variable: T): string {
+  return typeof variable;
+}
+
 export const JoinPage: FC<JoinPageProps> = ({ className }) => {
   const navigate = useNavigate();
   
@@ -40,9 +44,19 @@ export const JoinPage: FC<JoinPageProps> = ({ className }) => {
         password: password,
         nickname: nickname,
         introduce: introduce,
-        gitId: gitId,
+        gitid: gitId,
       }
-    
+
+      console.log(email)
+      console.log(password)
+      console.log(nickname)
+      console.log(introduce)
+      console.log(gitId)
+      console.log(getVariableType(password))
+      console.log(getVariableType(nickname))
+      console.log(getVariableType(introduce))
+      console.log(getVariableType(gitId))
+
       // userJoin 함수 호출하기
       postuserJoin(`/user/join`, data)
     .then((response: PostUserJoinResponseType) => {
@@ -50,13 +64,14 @@ export const JoinPage: FC<JoinPageProps> = ({ className }) => {
         // eslint-disable-next-line no-undef
         console.log('SUCCESS');
 
-        const userId = response.data?.id;
+        const userId = response.id;
         if(userId){
-         console.log(userId)
+         localStorage.setItem('id', userId)
+         console.log('아이디입니다 : ' + userId.toString())
         }
 
         console.log();
-        navigate(`/user/login`)
+        
       } else {
         // eslint-disable-next-line no-undef
         alert("회원가입에 실패했습니다.")
@@ -70,10 +85,10 @@ export const JoinPage: FC<JoinPageProps> = ({ className }) => {
     });
     
       alert("회원가입을 완료했습니다.")
-      navigate('/login');
+      navigate('/')
     } else {
       // eslint-disable-next-line no-undef
-      alert("회원가입에 실패했습니다.")
+      alert("회원가입 양식을 올바르게 전부 작성해주세요.")
     }
     // 성공 시
     

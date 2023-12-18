@@ -6,7 +6,7 @@ import { UserInfoListType } from 'types/project';
 import { camelizeKey } from 'utils/camelizeKey';
 import { translateDevelopmentStack, getDevelopmentStackColor } from 'utils/translateDevelopmentStack';
 import { PostUpdateUrsResponseType, postUpdateUrs } from 'api/postUpdateUrs';
-import { PostUserLogoutResponseType, postuserLogout} from 'api/postUserLogout';
+// import { PostUserLogoutResponseType, postuserLogout} from 'api/postUserLogout';
 import {
   Root,
   Container,
@@ -19,7 +19,7 @@ import {
   UserContainer,
   UrsContainer,
   CustomButton,
-  ScoreDisplay,
+  // ScoreDisplay,
 } from './styled';
 // import { GetUserInfoResponseType, getUserInfo } from 'api/getUserInfo';
 // import { identity } from 'lodash';
@@ -29,7 +29,8 @@ type ProfileHeaderProps = {
 };
 
 export const ProfileHeader: FC<ProfileHeaderProps> = ({ className }) => {
-  const [score, setScore] = useState<number>(0);
+  // const [score, setScore] = useState<number>(0);
+  // const [setScore] = useState<number>(0);
   const [updatingScore, setUpdatingScore] = useState<boolean>(false);
   const [id, setId] = useState<string>("");
   useEffect(() => {
@@ -84,7 +85,7 @@ export const ProfileHeader: FC<ProfileHeaderProps> = ({ className }) => {
     setUpdatingScore(true);
 
     // 2. 점수 다시 갱신해주는 프로세스 실행 (예시: 1초 후에 갱신 완료로 가정)
-    setScore((prevScore) => prevScore + 1);     
+    // setScore((prevScore) => prevScore + 1);     
 
     updateUrsAPI()
 
@@ -117,7 +118,7 @@ export const ProfileHeader: FC<ProfileHeaderProps> = ({ className }) => {
           {/* 버튼과 점수 표시 추가 */}
           <UrsContainer>
             <CustomButton onClick={handleButtonClick}>점수 갱신</CustomButton>
-            <ScoreDisplay>Score: {id}</ScoreDisplay>
+            {/* <ScoreDisplay>ID: {id}</ScoreDisplay> */}
 
             {/* '갱신 중입니다' 텍스트 팝업 */}
             {updatingScore && <div> 갱신 중입니다! GitHub repository의 양에 따라 소요 시간은 상이합니다. </div>}

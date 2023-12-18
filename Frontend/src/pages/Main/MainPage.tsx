@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from 'react'
 import { BannerSection } from './BannerSection'
 import { PopularProjectListSection } from './PopularProjectListSection'
 import { RecentProjectListSection } from './RecentProjectListSection'
-import { RecommendProjectListSection } from './RecommendProjectListSection'
+// import { RecommendProjectListSection } from './RecommendProjectListSection'
 import { Root } from './styled'
 import { ProjectListType } from 'types/project'
 import { GetMainInfoResponseType, getmainInfo } from 'api/getMainInfo'
@@ -14,7 +14,7 @@ type MainPageProps = {
 
 
 export const MainPage: FC<MainPageProps> = ({ className }) => {
-  const [recommendedProjectList, setRecommendedProjectList] = useState<ProjectListType>([]);
+  // const [recommendedProjectList, setRecommendedProjectList] = useState<ProjectListType>([]);
   const [popularProjectList, setPopularProjectList] = useState<ProjectListType>([]);
   const [recentProjectList, setRecentProjectList] = useState<ProjectListType>([])
 
@@ -24,7 +24,7 @@ export const MainPage: FC<MainPageProps> = ({ className }) => {
       if (response.status === 'SUCCESS') {
         // eslint-disable-next-line no-undef
         console.log('SUCCESS');
-        setRecommendedProjectList(response.recommendedProjectList)
+        // setRecommendedProjectList(response.recommendedProjectList)
         setPopularProjectList(response.popularProjectList)
         setRecentProjectList(response.recentProjectList)
       } else {
@@ -45,7 +45,7 @@ export const MainPage: FC<MainPageProps> = ({ className }) => {
     <Root className={className}>
       <CommonHeader />
       <BannerSection />
-      <RecommendProjectListSection recommendedProjectList={recommendedProjectList}/>
+      {/* <RecommendProjectListSection recommendedProjectList={recommendedProjectList}/> */}
       <PopularProjectListSection popularProjectList={popularProjectList}/>
       <RecentProjectListSection recentProjectList={recentProjectList}/>
     </Root>
