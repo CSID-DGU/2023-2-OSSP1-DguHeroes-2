@@ -16,7 +16,7 @@ export type ProjectRequireMemberType = {
 
 export type ProjectRequireMemberListType = ProjectRequireMemberType[]
 
-export type ProjectType = 'WEB' | 'SERVER' | 'ETC'
+export type ProjectType = 'FRONTEND' | 'BACKEND' | 'ETC'
 
 export type ProjectPositionType = 'LEADER' | 'MEMBER' | 'NORMAL' 
 
