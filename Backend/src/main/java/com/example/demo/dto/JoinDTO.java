@@ -10,5 +10,5 @@ public class JoinDTO {
     private String password;
     private String nickname;
     private String introduce;
-    private String gitId;
+    private String gitid;
 }
