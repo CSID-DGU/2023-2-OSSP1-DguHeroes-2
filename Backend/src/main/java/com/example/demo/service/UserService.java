@@ -2,9 +2,11 @@ package com.example.demo.service;
 
 import com.example.demo.domain.Project;
 import com.example.demo.domain.User;
+import com.example.demo.dto.JoinDTO;
 import com.example.demo.repository.ApplyRepository;
 import com.example.demo.repository.UserJPARepository;
 import com.example.demo.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,8 @@ import java.util.List;
 @Service
 public class UserService {
     UserRepository user_rp;
+
+    @Autowired
     UserJPARepository userJPARepository;
 
     ApplyRepository apply_rp;
@@ -28,7 +32,14 @@ public class UserService {
         this.apply_rp=apply_rp;
     }
 
-    public User join(User user){
+    public User join(JoinDTO joinDTO){
+        User user = new User();
+        user.setEmail(joinDTO.getEmail());
+        user.setIntroduce(joinDTO.getIntroduce());
+        user.setNickname(joinDTO.getNickname());
+        user.setPassword(joinDTO.getPassword());
+        user.setGithubId(joinDTO.getGitId());
+
         return userJPARepository.save(user);
     }
     public int duplicationCheckId(String id){return user_rp.duplicationCheckId(id);}
