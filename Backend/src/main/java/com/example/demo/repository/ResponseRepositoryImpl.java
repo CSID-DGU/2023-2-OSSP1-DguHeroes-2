@@ -31,11 +31,11 @@ public class ResponseRepositoryImpl implements ResponseRepository{
         listResponse.setList_data(list_data);
         return listResponse;
     }
-    public AdminResponse getAdminResponse(CommonResponse result, int isAdmin){
+    public AdminResponse getAdminResponse(CommonResponse result, Long isAdmin){
         AdminResponse adminResponse = new AdminResponse();
         adminResponse.setStatus(result.getStatus());
         adminResponse.setMessage(result.getMessage());
-        adminResponse.setIsAdmin(isAdmin);
+        adminResponse.setId(isAdmin);
         return adminResponse;
     }
 }
