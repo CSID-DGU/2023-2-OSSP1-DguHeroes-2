@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
 public class User {
 

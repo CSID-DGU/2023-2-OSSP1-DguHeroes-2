@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.domain.*;
 import com.example.demo.dto.HireInfo;
+import com.example.demo.dto.JoinDTO;
 import com.example.demo.dto.UserProjectList;
 import com.example.demo.response.*;
 import com.example.demo.service.*;
@@ -36,9 +37,9 @@ public class UserController {
 
     // 회원가입
     @PostMapping("/user/join")
-    public SingleResponse<User> insert(@RequestBody User user){
+    public SingleResponse<User> insert(@RequestBody JoinDTO joinDTO){
 
-        User saved_user = userService.join(user);
+        User saved_user = userService.join(joinDTO);
 
         CommonResponse commonResponse = new CommonResponse();
         if(saved_user!=null){
