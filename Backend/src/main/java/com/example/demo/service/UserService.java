@@ -33,6 +33,7 @@ public class UserService {
     }
 
     public User join(JoinDTO joinDTO){
+        System.out.println("구간2");
         User user = new User();
         user.setEmail(joinDTO.getEmail());
         user.setIntroduce(joinDTO.getIntroduce());

@@ -38,8 +38,10 @@ public class UserController {
     // 회원가입
     @PostMapping("/user/join")
     public AdminResponse insert(@RequestBody JoinDTO joinDTO){
+        System.out.println("구간1");
 
         User saved_user = userService.join(joinDTO);
+
         Long id = saved_user.getId();
 
         CommonResponse commonResponse = new CommonResponse();
