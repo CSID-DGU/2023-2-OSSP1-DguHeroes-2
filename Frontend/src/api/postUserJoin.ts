@@ -12,6 +12,20 @@ export type PostUserJoinRequestType = {
 export type PostUserJoinResponseType = {
   status: "SUCCESS" | "FAILED"
 	message?: string
+  data: {
+    id: bigint,
+    nickname: string,
+    password: string,
+    profile: string,
+    introduce: string,
+    email: string,
+    stacks: string,
+    githubId: string,
+    invitations: any,
+    project_members: any,
+    project_likes: any,
+    applys: any
+  }
 }
 
 export const postuserJoin = (url: string, data: PostUserJoinRequestType, config?: AxiosRequestConfig) => {

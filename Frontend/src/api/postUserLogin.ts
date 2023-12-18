@@ -9,9 +9,7 @@ export type PostUserLoginRequestType = {
 export type PostUserLoginResponseType = {
   status: "SUCCESS" | "FAILED"
 	message?: string
-  data?:{
-    id: string
-  }
+  id: string
 }
 
 export const postuserLogin = (url: string, data: PostUserLoginRequestType, config?: AxiosRequestConfig) => {

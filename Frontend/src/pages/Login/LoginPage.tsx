@@ -48,9 +48,10 @@ export const LoginPage: FC<LoginPageProps> = ({ className }) => {
         localStorage.removeItem('test_login')
         // eslint-disable-next-line no-undef
         localStorage.setItem('test_login', 'true')
-        const userId = response.data?.id;
+        const userId = response.id;
         if(userId){
          localStorage.setItem('id', userId)
+         console.log('아이디입니다 : ' + userId.toString())
         }
       } else {
         // eslint-disable-next-line no-undef
