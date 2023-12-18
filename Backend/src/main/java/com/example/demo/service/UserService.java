@@ -39,7 +39,7 @@ public class UserService {
         user.setIntroduce(joinDTO.getIntroduce());
         user.setNickname(joinDTO.getNickname());
         user.setPassword(joinDTO.getPassword());
-        user.setGithubId(joinDTO.getGitId());
+        user.setGithubId(joinDTO.getGitid());
 
         return userJPARepository.save(user);
     }
