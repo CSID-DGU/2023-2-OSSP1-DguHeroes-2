@@ -11,5 +11,5 @@ import java.util.List;
 public interface ResponseRepository {
     public<T> SingleResponse<T> getSingleResponse(CommonResponse result, T data);
     public<T> ListResponse<T> getListResponse(CommonResponse result, List<T> list_data);
-    public AdminResponse getAdminResponse(CommonResponse result, int isAdmin);
+    public AdminResponse getAdminResponse(CommonResponse result, Long isAdmin);
 }

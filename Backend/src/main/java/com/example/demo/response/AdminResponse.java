@@ -6,5 +6,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AdminResponse extends CommonResponse{
-    private int isAdmin;
+    private Long id;
 }

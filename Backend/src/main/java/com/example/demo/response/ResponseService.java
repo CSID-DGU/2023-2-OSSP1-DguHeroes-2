@@ -24,7 +24,7 @@ public class ResponseService {
         return response_rp.getListResponse(result, list_data);
     }
 
-    public AdminResponse getAdminResponse(CommonResponse result, int isAdmin){
+    public AdminResponse getAdminResponse(CommonResponse result, Long isAdmin){
         return response_rp.getAdminResponse(result, isAdmin);
     }
 
