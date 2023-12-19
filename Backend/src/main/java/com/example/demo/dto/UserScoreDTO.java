@@ -9,6 +9,6 @@ public class UserScoreDTO {
 
     private String stack;
     private Float score;
-    private String github_id;
+    private String githubId;
 }
 
