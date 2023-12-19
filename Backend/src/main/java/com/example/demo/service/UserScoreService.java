@@ -174,7 +174,7 @@ public class UserScoreService {
             // userScoreDTO의 값 읽기
             String stack = userScoreDTO.getStack();
             Float score = userScoreDTO.getScore();
-            String githubId = userScoreDTO.getGithub_id();
+            String githubId = userScoreDTO.getGithubId();
 
             // stack point 지정 및 userStacks 수정
             Integer stackPoint = dictionary.get(stack);
