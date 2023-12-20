@@ -43,11 +43,13 @@
 
 ## 2. 프로젝트 전체 구조
 <img src = "image/projectArchitecture.png">
-✨각각의 단위를 캡슐화하였다.✨ 
+✨각각의 단위를 캡슐화✨ 
 
+```
 1. 업데이트에 용이하고 코드에 이상이 생겼을 때도 해결하기 쉽다. 
 2. GitHub, SonarCube와 같은 볼륨이 큰 프로젝트를 함께 실행시키면 느리고 유지보수에 어렵지만 캡슐화하므로써 이러한 단점을 해결하였다. 
 3. 같은 Back과 User 기술 스택별 숙련도 계산은 같은 가상 서버(EC2)에 배포하여 통신이 쉽도록 했다.
+```
 
 
 ## 3. 프로젝트 디렉토리 구조
@@ -545,9 +547,9 @@ src
 ```
 
 ## 5. 개선 결과
-1. [크롤링한 깃허브 데이터 확인하기](https://github.com/CSID-DGU/2023-2-OSSP1-DguHeroes-2/tree/main/file, "crawling_data")
-2. [계산 과정 확인하기](https://github.com/CSID-DGU/2023-2-OSSP1-DguHeroes-2/tree/main/file, "raw data")
-3. [Knowledge Graph 확인하기](https://github.com/CSID-DGU/2023-2-OSSP1-DguHeroes-2/tree/main/file, "data-importer")
+1. [크롤링한 깃허브 데이터 확인하기](https://github.com/CSID-DGU/2023-2-OSSP1-DguHeroes-2/tree/main/file "crawling_data")
+2. [계산 과정 확인하기](https://github.com/CSID-DGU/2023-2-OSSP1-DguHeroes-2/tree/main/file "raw data")
+3. [Knowledge Graph 확인하기](https://github.com/CSID-DGU/2023-2-OSSP1-DguHeroes-2/tree/main/file "data-importer")
 
 
 ## ✏️ 사용법 
