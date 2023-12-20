@@ -601,6 +601,11 @@ uvicorn main:app —reload —host 0.0.0.0
 | test: | 테스트 추가, 테스트 코드 리팩터링, 프로덕션 코드 변경 없음 |
 | Chore: | 빌드 테스크 업데이트, 패키지 매니저 환경설정, 프로덕션 코드 변경 없음 |
 
+## 🎀 Meeting Miutes
+[회의록 확인](https://proysm.notion.site/5f0655b639e44e0ab22dedae26837443?v=cce514070dc14e55b18c399f0a17c3f2&pvs=4 "teaming 회의록")
+
+
 ## 🔮 Reference
 1. [2023-1.ver](https://github.com/CSID-DGU/2023-1-OSSP1-colorful-7?tab=readme-ov-file "동국대학교 teaming")
 2. [2022.ver](https://github.com/kookmin-sw/capstone-2022-17 "국민대학교 teaming")
+
